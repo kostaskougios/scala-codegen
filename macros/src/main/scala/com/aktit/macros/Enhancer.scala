@@ -17,8 +17,8 @@ class Enhancer(files: Seq[File])
     source.parse[Source] match {
       case Parsed.Success(tree) =>
         tree match {
-          case q"trait $traitName [..$tparams] extends ..$t { $body }" =>
-            println(s"A trait declaration with name $traitName")
+          case q"$mods trait $tpname[..$tparams] extends { ..$earlydefns } with ..$parents { $self => ..$stats }" =>
+            println(s"A trait declaration with name $tpname")
           case _ => throw new IllegalArgumentException(s"can't recognize $tree")
         }
       case Parsed.Error(_, _, details) =>
