@@ -2,7 +2,7 @@ package com.aktit.macros
 
 import java.io.File
 
-import scala.io.Source
+import scala.meta._
 
 /**
   * @author kostas.kougios
@@ -13,7 +13,12 @@ class Enhancer(files: Seq[File])
   def enhance = files.map(enhanceFile)
 
   private def enhanceFile(file: File) = {
-    val source = Source.fromFile(file, "UTF-8").mkString
-    println(source)
+    val source = scala.io.Source.fromFile(file, "UTF-8").mkString
+    source.parse[Source] match {
+      case Parsed.Success(tree) =>
+        println(tree)
+      case Parsed.Error(_, _, details) =>
+        throw details
+    }
   }
 }
