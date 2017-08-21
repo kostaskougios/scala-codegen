@@ -14,12 +14,16 @@ class Enhancer(files: Seq[File])
 
   private def enhanceFile(file: File) = {
     val source = scala.io.Source.fromFile(file, "UTF-8").mkString
+
+    // see https://docs.scala-lang.org/overviews/quasiquotes/syntax-summary.html
     source.parse[Source] match {
       case Parsed.Success(tree) =>
         tree match {
           case q"$mods trait $tpname[..$tparams] extends { ..$earlydefns } with ..$parents { $self => ..$stats }" =>
             println(s"A trait declaration with name $tpname")
-          case _ => throw new IllegalArgumentException(s"can't recognize $tree")
+          case q"package $ref { ..$topstats }" =>
+            println(s"A package $ref")
+          case _ => throw new IllegalArgumentException(s"can't recognize\n$tree")
         }
       case Parsed.Error(_, _, details) =>
         throw details
