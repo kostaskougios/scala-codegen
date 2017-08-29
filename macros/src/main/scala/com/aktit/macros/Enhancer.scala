@@ -2,7 +2,7 @@ package com.aktit.macros
 
 import java.io.File
 
-import com.aktit.macros.model.Package
+import com.aktit.macros.model.{ N, Package, Trait }
 
 import scala.meta._
 
@@ -30,11 +30,11 @@ class Enhancer(files: Seq[File])
     }
   }
 
-  def extract(child: Tree) = child match {
-    case q"$mods trait $tpname[..$tparams] extends { ..$earlydefns } with ..$parents { $self => ..$stats }" =>
-      ???
+  def extract(child: Tree): N = child match {
+    case q"..$mods trait $tname[..$tparams] extends $template" =>
+      new Trait(mods, tname, tparams, template)
     case q"package $ref { ..$topstats }" =>
-      new Package(ref, topstats)
+      new Package(ref, topstats.map(extract))
     case _ => throw new IllegalArgumentException(s"can't recognize\n$child")
   }
 }
