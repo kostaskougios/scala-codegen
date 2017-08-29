@@ -26,5 +26,6 @@ object Runner extends App
        |""".stripMargin)
 
   val enhancer = new Enhancer(files)
-  enhancer.enhance
+  val result = enhancer.enhance
+  println(result)
 }
