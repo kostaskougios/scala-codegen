@@ -24,12 +24,16 @@ class Enhancer(files: Seq[File])
     // see https://docs.scala-lang.org/overviews/quasiquotes/syntax-summary.html
     source.parse[Source] match {
       case Parsed.Success(tree) =>
-        tree.children map (extract)
+        tree.children.flatMap(Enhancer.extract)
       case Parsed.Error(_, _, details) =>
         throw details
     }
   }
 
+}
+
+object Enhancer
+{
   def extract(child: Tree): N = child match {
     case q"..$mods trait $tname[..$tparams] extends $template" =>
       new Trait(mods, tname, tparams, template)

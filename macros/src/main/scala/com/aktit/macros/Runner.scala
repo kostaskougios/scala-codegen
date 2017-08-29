@@ -2,6 +2,8 @@ package com.aktit.macros
 
 import java.io.File
 
+import com.aktit.macros.model.Package
+
 /**
   * @author kostas.kougios
   *         Date: 21/08/17
@@ -27,5 +29,9 @@ object Runner extends App
 
   val enhancer = new Enhancer(files)
   val result = enhancer.enhance
-  println(result)
+  println(result match {
+    case p: Package =>
+      p
+      .
+  })
 }
