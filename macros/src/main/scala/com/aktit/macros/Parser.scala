@@ -2,7 +2,7 @@ package com.aktit.macros
 
 import java.io.File
 
-import com.aktit.macros.model.{ N, Package, Trait }
+import com.aktit.macros.model.{N, Package, Trait}
 
 import scala.meta._
 
@@ -14,17 +14,17 @@ import scala.meta._
   * @author kostas.kougios
   *         Date: 21/08/17
   */
-class Enhancer(files: Seq[File])
+class Parser(files: Seq[File])
 {
-  def enhance: Seq[N] = files.flatMap(enhanceFile)
+	def parse: Seq[N] = files.flatMap(parseFile)
 
-  private def enhanceFile(file: File) = {
+	private def parseFile(file: File) = {
     val source = scala.io.Source.fromFile(file, "UTF-8").mkString
 
     // see https://docs.scala-lang.org/overviews/quasiquotes/syntax-summary.html
     source.parse[Source] match {
       case Parsed.Success(tree) =>
-        tree.children.map(Enhancer.extract)
+		  tree.children.map(Parser.parse)
       case Parsed.Error(_, _, details) =>
         throw details
     }
@@ -32,13 +32,13 @@ class Enhancer(files: Seq[File])
 
 }
 
-object Enhancer
+object Parser
 {
-  def extract(child: Tree): N = child match {
+	def parse(child: Tree): N = child match {
     case q"..$mods trait $tname[..$tparams] extends $template" =>
       new Trait(mods, tname, tparams, template)
     case q"package $ref { ..$topstats }" =>
-      new Package(ref, topstats.map(extract))
+		new Package(ref, topstats.map(parse))
     case _ => throw new IllegalArgumentException(s"can't recognize\n$child")
   }
 }

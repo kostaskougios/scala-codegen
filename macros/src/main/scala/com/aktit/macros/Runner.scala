@@ -27,8 +27,8 @@ object Runner extends App
        |${files.mkString("\n")}
        |""".stripMargin)
 
-  val enhancer = new Enhancer(files)
-  val results = enhancer.enhance
+	val parser = new Parser(files)
+	val results = parser.parse
   println(results.collect {
     case p: Package =>
       p.traits
