@@ -9,12 +9,12 @@ import scala.meta._
 class Method(
 	tree: Tree,
 	mods: Seq[Mod],
-	name: Term.Name,
+	termName: Term.Name,
 	tparams: Seq[Type.Param],
 	paramss: Seq[Seq[Term.Param]],
 	tpe: Type
 )
 {
-
+	def name: String = termName.value
 	override def toString = tree.syntax
 }
