@@ -16,7 +16,7 @@ import scala.meta._
   */
 class Enhancer(files: Seq[File])
 {
-  def enhance = files.map(enhanceFile)
+  def enhance: Seq[N] = files.flatMap(enhanceFile)
 
   private def enhanceFile(file: File) = {
     val source = scala.io.Source.fromFile(file, "UTF-8").mkString
@@ -24,7 +24,7 @@ class Enhancer(files: Seq[File])
     // see https://docs.scala-lang.org/overviews/quasiquotes/syntax-summary.html
     source.parse[Source] match {
       case Parsed.Success(tree) =>
-        tree.children.flatMap(Enhancer.extract)
+        tree.children.map(Enhancer.extract)
       case Parsed.Error(_, _, details) =>
         throw details
     }

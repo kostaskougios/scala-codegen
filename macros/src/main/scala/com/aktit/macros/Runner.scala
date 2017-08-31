@@ -28,10 +28,9 @@ object Runner extends App
        |""".stripMargin)
 
   val enhancer = new Enhancer(files)
-  val result = enhancer.enhance
-  println(result match {
+  val results = enhancer.enhance
+  println(results.collect {
     case p: Package =>
-      p
-      .
+      p.traits
   })
 }
