@@ -6,7 +6,9 @@ package my.code
   */
 trait Person
 {
-  def id: Int
+	def id: Int
 
-  def name: String
+	def name: String
+
+	def withName(name: String): Person
 }

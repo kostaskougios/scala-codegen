@@ -31,6 +31,6 @@ object Runner extends App
 	val results = parser.parse
   println(results.collect {
     case p: Package =>
-      p.traits
-  })
+		p.traits.flatMap(_.methods).mkString("\n---------------------------\n")
+  }.mkString("\n\n"))
 }
