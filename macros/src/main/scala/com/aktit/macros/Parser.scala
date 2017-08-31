@@ -35,10 +35,10 @@ class Parser(files: Seq[File])
 object Parser
 {
 	def parse(child: Tree): N = child match {
-    case q"..$mods trait $tname[..$tparams] extends $template" =>
-      new Trait(mods, tname, tparams, template)
-    case q"package $ref { ..$topstats }" =>
-		new Package(ref, topstats.map(parse))
+		case tree@q"..$mods trait $tname[..$tparams] extends $template" =>
+			new Trait(tree, mods, tname, tparams, template)
+		case tree@q"package $ref { ..$topstats }" =>
+			new Package(tree, ref, topstats.map(parse))
     case _ => throw new IllegalArgumentException(s"can't recognize\n$child")
   }
 }

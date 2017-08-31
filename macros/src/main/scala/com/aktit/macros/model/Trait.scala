@@ -8,6 +8,7 @@ import scala.meta._
   *         Date: 29/08/17
   */
 class Trait(
+	tree: Tree,
   mods: Seq[Mod],
   tname: Type.Name,
   tparams: Seq[Type.Param],
@@ -15,9 +16,10 @@ class Trait(
 ) extends N
 {
 	def methods: immutable.Seq[Method] = template.children.collect {
-		case q"..$mods def $ename[..$tparams](...$paramss): $tpe" =>
-			new Method(mods, ename, tparams, paramss, tpe)
+		case tree@q"..$mods def $ename[..$tparams](...$paramss): $tpe" =>
+			new Method(tree, mods, ename, tparams, paramss, tpe)
 
 	}
-  override def toString = s"Trait($mods,$tname,$tparams,$template)"
+
+	override def toString = tree.syntax
 }

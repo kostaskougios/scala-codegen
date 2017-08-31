@@ -7,6 +7,7 @@ import scala.meta._
   *         Date: 31/08/17
   */
 class Method(
+	tree: Tree,
 	mods: Seq[Mod],
 	name: Term.Name,
 	tparams: Seq[Type.Param],
@@ -15,5 +16,5 @@ class Method(
 )
 {
 
-	override def toString = s"Method($name,$paramss,$tpe)"
+	override def toString = tree.syntax
 }
