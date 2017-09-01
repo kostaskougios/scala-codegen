@@ -9,12 +9,14 @@ import scala.meta._
   */
 class Trait(
 	tree: Tree,
-  mods: Seq[Mod],
-  tname: Type.Name,
-  tparams: Seq[Type.Param],
-  template: Template
+	mods: Seq[Mod],
+	tname: Type.Name,
+	tparams: Seq[Type.Param],
+	template: Template
 ) extends N
 {
+	def name: String = tname.value
+
 	def methods: immutable.Seq[Method] = template.children.collect {
 		case tree@q"..$mods def $ename[..$tparams](...$paramss): $tpe" =>
 			new Method(tree, mods, ename, tparams, paramss, tpe)
