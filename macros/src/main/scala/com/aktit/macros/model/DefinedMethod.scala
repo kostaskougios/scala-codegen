@@ -8,7 +8,7 @@ import scala.meta._
   * @author kostas.kougios
   *         Date: 31/08/17
   */
-class DefinedMethod(
+case class DefinedMethod(
 	tree: Tree,
 	mods: Seq[Mod],
 	termName: Term.Name,
