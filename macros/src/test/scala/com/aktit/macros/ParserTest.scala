@@ -9,7 +9,7 @@ import com.aktit.macros.model.Package
 class ParserTest extends AbstractSuite
 {
 	test("package") {
-		val p = codeSourceFolder.parse("com.aktit.macros.ATrait").collectFirst {
+		val p = codeParse("com.aktit.macros.ATrait").collectFirst {
 			case p: Package => p
 		}.get
 		p.name should be("com.aktit.macros")

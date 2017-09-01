@@ -18,4 +18,6 @@ abstract class AbstractSuite extends FunSuite with Matchers
 	}
 
 	protected def codeSourceFolder = SourceFolder(new File(codeDirectory, "src/main/scala"))
+
+	protected def codeParse(fullClassName: String) = codeSourceFolder.parse(fullClassName)
 }
