@@ -27,8 +27,7 @@ object Runner extends App
        |${files.mkString("\n")}
        |""".stripMargin)
 
-	val parser = Parser(files)
-	val results = parser.parse
+	val results = Parser(files).parse
   println(results.collect {
     case p: Package =>
 		p.traits.flatMap(_.methods).mkString("\n---------------------------\n")

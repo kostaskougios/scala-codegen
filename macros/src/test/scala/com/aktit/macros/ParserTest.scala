@@ -9,11 +9,9 @@ import com.aktit.macros.model.Package
 class ParserTest extends AbstractSuite
 {
 	test("package") {
-		val f = codeFile("com.aktit.macros.ATrait")
-		val p = Parser(f).parse.collectFirst {
+		val p = codeSourceFolder.parse("com.aktit.macros.ATrait").collectFirst {
 			case p: Package => p
 		}.get
 		p.name should be("com.aktit.macros")
-
 	}
 }

@@ -17,6 +17,5 @@ abstract class AbstractSuite extends FunSuite with Matchers
 		else new File(".")
 	}
 
-	protected def codeFile(fullClassName: String) =
-		new File(codeDirectory, s"src/main/scala/${fullClassName.replace('.', '/')}.scala")
+	protected def codeSourceFolder = SourceFolder(new File(codeDirectory, "src/main/scala"))
 }
