@@ -14,9 +14,23 @@ class ParserTest extends AbstractSuite
 	}
 
 	test("trait") {
-		val p = packageOf("com.aktit.macros.ATrait")
-		val t = p.traits.head
+		val t = packageOf("com.aktit.macros.ATrait").traits.head
 		t.name should be("ATrait")
+	}
+
+	test("trait methods") {
+		val t = packageOf("com.aktit.macros.ATrait").traits.head
+		t.methods.map(_.name) should be(Seq("method1", "method2", "methodWithImpl"))
+	}
+
+	test("trait declared methods") {
+		val t = packageOf("com.aktit.macros.ATrait").traits.head
+		t.declaredMethods.map(_.name) should be(Seq("method1", "method2"))
+	}
+
+	test("trait defined methods") {
+		val t = packageOf("com.aktit.macros.ATrait").traits.head
+		t.definedMethods.map(_.name) should be(Seq("methodWithImpl"))
 	}
 
 	private def packageOf(cn: String) = {

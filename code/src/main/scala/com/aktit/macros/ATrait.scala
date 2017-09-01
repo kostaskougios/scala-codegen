@@ -8,5 +8,7 @@ trait ATrait
 {
 	def method1: String
 
-	def method2(id: Int): String = id.toString
+	def method2(id: Int): String
+
+	def methodWithImpl(id: Int): String = "x"
 }
