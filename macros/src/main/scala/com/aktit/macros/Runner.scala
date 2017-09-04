@@ -10,26 +10,27 @@ import com.aktit.macros.model.Package
   */
 object Runner extends App
 {
-  val srcDir = args(0)
-  val enhancePackage = args(1)
-  println(
-    s"""
-       |src dir: $srcDir
-       |Enhance: $enhancePackage
-       |""".stripMargin)
+	val srcDir = args(0)
+	val enhancePackage = args(1)
+	println(
+		s"""
+		   |src dir: $srcDir
+		   |Enhance: $enhancePackage
+		   |""".stripMargin)
 
-  val files = new File(srcDir, enhancePackage.replace('.', '/')).listFiles
-  if (files.isEmpty) throw new IllegalArgumentException(s"no files found under $files")
+	val files = new File(srcDir, enhancePackage.replace('.', '/')).listFiles
+	if (files.isEmpty) throw new IllegalArgumentException(s"no files found under $files")
 
-  println(
-    s"""
-       |Files to enhance:
-       |${files.mkString("\n")}
-       |""".stripMargin)
+	println(
+		s"""
+		   |Files to enhance:
+		   |${files.mkString("\n")}
+		   |""".stripMargin)
 
-	val results = Parser.files(files).parse
-  println(results.collect {
-    case p: Package =>
-		p.traits.flatMap(_.methods).mkString("\n---------------------------\n")
-  }.mkString("\n\n"))
+	val parser = Parser()
+	val results = parser.files(files)
+	println(results.collect {
+		case p: Package =>
+			p.traits.flatMap(_.methods).mkString("\n---------------------------\n")
+	}.mkString("\n\n"))
 }

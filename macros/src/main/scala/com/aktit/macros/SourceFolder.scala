@@ -8,8 +8,10 @@ import java.io.File
   */
 class SourceFolder private(dir: File)
 {
+	private val p = Parser()
+
 	def parse(fullClassName: String) =
-		Parser.file(new File(dir, s"${fullClassName.replace('.', '/')}.scala")).parse
+		p.file(new File(dir, s"${fullClassName.replace('.', '/')}.scala"))
 }
 
 object SourceFolder
