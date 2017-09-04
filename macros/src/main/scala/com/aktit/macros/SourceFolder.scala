@@ -9,7 +9,7 @@ import java.io.File
 class SourceFolder private(dir: File)
 {
 	def parse(fullClassName: String) =
-		Parser(new File(dir, s"${fullClassName.replace('.', '/')}.scala")).parse
+		Parser.file(new File(dir, s"${fullClassName.replace('.', '/')}.scala")).parse
 }
 
 object SourceFolder

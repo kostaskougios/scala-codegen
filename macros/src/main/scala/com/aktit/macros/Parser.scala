@@ -14,23 +14,18 @@ import scala.meta._
   * @author kostas.kougios
   *         Date: 21/08/17
   */
-class Parser private(files: Seq[File])
+class Parser private(sources: Seq[String])
 {
-	def parse: Seq[N] = files.flatMap(parseFile)
+	def parse: Seq[N] = sources.flatMap(parseFile)
 
-	private def parseFile(file: File) = {
-		val src = scala.io.Source.fromFile(file, "UTF-8")
-		try {
-			val source = src.mkString
-
-			// see https://docs.scala-lang.org/overviews/quasiquotes/syntax-summary.html
-			source.parse[Source] match {
-				case Parsed.Success(tree) =>
-					tree.children.map(parse)
-				case Parsed.Error(_, _, details) =>
-					throw details
-			}
-		} finally src.close()
+	private def parseFile(source: String) = {
+		// see https://docs.scala-lang.org/overviews/quasiquotes/syntax-summary.html
+		source.parse[Source] match {
+			case Parsed.Success(tree) =>
+				tree.children.map(parse)
+			case Parsed.Error(_, _, details) =>
+				throw details
+		}
 	}
 
 	private def parse(child: Tree): N = child match {
@@ -44,8 +39,13 @@ class Parser private(files: Seq[File])
 
 object Parser
 {
-	def apply(files: Seq[File]): Parser = new Parser(files)
+	def files(files: Seq[File]): Parser = new Parser(
+		files.map { file =>
+			val src = scala.io.Source.fromFile(file, "UTF-8")
+			try src.mkString finally src.close()
+		}
+	)
 
-	def apply(file: File): Parser = new Parser(Seq(file))
+	def file(file: File): Parser = files(Seq(file))
 
 }
