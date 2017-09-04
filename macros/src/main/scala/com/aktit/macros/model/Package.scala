@@ -6,7 +6,7 @@ import scala.meta._
   * @author kostas.kougios
   *         Date: 29/08/17
   */
-class Package(tree: Tree, nameTerm: Term.Ref, children: Seq[N]) extends N
+case class Package(tree: Tree, nameTerm: Term.Ref, children: Seq[N]) extends N
 {
 	def name: String = nameTerm.syntax
 
