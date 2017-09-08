@@ -1,5 +1,6 @@
 package com.aktit.macros.model
 
+import scala.collection.immutable
 import scala.meta._
 
 /**
@@ -9,15 +10,28 @@ import scala.meta._
   *         Date: 31/08/17
   */
 case class DeclaredMethod(
-	tree: Tree,
-	mods: Seq[Mod],
-	termName: Term.Name,
-	tparams: Seq[Type.Param],
-	paramss: Seq[Seq[Term.Param]],
+	mods: immutable.Seq[Mod],
+	ename: Term.Name,
+	tparams: immutable.Seq[Type.Param],
+	paramss: immutable.Seq[immutable.Seq[Term.Param]],
 	tpe: Type
 ) extends Method
 {
-	def name: String = termName.value
+	def name: String = ename.value
+
+	def withName(name: String) = copy(
+		ename = ename.copy(value = name)
+	)
+
+	def tree = q"..$mods def $ename[..$tparams](...$paramss): $tpe"
 
 	override def toString = tree.syntax
+}
+
+object DeclaredMethod extends PartialParser[DeclaredMethod]
+{
+	override def parser = {
+		case q"..$mods def $ename[..$tparams](...$paramss): $tpe" =>
+			DeclaredMethod(mods, ename, tparams, paramss, tpe)
+	}
 }

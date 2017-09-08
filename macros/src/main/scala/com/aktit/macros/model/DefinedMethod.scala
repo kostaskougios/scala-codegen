@@ -22,3 +22,11 @@ case class DefinedMethod(
 
 	override def toString = tree.syntax
 }
+
+object DefinedMethod extends PartialParser[DefinedMethod]
+{
+	override def parser = {
+		case tree@q"..$mods def $ename[..$tparams](...$paramss): $tpeopt = $expr" =>
+			DefinedMethod(tree, mods, ename, tparams, paramss, tpeopt, expr)
+	}
+}

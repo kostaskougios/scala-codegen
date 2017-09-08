@@ -33,11 +33,9 @@ class ParserTest extends AbstractSuite
 		t.definedMethods.map(_.name) should be(Seq("methodWithImpl"))
 	}
 
-	private def packageOf(src: String) = {
-		Parser().parseSource(src).collectFirst {
+	private def packageOf(src: String) = Parser().parseSource(src).collectFirst {
 			case p: Package => p
 		}.get
-	}
 
 	val ATrait =
 		"""

@@ -1,5 +1,7 @@
 package com.aktit.macros
 
+import com.aktit.macros.model.DeclaredMethod
+
 import scala.meta._
 
 /**
@@ -9,7 +11,7 @@ import scala.meta._
 class GeneratorTest extends AbstractSuite
 {
 	test("method generation") {
-		val x = q"def f(i:Int): String"
-		println(x.syntax)
+		val method = DeclaredMethod.parser(q"def f(i:Int): String")
+		method.withName("fMod").tree.syntax should be(q"def fMod(i:Int): String".syntax)
 	}
 }

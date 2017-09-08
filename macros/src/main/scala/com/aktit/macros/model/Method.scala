@@ -19,12 +19,8 @@ object Method
 	{
 		def template: Template
 
-		def methods: immutable.Seq[Method] = template.children.collect {
-			case tree@q"..$mods def $ename[..$tparams](...$paramss): $tpe" =>
-				DeclaredMethod(tree, mods, ename, tparams, paramss, tpe)
-			case tree@q"..$mods def $ename[..$tparams](...$paramss): $tpeopt = $expr" =>
-				DefinedMethod(tree, mods, ename, tparams, paramss, tpeopt, expr)
-		}
+		def methods: immutable.Seq[Method] = template.children
+			.collect(DefinedMethod.parser.orElse(DeclaredMethod.parser))
 
 		def declaredMethods: immutable.Seq[DeclaredMethod] = methods.collect {
 			case d: DeclaredMethod => d
