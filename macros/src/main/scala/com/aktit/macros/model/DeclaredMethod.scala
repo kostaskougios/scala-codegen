@@ -23,9 +23,9 @@ case class DeclaredMethod(
 		ename = ename.copy(value = name)
 	)
 
-	def tree = q"..$mods def $ename[..$tparams](...$paramss): $tpe"
+	override def code = tree.syntax
 
-	override def toString = tree.syntax
+	override def tree = q"..$mods def $ename[..$tparams](...$paramss): $tpe"
 }
 
 object DeclaredMethod extends PartialParser[DeclaredMethod]

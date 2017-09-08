@@ -12,6 +12,6 @@ class GeneratorTest extends AbstractSuite
 {
 	test("method generation") {
 		val method = DeclaredMethod.parser(q"def f(i:Int): String")
-		method.withName("fMod").tree.syntax should be(q"def fMod(i:Int): String".syntax)
+		method.withName("fMod").code should be(q"def fMod(i:Int): String".syntax)
 	}
 }

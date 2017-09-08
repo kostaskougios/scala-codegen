@@ -18,11 +18,11 @@ case class DefinedMethod(
 	expr: Term
 ) extends Method
 {
-	def name: String = ename.value
+	override def name: String = ename.value
 
-	def tree = q"..$mods def $ename[..$tparams](...$paramss): $tpeopt = $expr"
+	override def tree = q"..$mods def $ename[..$tparams](...$paramss): $tpeopt = $expr"
 
-	override def toString = tree.syntax
+	override def code = tree.syntax
 }
 
 object DefinedMethod extends PartialParser[DefinedMethod]

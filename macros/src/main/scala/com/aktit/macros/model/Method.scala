@@ -7,7 +7,7 @@ import scala.meta._
   * @author kostas.kougios
   *         Date: 01/09/17
   */
-trait Method
+trait Method extends Code
 {
 	def name: String
 }
