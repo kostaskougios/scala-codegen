@@ -14,4 +14,8 @@ class GeneratorTest extends AbstractSuite
 		val method = DeclaredMethod.parser(q"def f(i:Int): String")
 		method.withName("fMod").code should be(q"def fMod(i:Int): String".syntax)
 	}
+
+	test("empty method") {
+		DeclaredMethod.declare("aMethod").code should be("def aMethod: Unit")
+	}
 }
