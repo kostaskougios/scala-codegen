@@ -20,6 +20,10 @@ case class DefinedMethod(
 {
 	override def name: String = ename.value
 
+	override def withName(name: String) = copy(
+		ename = ename.copy(value = name)
+	)
+
 	override def tree = q"..$mods def $ename[..$tparams](...$paramss): $tpeopt = $expr"
 
 	override def code = tree.syntax

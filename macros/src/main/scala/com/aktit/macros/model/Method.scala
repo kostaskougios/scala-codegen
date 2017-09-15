@@ -10,6 +10,8 @@ import scala.meta._
 trait Method extends Code
 {
 	def name: String
+
+	def withName(name: String): Method
 }
 
 object Method

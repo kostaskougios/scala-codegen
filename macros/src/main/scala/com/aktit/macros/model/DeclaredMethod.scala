@@ -19,7 +19,7 @@ case class DeclaredMethod(
 {
 	def name: String = ename.value
 
-	def withName(name: String) = copy(
+	override def withName(name: String) = copy(
 		ename = ename.copy(value = name)
 	)
 
