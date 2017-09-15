@@ -35,7 +35,5 @@ object DeclaredMethod extends PartialParser[DeclaredMethod]
 			DeclaredMethod(mods, ename, tparams, paramss, tpe)
 	}
 
-	def declare(name: String) = DeclaredMethod(Nil, Term.Name(name), Nil, Nil, Type.Name("Unit"))
-
-	//		parser(s"def $name(): Unit")
+	def noArgReturningUnit(name: String) = DeclaredMethod(Nil, Term.Name(name), Nil, Nil, Type.Name("Unit"))
 }

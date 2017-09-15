@@ -16,6 +16,6 @@ class GeneratorTest extends AbstractSuite
 	}
 
 	test("empty method") {
-		DeclaredMethod.declare("aMethod").code should be("def aMethod: Unit")
+		DeclaredMethod.noArgReturningUnit("aMethod").code should be("def aMethod: Unit")
 	}
 }
