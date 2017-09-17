@@ -1,6 +1,5 @@
 package com.aktit.macros.model
 
-import scala.collection.immutable
 import scala.meta._
 
 /**
@@ -10,10 +9,10 @@ import scala.meta._
   *         Date: 31/08/17
   */
 case class DeclaredMethod(
-	mods: immutable.Seq[Mod],
+	mods: List[Mod],
 	ename: Term.Name,
-	tparams: immutable.Seq[Type.Param],
-	paramss: immutable.Seq[immutable.Seq[Term.Param]],
+	tparams: List[Type.Param],
+	paramss: List[List[Term.Param]],
 	tpe: Type
 ) extends Method
 {
@@ -34,6 +33,10 @@ object DeclaredMethod extends PartialParser[DeclaredMethod]
 		case q"..$mods def $ename[..$tparams](...$paramss): $tpe" =>
 			DeclaredMethod(mods, ename, tparams, paramss, tpe)
 	}
+
+	//	scala.meta.parsers.Parse.parse
+	//import scala.meta.
+	def code(c: String): DeclaredMethod = parser(c.parse[Decl.Def].get)
 
 	def noArgReturningUnit(name: String) = DeclaredMethod(Nil, Term.Name(name), Nil, Nil, Type.Name("Unit"))
 }

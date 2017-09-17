@@ -15,7 +15,11 @@ class GeneratorTest extends AbstractSuite
 		method.withName("fMod").code should be(q"def fMod(i:Int): String".syntax)
 	}
 
-	test("empty method") {
+	test("noArgReturningUnit") {
 		DeclaredMethod.noArgReturningUnit("aMethod").code should be("def aMethod: Unit")
+	}
+
+	test("define using code") {
+		DeclaredMethod.code("def x:Int")
 	}
 }

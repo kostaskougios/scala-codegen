@@ -1,6 +1,5 @@
 package com.aktit.macros.model
 
-import scala.collection.immutable
 import scala.meta._
 
 /**
@@ -10,10 +9,10 @@ import scala.meta._
   *         Date: 31/08/17
   */
 case class DefinedMethod(
-	mods: immutable.Seq[Mod],
+	mods: List[Mod],
 	ename: Term.Name,
-	tparams: immutable.Seq[Type.Param],
-	paramss: immutable.Seq[immutable.Seq[Term.Param]],
+	tparams: List[Type.Param],
+	paramss: List[List[Term.Param]],
 	tpeopt: Option[Type],
 	expr: Term
 ) extends Method
