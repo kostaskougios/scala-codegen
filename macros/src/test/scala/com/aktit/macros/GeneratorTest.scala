@@ -20,6 +20,6 @@ class GeneratorTest extends AbstractSuite
 	}
 
 	test("define using code") {
-		DeclaredMethod.code("def x:Int")
+		DeclaredMethod.code("def x:Int").name should be("x")
 	}
 }

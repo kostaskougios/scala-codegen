@@ -36,7 +36,7 @@ object DeclaredMethod extends PartialParser[DeclaredMethod]
 
 	//	scala.meta.parsers.Parse.parse
 	//import scala.meta.
-	def code(c: String): DeclaredMethod = parser(c.parse[Decl.Def].get)
+	def code(c: String): DeclaredMethod = parser(c.parse[Stat].get)
 
 	def noArgReturningUnit(name: String) = DeclaredMethod(Nil, Term.Name(name), Nil, Nil, Type.Name("Unit"))
 }
