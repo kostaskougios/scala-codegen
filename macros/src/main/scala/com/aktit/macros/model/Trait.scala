@@ -19,8 +19,6 @@ case class Trait(
 
 	override def withTemplate(t: Template) = copy(template = t)
 
-	override def code = tree.syntax
-
 	override def tree = q"..$mods trait $tname[..$tparams] extends $template"
 }
 

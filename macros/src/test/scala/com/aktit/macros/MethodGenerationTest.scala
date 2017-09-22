@@ -12,11 +12,11 @@ class MethodGenerationTest extends AbstractSuite
 {
 	test("withName") {
 		val method = DeclaredMethod.parser(q"def f(i:Int): String")
-		method.withName("fMod").code should be(q"def fMod(i:Int): String".syntax)
+		method.withName("fMod").syntax should be(q"def fMod(i:Int): String".syntax)
 	}
 
 	test("noArgReturningUnit") {
-		DeclaredMethod.noArgReturningUnit("aMethod").code should be("def aMethod: Unit")
+		DeclaredMethod.noArgReturningUnit("aMethod").syntax should be("def aMethod: Unit")
 	}
 
 	test("define using code") {

@@ -24,8 +24,6 @@ case class DefinedMethod(
 	)
 
 	override def tree = q"..$mods def $ename[..$tparams](...$paramss): $tpeopt = $expr"
-
-	override def code = tree.syntax
 }
 
 object DefinedMethod extends PartialParser[DefinedMethod]

@@ -10,7 +10,7 @@ trait Code
 {
 	def tree: Tree
 
-	def code: String
+	def syntax: String = tree.syntax
 
 	override def toString = tree.syntax
 }

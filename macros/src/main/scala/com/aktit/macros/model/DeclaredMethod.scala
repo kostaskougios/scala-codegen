@@ -22,8 +22,6 @@ case class DeclaredMethod(
 		ename = ename.copy(value = name)
 	)
 
-	override def code = tree.syntax
-
 	override def tree = q"..$mods def $ename[..$tparams](...$paramss): $tpe"
 }
 
