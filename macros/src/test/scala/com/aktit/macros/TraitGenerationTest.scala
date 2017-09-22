@@ -11,6 +11,8 @@ import scala.meta._
 class TraitGenerationTest extends AbstractSuite
 {
 	test("withName") {
-		val t = Trait.parser(q"def f(i:Int): String")
+		val t = Trait.parser(q"trait x { def f(i:Int): String }")
+		val tm = t.withMethods(t.methods.map(_.withName("ff")))
+		tm.tree.syntax should be(q"trait x { def ff(i:Int): String }".syntax)
 	}
 }
