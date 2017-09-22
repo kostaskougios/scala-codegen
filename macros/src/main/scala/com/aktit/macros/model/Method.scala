@@ -1,6 +1,5 @@
 package com.aktit.macros.model
 
-import scala.collection.immutable
 import scala.meta._
 
 /**
@@ -12,24 +11,41 @@ trait Method extends Code
 	def name: String
 
 	def withName(name: String): Method
+
+	override def tree: Stat
 }
 
 object Method
 {
+	val parser = DeclaredMethod.parser.orElse(DefinedMethod.parser)
 
-	trait Contains
+	def isMethod(t: Tree): Boolean = parser.isDefinedAt(t)
+
+	trait Contains[T]
 	{
 		def template: Template
 
-		def methods: immutable.Seq[Method] = template.children
-			.collect(DefinedMethod.parser.orElse(DeclaredMethod.parser))
+		def withTemplate(t: Template): T
 
-		def declaredMethods: immutable.Seq[DeclaredMethod] = methods.collect {
+		def methods: Seq[Method] = template.children.collect(parser)
+
+		def declaredMethods: Seq[DeclaredMethod] = methods.collect {
 			case d: DeclaredMethod => d
 		}
 
-		def definedMethods: immutable.Seq[DefinedMethod] = methods.collect {
+		def definedMethods: Seq[DefinedMethod] = methods.collect {
 			case d: DefinedMethod => d
+		}
+
+		def withMethods(methods: Seq[Method]): T = {
+			withTemplate(
+				Template(
+					template.early,
+					template.inits,
+					template.self,
+					template.stats.filterNot(isMethod) ++ methods.map(_.tree)
+				)
+			)
 		}
 
 	}

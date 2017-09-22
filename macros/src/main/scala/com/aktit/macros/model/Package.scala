@@ -16,3 +16,11 @@ case class Package(tree: Tree, nameTerm: Term.Ref, children: Seq[N]) extends N
 
 	override def toString = tree.syntax
 }
+
+object Package extends PartialParser[Package]
+{
+	override def parser = {
+		case tree@q"package $ref { ..$topstats }" =>
+			Package(tree, ref, topstats.map(Trait.parser))
+	}
+}

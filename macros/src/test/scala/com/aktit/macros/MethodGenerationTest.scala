@@ -8,9 +8,9 @@ import scala.meta._
   * @author kostas.kougios
   *         Date: 01/09/17
   */
-class GeneratorTest extends AbstractSuite
+class MethodGenerationTest extends AbstractSuite
 {
-	test("method generation") {
+	test("withName") {
 		val method = DeclaredMethod.parser(q"def f(i:Int): String")
 		method.withName("fMod").code should be(q"def fMod(i:Int): String".syntax)
 	}
@@ -20,6 +20,6 @@ class GeneratorTest extends AbstractSuite
 	}
 
 	test("define using code") {
-		DeclaredMethod.code("def x:Int").name should be("x")
+		DeclaredMethod.parseString("def x:Int").name should be("x")
 	}
 }

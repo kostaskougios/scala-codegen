@@ -30,7 +30,7 @@ case class DefinedMethod(
 
 object DefinedMethod extends PartialParser[DefinedMethod]
 {
-	override def parser = {
+	override val parser = {
 		case q"..$mods def $ename[..$tparams](...$paramss): $tpeopt = $expr" =>
 			DefinedMethod(mods, ename, tparams, paramss, tpeopt, expr)
 	}
