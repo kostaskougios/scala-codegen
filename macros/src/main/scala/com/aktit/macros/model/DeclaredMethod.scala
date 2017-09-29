@@ -22,6 +22,10 @@ case class DeclaredMethod(
 		ename = ename.copy(value = name)
 	)
 
+	override def withParameters(params: Seq[Seq[Param]]) = copy(
+		paramss = params.map(_.map(_.param).toList).toList
+	)
+
 	override def tree = q"..$mods def $ename[..$tparams](...$paramss): $tpe"
 
 	override def parameters = paramss.map(_.map(Param.apply))

@@ -22,4 +22,10 @@ class MethodGenerationTest extends AbstractSuite
 	test("define using code") {
 		DeclaredMethod.parseString("def x:Int").name should be("x")
 	}
+
+	test("change parameters") {
+		val method = DeclaredMethod.parseString("def f(i:Int):String")
+		val modified = method.withParameters(method.parameters.map(_.map(p => p.withName(p.name + "x"))))
+		modified.syntax should be(q"def f(ix:Int):String".syntax)
+	}
 }

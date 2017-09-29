@@ -25,6 +25,9 @@ case class DefinedMethod(
 
 	override def parameters = paramss.map(_.map(Param.apply))
 
+	override def withParameters(params: Seq[Seq[Param]]) = copy(
+		paramss = params.map(_.map(_.param).toList).toList
+	)
 
 	override def tree = q"..$mods def $ename[..$tparams](...$paramss): $tpeopt = $expr"
 }

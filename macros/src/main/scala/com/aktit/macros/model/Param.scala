@@ -8,6 +8,7 @@ import scala.meta._
   */
 case class Param(param: Term.Param)
 {
+	def name: String = param.name.value
 	def withName(name: String) = copy(
 		param = param.copy(name = Name(name))
 	)
