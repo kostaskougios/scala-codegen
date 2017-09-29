@@ -12,6 +12,8 @@ trait Method extends Code
 
 	def withName(name: String): Method
 
+	def parameters: Seq[Seq[Param]]
+
 	override def tree: Stat
 }
 

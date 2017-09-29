@@ -23,6 +23,9 @@ case class DefinedMethod(
 		ename = ename.copy(value = name)
 	)
 
+	override def parameters = paramss.map(_.map(Param.apply))
+
+
 	override def tree = q"..$mods def $ename[..$tparams](...$paramss): $tpeopt = $expr"
 }
 
