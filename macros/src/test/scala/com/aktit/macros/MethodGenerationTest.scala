@@ -23,9 +23,15 @@ class MethodGenerationTest extends AbstractSuite
 		DeclaredMethod.parseString("def x:Int").name should be("x")
 	}
 
-	test("change parameters") {
+	test("change parameters, name") {
 		val method = DeclaredMethod.parseString("def f(i:Int):String")
 		val modified = method.withParameters(method.parameters.map(_.map(p => p.withName(p.name + "x"))))
 		modified.syntax should be(q"def f(ix:Int):String".syntax)
+	}
+
+	test("change parameters, type") {
+		val method = DeclaredMethod.parseString("def f(i:Int):String")
+		val modified = method.withParameters(method.parameters.map(_.map(p => p.withType("Seq[Int]"))))
+		modified.syntax should be(q"def f(i:Seq[Int]):String".syntax)
 	}
 }
