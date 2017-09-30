@@ -19,9 +19,9 @@ trait Method extends Code
 	override def tree: Stat
 }
 
-object Method
+object Method extends PartialParser[Method]
 {
-	val parser = DeclaredMethod.parser.orElse(DefinedMethod.parser)
+	override val parser = DeclaredMethod.parser.orElse(DefinedMethod.parser)
 
 	def isMethod(t: Tree): Boolean = parser.isDefinedAt(t)
 

@@ -28,12 +28,12 @@ case class DeclaredMethod(
 
 	override def tree = q"..$mods def $ename[..$tparams](...$paramss): $tpe"
 
-	override def parameters = paramss.map(_.map(Param.apply))
+	override def parameters: Seq[Seq[Param]] = paramss.map(_.map(Param.apply))
 }
 
 object DeclaredMethod extends PartialParser[DeclaredMethod]
 {
-	override def parser = {
+	override val parser = {
 		case q"..$mods def $ename[..$tparams](...$paramss): $tpe" =>
 			DeclaredMethod(mods, ename, tparams, paramss, tpe)
 	}

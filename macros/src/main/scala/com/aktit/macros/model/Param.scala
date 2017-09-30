@@ -8,8 +8,6 @@ import scala.meta._
   */
 case class Param(param: Term.Param)
 {
-	println(param.decltpe.get.getClass)
-
 	def name: String = param.name.value
 
 	def withName(name: String) = copy(
@@ -21,4 +19,9 @@ case class Param(param: Term.Param)
 			decltpe = Some(Type.Name(tpe))
 		)
 	)
+}
+
+object Param
+{
+	def parseString(code: String) = Param(code.parse[Term.Param].get)
 }

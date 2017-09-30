@@ -1,6 +1,6 @@
 package com.aktit.macros
 
-import com.aktit.macros.model.DeclaredMethod
+import com.aktit.macros.model.{DeclaredMethod, Param}
 
 import scala.meta._
 
@@ -33,5 +33,11 @@ class MethodGenerationTest extends AbstractSuite
 		val method = DeclaredMethod.parseString("def f(i:Int):String")
 		val modified = method.withParameters(method.parameters.map(_.map(p => p.withType("Seq[Int]"))))
 		modified.syntax should be(q"def f(i:Seq[Int]):String".syntax)
+	}
+
+	test("add parameter") {
+		val method = DeclaredMethod.parseString("def f(i:Int):String")
+		val modified = method.withParameters(method.parameters ++ Seq(Seq(Param.parseString("j:Int"))))
+		modified.syntax should be(q"def f(i:Seq[Int])(j:Int):String".syntax)
 	}
 }
