@@ -43,4 +43,8 @@ object DefinedMethod extends PartialParser[DefinedMethod]
 		case q"..$mods def $ename[..$tparams](...$paramss): $tpeopt = $expr" =>
 			DefinedMethod(mods, ename, tparams, paramss, tpeopt, expr)
 	}
+
+	def parseString(c: String): DefinedMethod = parser(c.parse[Stat].get)
+
+	def noArgReturningUnit(name: String): DefinedMethod = parser(q"def x:Unit={}").withName(name)
 }

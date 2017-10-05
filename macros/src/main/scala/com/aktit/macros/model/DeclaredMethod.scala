@@ -44,5 +44,5 @@ object DeclaredMethod extends PartialParser[DeclaredMethod]
 
 	def parseString(c: String): DeclaredMethod = parser(c.parse[Stat].get)
 
-	def noArgReturningUnit(name: String) = DeclaredMethod(Nil, Term.Name(name), Nil, Nil, Type.Name("Unit"))
+	def noArgReturningUnit(name: String): DeclaredMethod = DeclaredMethod(Nil, Term.Name(name), Nil, Nil, Type.Name("Unit"))
 }
