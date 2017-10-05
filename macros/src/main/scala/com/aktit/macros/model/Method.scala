@@ -12,6 +12,8 @@ trait Method extends Code
 
 	def withName(name: String): Method
 
+	def withReturnType(returnType: String): Method
+
 	def parameters: Seq[Seq[Param]]
 
 	def withParameters(params: Seq[Seq[Param]]): Method

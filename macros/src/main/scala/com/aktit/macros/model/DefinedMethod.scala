@@ -29,6 +29,11 @@ case class DefinedMethod(
 		paramss = params.map(_.map(_.param).toList).toList
 	)
 
+	override def withReturnType(returnType: String) = copy(
+		tpeopt = Some(Type.Name(returnType))
+	)
+
+
 	override def tree = q"..$mods def $ename[..$tparams](...$paramss): $tpeopt = $expr"
 }
 

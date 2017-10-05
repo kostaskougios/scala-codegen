@@ -29,6 +29,10 @@ case class DeclaredMethod(
 	override def tree = q"..$mods def $ename[..$tparams](...$paramss): $tpe"
 
 	override def parameters: Seq[Seq[Param]] = paramss.map(_.map(Param.apply))
+
+	override def withReturnType(returnType: String) = copy(
+		tpe = Type.Name(returnType)
+	)
 }
 
 object DeclaredMethod extends PartialParser[DeclaredMethod]

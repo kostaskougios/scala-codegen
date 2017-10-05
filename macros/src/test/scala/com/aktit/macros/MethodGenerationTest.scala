@@ -40,4 +40,10 @@ class MethodGenerationTest extends AbstractSuite
 		val modified = method.withParameters(method.parameters ++ Seq(Seq(Param.parseString("j:String"))))
 		modified.syntax should be(q"def f(i:Int)(j:String):String".syntax)
 	}
+
+	test("change return type") {
+		val method = DeclaredMethod.parseString("def f(i:Int):String")
+		val modified = method.withReturnType("Seq[Long]")
+		modified.syntax should be(q"def f(i:Int):Seq[Long]".syntax)
+	}
 }
