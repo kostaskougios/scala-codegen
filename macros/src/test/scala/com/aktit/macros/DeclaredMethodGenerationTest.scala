@@ -8,7 +8,7 @@ import scala.meta._
   * @author kostas.kougios
   *         Date: 01/09/17
   */
-class MethodGenerationTest extends AbstractSuite
+class DeclaredMethodGenerationTest extends AbstractSuite
 {
 	test("withName") {
 		val method = DeclaredMethod.parser(q"def f(i:Int): String")
