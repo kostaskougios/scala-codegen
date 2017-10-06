@@ -11,9 +11,15 @@ import scala.meta._
 class ClassTest extends AbstractSuite
 {
 	test("withName") {
-		val t = Class.parser(q"class x(i:Int) { def f: String = i*2 }")
+		val t = Class.parser(q"class x(i:Int) { def f: String = i.toString }")
 		val tm = t.withName("y")
-		tm.syntax should be(q"class y(i:Int) { def f: String = i*2 }".syntax)
+		tm.syntax should be(q"class y(i:Int) { def f: String = i.toString }".syntax)
+	}
+
+	test("withMethods") {
+		val t = Class.parser(q"class x(i:Int) { def f: String = i.toString }")
+		val tm = t.withMethods(t.methods.map(_.withName("ff")))
+		tm.syntax should be(q"class x(i:Int) { def ff: String = i.toString }".syntax)
 	}
 
 }
