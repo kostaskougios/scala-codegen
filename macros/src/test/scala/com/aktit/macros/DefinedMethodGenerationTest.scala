@@ -46,4 +46,10 @@ class DefinedMethodGenerationTest extends AbstractSuite
 		val modified = method.withReturnType("Seq[Long]")
 		modified.syntax should be(q"def f(i:Int):Seq[Long]=i.toString".syntax)
 	}
+
+	test("change method implementation") {
+		val method = DefinedMethod.parseString("def f(i:Int):String=i.toString")
+		val modified = method.withImplementation("(i+1).toString")
+		modified.syntax should be(q"def f(i:Int):String=(i+1).toString".syntax)
+	}
 }

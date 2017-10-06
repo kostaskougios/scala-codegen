@@ -33,6 +33,9 @@ case class DefinedMethod(
 		tpeopt = Some(Type.Name(returnType))
 	)
 
+	def withImplementation(code: String) = copy(
+		expr = code.parse[Term].get
+	)
 
 	override def tree = q"..$mods def $ename[..$tparams](...$paramss): $tpeopt = $expr"
 }
