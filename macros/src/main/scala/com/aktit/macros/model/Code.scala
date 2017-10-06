@@ -12,5 +12,5 @@ trait Code
 
 	def syntax: String = tree.syntax
 
-	override def toString = tree.syntax
+	override def toString = syntax
 }
