@@ -1,6 +1,6 @@
-package com.aktit.macros
+package com.aktit.macros.model
 
-import com.aktit.macros.model.{DefinedMethod, Param}
+import com.aktit.macros.AbstractSuite
 
 import scala.meta._
 
@@ -8,7 +8,7 @@ import scala.meta._
   * @author kostas.kougios
   *         Date: 01/09/17
   */
-class DefinedMethodGenerationTest extends AbstractSuite
+class DefinedMethodTest extends AbstractSuite
 {
 	test("withName") {
 		val method = DefinedMethod.parser(q"def f(i:Int): String = { i.toString }")

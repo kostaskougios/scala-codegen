@@ -15,6 +15,8 @@ case class Trait(
 {
 	def name: String = tname.value
 
+	def withName(name: String): Trait = copy(tname = Type.Name(name))
+
 	override def toString = tree.syntax
 
 	override def withTemplate(t: Template) = copy(template = t)
