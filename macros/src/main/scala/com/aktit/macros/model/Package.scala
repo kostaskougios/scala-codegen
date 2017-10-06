@@ -26,6 +26,12 @@ object Package extends PartialParser[Package]
 {
 	override def parser = {
 		case tree@q"package $ref { ..$topstats }" =>
-			Package(tree, ref, topstats.map(Trait.parser))
+			Package(
+				tree,
+				ref,
+				topstats.map(
+					Trait.parser.orElse(Class.parser)
+				)
+			)
 	}
 }
