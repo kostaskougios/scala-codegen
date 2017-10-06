@@ -14,3 +14,15 @@ trait Code
 
 	override def toString = syntax
 }
+
+object Code
+{
+
+	trait Name[T]
+	{
+		def name: String
+
+		def withName(name: String): T
+	}
+
+}
