@@ -13,7 +13,10 @@ case class Class(
 	ctorMods: List[Mod],
 	paramss: List[List[Term.Param]],
 	template: Template
-) extends N with Method.Contains[Class] with Code with Code.Name[Class]
+) extends N
+	with Method.Contains[Class]
+	with Code
+	with Code.Name[Class]
 {
 	override def name: String = tname.value
 

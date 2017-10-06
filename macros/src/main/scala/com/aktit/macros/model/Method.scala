@@ -7,11 +7,8 @@ import scala.meta._
   *         Date: 01/09/17
   */
 trait Method extends Code
+	with Code.Name[Method]
 {
-	def name: String
-
-	def withName(name: String): Method
-
 	def withReturnType(returnType: String): Method
 
 	def parameters: Seq[Seq[Param]]

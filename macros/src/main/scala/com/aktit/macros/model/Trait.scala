@@ -11,7 +11,10 @@ case class Trait(
 	tname: Type.Name,
 	tparams: List[Type.Param],
 	template: Template
-) extends N with Method.Contains[Trait] with Code with Code.Name[Trait]
+) extends N
+	with Method.Contains[Trait]
+	with Code
+	with Code.Name[Trait]
 {
 	def name: String = tname.value
 

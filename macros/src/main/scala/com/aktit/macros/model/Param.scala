@@ -6,11 +6,14 @@ import scala.meta._
   * @author kostas.kougios
   *         Date: 29/09/17
   */
-case class Param(param: Term.Param)
+case class Param(param: Term.Param) extends Code
+	with Code.Name[Param]
 {
-	def name: String = param.name.value
+	override def name: String = param.name.value
 
-	def withName(name: String) = copy(
+	override def tree = param
+
+	override def withName(name: String) = copy(
 		param = param.copy(name = Name(name))
 	)
 
