@@ -22,9 +22,9 @@ class ClassTest extends AbstractSuite
 		tm.syntax should be(q"class x(i:Int) { def ff: String = i.toString }".syntax)
 	}
 
-	//	test("fields") {
-	//		val t = Class.parser(q"class X(val i:Int) { val y:Int=5 ; def z:Int=6 }")
-	//		println(t.paramss)
-	//		println(t.template)
-	//	}
+	test("fields") {
+		val t = Class.parser(q"class X(val i:Int) { val y:Int=5 ; def z:Int=6 }")
+		println(t.methods)
+		println(t.meta.template)
+	}
 }

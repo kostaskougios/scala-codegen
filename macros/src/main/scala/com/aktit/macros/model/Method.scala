@@ -26,11 +26,11 @@ object Method extends PartialParser[Method]
 
 	trait Contains[T]
 	{
-		def template: Template
+		def meta: Meta.Template
 
 		def withTemplate(t: Template): T
 
-		def methods: Seq[Method] = template.children.collect(parser)
+		def methods: Seq[Method] = meta.template.children.collect(parser)
 
 		def declaredMethods: Seq[DeclaredMethod] = methods.collect {
 			case d: DeclaredMethod => d
@@ -43,10 +43,10 @@ object Method extends PartialParser[Method]
 		def withMethods(methods: Seq[Method]): T = {
 			withTemplate(
 				Template(
-					template.early,
-					template.inits,
-					template.self,
-					template.stats.filterNot(isMethod) ++ methods.map(_.tree)
+					meta.template.early,
+					meta.template.inits,
+					meta.template.self,
+					meta.template.stats.filterNot(isMethod) ++ methods.map(_.tree)
 				)
 			)
 		}
