@@ -9,29 +9,32 @@ import scala.meta._
   *         Date: 31/08/17
   */
 case class DeclaredMethod(
-	mods: List[Mod],
-	ename: Term.Name,
-	tparams: List[Type.Param],
-	paramss: List[List[Term.Param]],
-	tpe: Type
+	meta: DeclaredMethod.Meta
 ) extends Method
+	with Meta.Contains[DeclaredMethod.Meta]
 {
-	def name: String = ename.value
+	def name: String = meta.ename.value
 
 	override def withName(name: String) = copy(
-		ename = ename.copy(value = name)
+		meta = meta.copy(
+			ename = meta.ename.copy(value = name)
+		)
 	)
 
 	override def withParameters(params: Seq[Seq[Param]]) = copy(
+		meta = meta.copy(
 		paramss = params.map(_.map(_.param).toList).toList
+		)
 	)
 
-	override def tree = q"..$mods def $ename[..$tparams](...$paramss): $tpe"
+	override def tree = q"..${meta.mods} def ${meta.ename}[..${meta.tparams}](...${meta.paramss}): ${meta.tpe}"
 
-	override def parameters: Seq[Seq[Param]] = paramss.map(_.map(Param.apply))
+	override def parameters: Seq[Seq[Param]] = meta.paramss.map(_.map(Param.apply))
 
 	override def withReturnType(returnType: String) = copy(
+		meta = meta.copy(
 		tpe = Type.Name(returnType)
+		)
 	)
 }
 
@@ -39,10 +42,18 @@ object DeclaredMethod extends PartialParser[DeclaredMethod]
 {
 	override val parser = {
 		case q"..$mods def $ename[..$tparams](...$paramss): $tpe" =>
-			DeclaredMethod(mods, ename, tparams, paramss, tpe)
+			DeclaredMethod(Meta(mods, ename, tparams, paramss, tpe))
 	}
+
+	case class Meta(
+		mods: List[Mod],
+		ename: Term.Name,
+		tparams: List[Type.Param],
+		paramss: List[List[Term.Param]],
+		tpe: Type
+	) extends com.aktit.macros.model.Meta
 
 	def parseString(c: String): DeclaredMethod = parser(c.parse[Stat].get)
 
-	def noArgReturningUnit(name: String): DeclaredMethod = DeclaredMethod(Nil, Term.Name(name), Nil, Nil, Type.Name("Unit"))
+	def noArgReturningUnit(name: String): DeclaredMethod = DeclaredMethod(Meta(Nil, Term.Name(name), Nil, Nil, Type.Name("Unit")))
 }

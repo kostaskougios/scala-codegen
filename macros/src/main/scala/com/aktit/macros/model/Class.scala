@@ -25,7 +25,6 @@ case class Class(
 
 object Class extends PartialParser[Class]
 {
-
 	case class Meta(
 		mods: List[Mod],
 		tname: Type.Name,

@@ -10,6 +10,7 @@ case class Trait(
 	meta: Trait.Meta
 ) extends N
 	with Method.Contains[Trait]
+	with Meta.Contains[Trait.Meta]
 	with Code
 	with Code.Name[Trait]
 {
