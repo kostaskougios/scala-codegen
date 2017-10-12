@@ -9,43 +9,56 @@ import scala.meta._
   *         Date: 31/08/17
   */
 case class DefinedMethod(
-	mods: List[Mod],
-	ename: Term.Name,
-	tparams: List[Type.Param],
-	paramss: List[List[Term.Param]],
-	tpeopt: Option[Type],
-	expr: Term
+	meta: DefinedMethod.Meta
 ) extends Method
+	with Meta.Contains[DefinedMethod.Meta]
 {
-	override def name: String = ename.value
+	override def name: String = meta.ename.value
 
 	override def withName(name: String) = copy(
-		ename = ename.copy(value = name)
+		meta = meta.copy(
+			ename = meta.ename.copy(value = name)
+		)
 	)
 
-	override def parameters = paramss.map(_.map(Param.apply))
+	override def parameters = meta.paramss.map(_.map(Param.apply))
 
 	override def withParameters(params: Seq[Seq[Param]]) = copy(
+		meta = meta.copy(
 		paramss = params.map(_.map(_.param).toList).toList
+		)
 	)
 
 	override def withReturnType(returnType: String) = copy(
+		meta = meta.copy(
 		tpeopt = Some(Type.Name(returnType))
+		)
 	)
 
 	def withImplementation(code: String) = copy(
+		meta = meta.copy(
 		expr = code.parse[Term].get
+		)
 	)
 
-	override def tree = q"..$mods def $ename[..$tparams](...$paramss): $tpeopt = $expr"
+	override def tree = q"..${meta.mods} def ${meta.ename}[..${meta.tparams}](...${meta.paramss}): ${meta.tpeopt} = ${meta.expr}"
 }
 
 object DefinedMethod extends PartialParser[DefinedMethod]
 {
 	override val parser = {
 		case q"..$mods def $ename[..$tparams](...$paramss): $tpeopt = $expr" =>
-			DefinedMethod(mods, ename, tparams, paramss, tpeopt, expr)
+			DefinedMethod(Meta(mods, ename, tparams, paramss, tpeopt, expr))
 	}
+
+	case class Meta(
+		mods: List[Mod],
+		ename: Term.Name,
+		tparams: List[Type.Param],
+		paramss: List[List[Term.Param]],
+		tpeopt: Option[Type],
+		expr: Term
+	) extends com.aktit.macros.model.Meta
 
 	def parseString(c: String): DefinedMethod = parser(c.parse[Stat].get)
 
