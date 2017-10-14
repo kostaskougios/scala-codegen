@@ -21,11 +21,11 @@ case class DefinedMethod(
 		)
 	)
 
-	override def parameters = meta.paramss.map(_.map(Param.apply))
+	override def parameters = meta.paramss.map(_.map(p => Param(Param.Meta(p))))
 
 	override def withParameters(params: Seq[Seq[Param]]) = copy(
 		meta = meta.copy(
-		paramss = params.map(_.map(_.param).toList).toList
+			paramss = params.map(_.map(_.meta.param).toList).toList
 		)
 	)
 

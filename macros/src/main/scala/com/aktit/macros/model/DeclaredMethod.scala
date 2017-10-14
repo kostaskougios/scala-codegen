@@ -23,13 +23,13 @@ case class DeclaredMethod(
 
 	override def withParameters(params: Seq[Seq[Param]]) = copy(
 		meta = meta.copy(
-		paramss = params.map(_.map(_.param).toList).toList
+			paramss = params.map(_.map(_.meta.param).toList).toList
 		)
 	)
 
 	override def tree = q"..${meta.mods} def ${meta.ename}[..${meta.tparams}](...${meta.paramss}): ${meta.tpe}"
 
-	override def parameters: Seq[Seq[Param]] = meta.paramss.map(_.map(Param.apply))
+	override def parameters: Seq[Seq[Param]] = meta.paramss.map(_.map(p => Param(Param.Meta(p))))
 
 	override def withReturnType(returnType: String) = copy(
 		meta = meta.copy(
