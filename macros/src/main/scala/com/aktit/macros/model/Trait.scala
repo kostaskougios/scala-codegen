@@ -38,4 +38,7 @@ object Trait extends PartialParser[Trait]
 		case q"..$mods trait $tname[..$tparams] extends $template" =>
 			Trait(Meta(mods, tname, tparams, template))
 	}
+
+  def withName(name: String) = parser(q"trait X").withName(name)
+
 }
