@@ -1,5 +1,7 @@
 package com.aktit.macros.model
 
+import com.aktit.macros.Parser
+
 import scala.meta._
 
 /**
@@ -21,12 +23,30 @@ case class Package(meta: Package.Meta, children: Seq[N]) extends N
 		case t: Trait => t
 	}
 
+	def classes: Seq[Class] = children.collect {
+		case c: Class => c
+	}
+
+	def imports: Seq[Import] = children.collect {
+		case i: Import => i
+	}
+
 	override def toString = tree.syntax
 
 }
 
 object Package extends PartialParser[Package]
 {
+	/**
+		* Parses source and creates the Package (which includes imports, traits and classes)
+		*
+		* @param src the source code, this is code in a string
+		* @return Package
+		*/
+	def fromSource(src: String) = Parser().parseSource(src).collectFirst {
+		case p: Package => p
+	}.get
+
 	override def parser = {
 		case tree@q"package $ref { ..$topstats }" =>
 			Package(
@@ -34,7 +54,7 @@ object Package extends PartialParser[Package]
 					tree,
 					ref),
 				topstats.map(
-					Trait.parser.orElse(Class.parser)
+					Import.parser.orElse(Trait.parser).orElse(Class.parser)
 				)
 			)
 	}
