@@ -16,15 +16,15 @@ class DecoratorCreationTest extends AbstractSuite
         |
         |import scala.concurrent.duration.{Duration,FiniteDuration => FD}
         |
-        |trait T1 {
-        | def noArg : Int
+        |trait T1[T] {
+        | def noArg : T
         |}
         |
         |trait T2 {
         | def oneArg(m:Int) : Int
         |}
         |
-        |class X(val i:Int) extends T1 with T2 {
+        |class X(val i:Int) extends T1[Int] with T2 {
         | // ignore
         | private val v1:Float
         | // ignore

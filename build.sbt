@@ -11,7 +11,7 @@ lazy val commonSettings = Seq(
 )
 lazy val macros = project.settings(
 	commonSettings,
-	libraryDependencies += "org.scalameta" %% "scalameta" % "2.0.0",
+	libraryDependencies += "org.scalameta" %% "scalameta" % "2.0.1",
 	libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.1" % "test"
 ).dependsOn()
 
