@@ -1,7 +1,7 @@
 package com.aktit.macros.usecases
 
 import com.aktit.macros.AbstractSuite
-import com.aktit.macros.model.Package
+import com.aktit.macros.model.{ Package, Param }
 
 /**
   * @author kostas.kougios
@@ -28,7 +28,7 @@ class WrapperCreationTest extends AbstractSuite
       clz =>
         val methods = clz.methods.map {
           method =>
-            val args = if (method.parameters.isEmpty) "" else method.parameters.map(_.map(_.name).mkString(",")).mkString("(", ")(", ")")
+            val args = Param.toString(method.parameters)
             val impl = s"enclosed.${method.name} $args"
             method.withImplementation(impl).syntax
         }
