@@ -38,16 +38,11 @@ class DecoratorCreationTest extends AbstractSuite
           .withMethods(methods)
     }
 
-    val wrapper =
-      s"""
-         |package ${p.name}
-         |
-       |${p.imports.mkString("\n")}
-         |
-       |${classes.mkString("\n")}
-         """.stripMargin
+    val decorator = Package.withName(p.name)
+      .withImports(p.imports)
+      .withClasses(classes)
 
-    println(wrapper)
+    println(decorator.syntax)
 
   }
 }
