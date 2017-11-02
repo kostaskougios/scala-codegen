@@ -18,6 +18,7 @@ class WrapperCreationTest extends AbstractSuite
         |
         |class X(val i:Int) {
         | def noArg = i*2
+        | def noArgParams() = i*3
         | def oneArg(m:Int) = m * i
         | def multiArgs(n:Int)(m:Int) = n*m*i
         |}
@@ -27,11 +28,9 @@ class WrapperCreationTest extends AbstractSuite
       clz =>
         val methods = clz.methods.map {
           method =>
-            val args = method.parameters.map(_.map(_.name).mkString(",")).mkString("(", ")(", ")")
+            val args = if (method.parameters.isEmpty) "" else method.parameters.map(_.map(_.name).mkString(",")).mkString("(", ")(", ")")
             val impl = s"enclosed.${method.name} $args"
-            s"""
-               |${method.withImplementation(impl)}
-             """.stripMargin
+            method.withImplementation(impl).syntax
         }
         s"""
            |class ${clz.name}Wrapper(enclosed : ${clz.name})
