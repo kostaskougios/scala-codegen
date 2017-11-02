@@ -7,9 +7,9 @@ import com.aktit.macros.model.{ Package, Param }
   * @author kostas.kougios
   *         Date: 02/11/17
   */
-class WrapperCreationTest extends AbstractSuite
+class DecoratorCreationTest extends AbstractSuite
 {
-  test("create a wrapper class") {
+  test("create a decorator class") {
     val p = Package.fromSource(
       """
         |package x
@@ -33,7 +33,7 @@ class WrapperCreationTest extends AbstractSuite
             method.withImplementation(impl).syntax
         }
         s"""
-           |class ${clz.name}Wrapper(enclosed : ${clz.name})
+           |class ${clz.name}Decorator(enclosed : ${clz.name})
            |{
            |${methods.mkString("\n")}
            |}
