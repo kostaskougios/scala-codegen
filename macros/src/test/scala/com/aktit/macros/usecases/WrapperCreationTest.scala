@@ -34,7 +34,7 @@ class WrapperCreationTest extends AbstractSuite
              """.stripMargin
         }
         s"""
-           |class ${clz.name}Wrapper extends ${clz.name}
+           |class ${clz.name}Wrapper(enclosed : ${clz.name})
            |{
            |${methods.mkString("\n")}
            |}
