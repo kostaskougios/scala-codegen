@@ -16,7 +16,20 @@ class DecoratorCreationTest extends AbstractSuite
         |
         |import scala.concurrent.duration.{Duration,FiniteDuration => FD}
         |
-        |class X(val i:Int) {
+        |trait T1 {
+        | def noArg : Int
+        |}
+        |
+        |trait T2 {
+        | def oneArg(m:Int) : Int
+        |}
+        |
+        |class X(val i:Int) extends T1 with T2 {
+        | // ignore
+        | private val v1:Float
+        | // ignore
+        | val v2:Long
+        |
         | def noArg = i*2
         | def noArgParams() = i*3
         | def oneArg(m:Int) = m * i
@@ -34,7 +47,7 @@ class DecoratorCreationTest extends AbstractSuite
         }
 
         Class.withName(clz.name + "Decorator")
-          .withConstructorParameters(Seq(Param.parseString(s"enclosed : ${clz.name}")))
+          .withConstructorParameter(Param.parseString(s"enclosed : ${clz.name}"))
           .withMethods(methods)
     }
 

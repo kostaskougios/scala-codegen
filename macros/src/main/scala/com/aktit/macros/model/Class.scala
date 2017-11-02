@@ -17,6 +17,8 @@ case class Class(
 
 	override def withName(name: String): Class = copy(meta = meta.copy(tname = Type.Name(name)))
 
+  def withConstructorParameter(param: Param): Class = withConstructorParameters(Seq(param))
+
   def withConstructorParameters(params: Seq[Param]): Class = withConstructorParameterss(Seq(params))
 
   def withConstructorParameterss(paramss: Seq[Seq[Param]]): Class = copy(
