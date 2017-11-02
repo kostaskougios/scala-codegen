@@ -17,6 +17,14 @@ case class Class(
 
 	override def withName(name: String): Class = copy(meta = meta.copy(tname = Type.Name(name)))
 
+  def withConstructorParameters(params: Seq[Param]): Class = withConstructorParameterss(Seq(params))
+
+  def withConstructorParameterss(paramss: Seq[Seq[Param]]): Class = copy(
+    meta = meta.copy(
+      paramss = paramss.map(_.map(_.meta.param).toList).toList
+    )
+  )
+
 	override def tree = q"..${meta.mods} class ${meta.tname}[..${meta.tparams}] ..${meta.ctorMods} (...${meta.paramss}) extends ${meta.template}"
 
 	override def withTemplate(t: Template) = copy(meta = meta.copy(template = t))
@@ -37,4 +45,6 @@ object Class extends PartialParser[Class]
 		case q"..$mods class $tname[..$tparams] ..$ctorMods (...$paramss) extends $template" =>
 			Class(Meta(mods, tname, tparams, ctorMods, paramss, template))
 	}
+
+  def withName(name: String) = parser(q"class X {}").withName(name)
 }

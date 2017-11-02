@@ -1,7 +1,7 @@
 package com.aktit.macros.usecases
 
 import com.aktit.macros.AbstractSuite
-import com.aktit.macros.model.{ Package, Param }
+import com.aktit.macros.model.{ Class, Package, Param }
 
 /**
   * @author kostas.kougios
@@ -30,14 +30,12 @@ class DecoratorCreationTest extends AbstractSuite
           method =>
             val args = Param.toString(method.parameters)
             val impl = s"enclosed.${method.name} $args"
-            method.withImplementation(impl).syntax
+            method.withImplementation(impl)
         }
-        s"""
-           |class ${clz.name}Decorator(enclosed : ${clz.name})
-           |{
-           |${methods.mkString("\n")}
-           |}
-         """.stripMargin
+
+        Class.withName(clz.name + "Decorator")
+          .withConstructorParameters(Seq(Param.parseString(s"enclosed : ${clz.name}")))
+          .withMethods(methods)
     }
 
     val wrapper =

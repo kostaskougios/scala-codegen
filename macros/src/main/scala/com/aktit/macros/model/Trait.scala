@@ -33,6 +33,7 @@ object Trait extends PartialParser[Trait]
 		tparams: List[Type.Param],
 		template: Template
 	) extends com.aktit.macros.model.Meta with com.aktit.macros.model.Meta.Template
+
 	override def parser = {
 		case q"..$mods trait $tname[..$tparams] extends $template" =>
 			Trait(Meta(mods, tname, tparams, template))
