@@ -49,6 +49,7 @@ class DecoratorCreationTest extends AbstractSuite
         Class.withName(clz.name + "Decorator")
           .withConstructorParameter(Param.parseString(s"enclosed : ${clz.name}"))
           .withMethods(methods)
+          .withExtending(clz.extending)
     }
 
     val decorator = Package.withName(p.name)

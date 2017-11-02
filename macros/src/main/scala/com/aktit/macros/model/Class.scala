@@ -1,5 +1,6 @@
 package com.aktit.macros.model
 
+import scala.collection.immutable
 import scala.meta._
 
 /**
@@ -27,6 +28,10 @@ case class Class(
       paramss = paramss.map(_.map(_.meta.param).toList).toList
     )
   )
+
+	def extending: immutable.Seq[Type] = templ.inits.map(_.tpe).map(Type.apply)
+
+	def withExtending(types: Seq[Type]) = withTempl(templ.copy(inits = types.map(_.meta.tpe).map(tpe => Init(tpe, null, Nil)).toList))
 
 	override def tree = q"..${meta.mods} class ${meta.tname}[..${meta.tparams}] ..${meta.ctorMods} (...${meta.paramss}) extends ${meta.template}"
 
