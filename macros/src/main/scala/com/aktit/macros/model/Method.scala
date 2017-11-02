@@ -34,7 +34,7 @@ object Method extends PartialParser[Method]
 	{
 		def meta: Meta.Template
 
-		def withTemplate(t: Template): T
+		protected def withTemplate(t: Template): T
 
 		def methods: Seq[Method] = meta.template.children.collect(parser)
 

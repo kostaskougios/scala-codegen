@@ -9,7 +9,7 @@ trait Meta
 object Meta
 {
 
-	trait Contains[T <: Meta]
+	trait Contains[+T <: Meta]
 	{
 		def meta: T
 	}

@@ -22,4 +22,9 @@ object Templ extends PartialParser[Templ]
 		case template"{ ..$earlyStats } with ..$inits { $self => ..$stats }" =>
 			Templ(earlyStats, inits, self, stats)
 	}
+
+	trait Contains extends Meta.Contains[Meta with Meta.Template]
+	{
+		def templ: Templ = Templ.parser(meta.template)
+	}
 }

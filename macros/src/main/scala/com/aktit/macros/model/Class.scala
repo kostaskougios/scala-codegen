@@ -12,6 +12,7 @@ case class Class(
 	with Method.Contains[Class]
 	with Meta.Contains[Class.Meta]
 	with Code.Name[Class]
+  with Templ.Contains
 {
 	override def name: String = meta.tname.value
 

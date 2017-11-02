@@ -12,6 +12,7 @@ case class Trait(
 	with Method.Contains[Trait]
 	with Meta.Contains[Trait.Meta]
 	with Code.Name[Trait]
+	with Templ.Contains
 {
 	def name: String = meta.tname.value
 
