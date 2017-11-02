@@ -6,7 +6,7 @@ import scala.meta._
   * @author kostas.kougios
   *         Date: 02/11/17
   */
-case class Import(meta: Import.Meta) extends N with Code
+case class Import(meta: Import.Meta) extends Code
 {
   override def tree = q"import ..${meta.importersnel}"
 }

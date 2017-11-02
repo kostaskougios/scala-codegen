@@ -8,10 +8,9 @@ import scala.meta._
   */
 case class Trait(
 	meta: Trait.Meta
-) extends N
+) extends Code
 	with Method.Contains[Trait]
 	with Meta.Contains[Trait.Meta]
-	with Code
 	with Code.Name[Trait]
 {
 	def name: String = meta.tname.value

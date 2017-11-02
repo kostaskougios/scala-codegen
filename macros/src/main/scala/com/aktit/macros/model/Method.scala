@@ -15,6 +15,12 @@ trait Method extends Code
 
 	def withParameters(params: Seq[Seq[Param]]): Method
 
+	// converts this method to it's abstract (no impl) representation
+	def toAbstract: DeclaredMethod
+
+	// adds impl (or replaces the existing one)
+	def withImplementation(code: String): DefinedMethod
+
 	override def tree: Stat
 }
 

@@ -8,10 +8,9 @@ import scala.meta._
   */
 case class Class(
 	meta: Class.Meta
-) extends N
+) extends Code
 	with Method.Contains[Class]
 	with Meta.Contains[Class.Meta]
-	with Code
 	with Code.Name[Class]
 {
 	override def name: String = meta.tname.value

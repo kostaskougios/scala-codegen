@@ -36,6 +36,12 @@ case class DeclaredMethod(
 		tpe = Type.Name(returnType)
 		)
 	)
+
+	override def toAbstract = this
+
+	override def withImplementation(code: String) = DefinedMethod.parser(
+		q"..${meta.mods} def ${meta.ename}[..${meta.tparams}](...${meta.paramss}): ${meta.tpe} = ${code.parse[Term].get}"
+	)
 }
 
 object DeclaredMethod extends PartialParser[DeclaredMethod]

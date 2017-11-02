@@ -8,9 +8,8 @@ import scala.meta._
   * @author kostas.kougios
   *         Date: 29/08/17
   */
-case class Package(meta: Package.Meta, children: Seq[N]) extends N
+case class Package(meta: Package.Meta, children: Seq[Code]) extends Code
 	with Meta.Contains[Package.Meta]
-	with Code
 	with Code.Name[Package]
 {
 	def name: String = meta.nameTerm.syntax

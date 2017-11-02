@@ -35,11 +35,13 @@ case class DefinedMethod(
 		)
 	)
 
-	def withImplementation(code: String) = copy(
+	override def withImplementation(code: String) = copy(
 		meta = meta.copy(
 		expr = code.parse[Term].get
 		)
 	)
+
+	override def toAbstract = DeclaredMethod.parser(q"..${meta.mods} def ${meta.ename}[..${meta.tparams}](...${meta.paramss}): ${meta.tpeopt.getOrElse(throw new IllegalStateException(s"please declare the type of this method in order to be able to convert it to it's abstract representation: $syntax"))}")
 
 	override def tree = q"..${meta.mods} def ${meta.ename}[..${meta.tparams}](...${meta.paramss}): ${meta.tpeopt} = ${meta.expr}"
 }
