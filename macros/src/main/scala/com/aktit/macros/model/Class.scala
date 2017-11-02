@@ -16,7 +16,7 @@ case class Class(
 {
 	override def name: String = meta.tname.value
 
-	override def withName(name: String): Class = copy(meta = meta.copy(tname = Type.Name(name)))
+	override def withName(name: String): Class = copy(meta = meta.copy(tname = scala.meta.Type.Name(name)))
 
   def withConstructorParameter(param: Param): Class = withConstructorParameters(Seq(param))
 
@@ -37,8 +37,8 @@ object Class extends PartialParser[Class]
 {
 	case class Meta(
 		mods: List[Mod],
-		tname: Type.Name,
-		tparams: List[Type.Param],
+		tname: scala.meta.Type.Name,
+		tparams: List[scala.meta.Type.Param],
 		ctorMods: List[Mod],
 		paramss: List[List[Term.Param]],
 		template: Template

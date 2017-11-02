@@ -32,6 +32,6 @@ object Templ extends PartialParser[Templ]
 
 		def withTempl(t: Templ) = withTemplate(t.tree)
 
-		def extendsTypes: immutable.Seq[String] = templ.inits.map(_.tpe.toString)
+		def extendsTypes: immutable.Seq[Type] = templ.inits.map(_.tpe).map(Type.apply)
 	}
 }

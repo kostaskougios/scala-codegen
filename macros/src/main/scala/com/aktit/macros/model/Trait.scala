@@ -16,7 +16,7 @@ case class Trait(
 {
 	def name: String = meta.tname.value
 
-	def withName(name: String): Trait = copy(meta.copy(tname = Type.Name(name)))
+	def withName(name: String): Trait = copy(meta.copy(tname = scala.meta.Type.Name(name)))
 
 	override def toString = tree.syntax
 
@@ -30,8 +30,8 @@ object Trait extends PartialParser[Trait]
 
 	case class Meta(
 		mods: List[Mod],
-		tname: Type.Name,
-		tparams: List[Type.Param],
+		tname: scala.meta.Type.Name,
+		tparams: List[scala.meta.Type.Param],
 		template: Template
 	) extends com.aktit.macros.model.Meta with com.aktit.macros.model.Meta.Template
 

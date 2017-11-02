@@ -31,7 +31,7 @@ case class DefinedMethod(
 
 	override def withReturnType(returnType: String) = copy(
 		meta = meta.copy(
-		tpeopt = Some(Type.Name(returnType))
+			tpeopt = Some(scala.meta.Type.Name(returnType))
 		)
 	)
 
@@ -56,9 +56,9 @@ object DefinedMethod extends PartialParser[DefinedMethod]
 	case class Meta(
 		mods: List[Mod],
 		ename: Term.Name,
-		tparams: List[Type.Param],
+		tparams: List[scala.meta.Type.Param],
 		paramss: List[List[Term.Param]],
-		tpeopt: Option[Type],
+		tpeopt: Option[scala.meta.Type],
 		expr: Term
 	) extends com.aktit.macros.model.Meta
 

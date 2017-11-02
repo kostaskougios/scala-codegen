@@ -33,7 +33,7 @@ case class DeclaredMethod(
 
 	override def withReturnType(returnType: String) = copy(
 		meta = meta.copy(
-		tpe = Type.Name(returnType)
+			tpe = scala.meta.Type.Name(returnType)
 		)
 	)
 
@@ -54,12 +54,12 @@ object DeclaredMethod extends PartialParser[DeclaredMethod]
 	case class Meta(
 		mods: List[Mod],
 		ename: Term.Name,
-		tparams: List[Type.Param],
+		tparams: List[scala.meta.Type.Param],
 		paramss: List[List[Term.Param]],
-		tpe: Type
+		tpe: scala.meta.Type
 	) extends com.aktit.macros.model.Meta
 
 	def parseString(c: String): DeclaredMethod = parser(c.parse[Stat].get)
 
-	def noArgReturningUnit(name: String): DeclaredMethod = DeclaredMethod(Meta(Nil, Term.Name(name), Nil, Nil, Type.Name("Unit")))
+	def noArgReturningUnit(name: String): DeclaredMethod = DeclaredMethod(Meta(Nil, Term.Name(name), Nil, Nil, scala.meta.Type.Name("Unit")))
 }
