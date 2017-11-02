@@ -17,7 +17,9 @@ class WrapperCreationTest extends AbstractSuite
         |import scala.concurrent.duration.{Duration,FiniteDuration => FD}
         |
         |class X(val i:Int) {
-        | def y : Int =i*2
+        | def noArg = i*2
+        | def oneArg(m:Int) = m * i
+        | def multiArgs(n:Int)(m:Int) = n*m*i
         |}
       """.stripMargin)
 
@@ -26,19 +28,20 @@ class WrapperCreationTest extends AbstractSuite
         val methods = clz.methods.map {
           method =>
             val args = method.parameters.map(_.map(_.name).mkString(",")).mkString("(", ")(", ")")
-            val impl = s"enclosed.${method.name}($args)"
+            val impl = s"enclosed.${method.name} $args"
             s"""
-               |${method.toAbstract.withImplementation(impl)}
+               |${method.withImplementation(impl)}
              """.stripMargin
         }
         s"""
-           |class ${clz.name}Wrapper extends ${clz.name} {
-           |{${methods.mkString("\n")}
-           | }
+           |class ${clz.name}Wrapper extends ${clz.name}
+           |{
+           |${methods.mkString("\n")}
+           |}
          """.stripMargin
     }
 
-    println(
+    val wrapper =
       s"""
          |package ${p.name}
          |
@@ -46,7 +49,8 @@ class WrapperCreationTest extends AbstractSuite
          |
        |${classes.mkString("\n")}
          """.stripMargin
-    )
+
+    println(wrapper)
 
   }
 }
