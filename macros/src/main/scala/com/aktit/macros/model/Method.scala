@@ -30,11 +30,9 @@ object Method extends PartialParser[Method]
 
 	def isMethod(t: Tree): Boolean = parser.isDefinedAt(t)
 
-	trait Contains[T]
+	trait Contains[T] extends Templ.Contains[T]
 	{
-		def meta: Meta.Template
-
-		protected def withTemplate(t: Template): T
+		def meta: Meta with Meta.Template
 
 		def methods: Seq[Method] = meta.template.children.collect(parser)
 

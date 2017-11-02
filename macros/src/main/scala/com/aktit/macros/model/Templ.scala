@@ -1,5 +1,6 @@
 package com.aktit.macros.model
 
+import scala.collection.immutable
 import scala.meta._
 
 /**
@@ -13,7 +14,7 @@ case class Templ(
 	stats: List[Stat]
 ) extends Code
 {
-	override def tree = template"{ ..$earlyStats } with ..$inits { $self => ..$stats }"
+	override def tree: Template = template"{ ..$earlyStats } with ..$inits { $self => ..$stats }"
 }
 
 object Templ extends PartialParser[Templ]
@@ -23,8 +24,14 @@ object Templ extends PartialParser[Templ]
 			Templ(earlyStats, inits, self, stats)
 	}
 
-	trait Contains extends Meta.Contains[Meta with Meta.Template]
+	trait Contains[S] extends Meta.Contains[Meta with Meta.Template]
 	{
+		protected def withTemplate(t: Template): S
+
 		def templ: Templ = Templ.parser(meta.template)
+
+		def withTempl(t: Templ) = withTemplate(t.tree)
+
+		def extendsTypes: immutable.Seq[String] = templ.inits.map(_.tpe.toString)
 	}
 }
