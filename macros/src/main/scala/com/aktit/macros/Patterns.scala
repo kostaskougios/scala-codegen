@@ -1,6 +1,6 @@
 package com.aktit.macros
 
-import com.aktit.macros.model.{ Class, Package, Param }
+import com.aktit.macros.model.{ Class, Package, TermParam }
 
 /**
   * @author kostas.kougios
@@ -13,13 +13,13 @@ object Patterns
       clz =>
         val methods = clz.methods.filter(_.isPublic).map {
           method =>
-            val args = Param.toString(method.parameters)
+            val args = TermParam.toString(method.parameters)
             val impl = s"enclosed.${method.name} $args"
             method.withImplementation(impl)
         }
 
         Class.withName(clz.name + "Decorator")
-          .withConstructorParameter(Param.parseString(s"enclosed : ${clz.name}"))
+          .withConstructorParameter(TermParam.parseString(s"enclosed : ${clz.name}"))
           .withMethods(methods)
           .withExtending(clz.extending)
     }

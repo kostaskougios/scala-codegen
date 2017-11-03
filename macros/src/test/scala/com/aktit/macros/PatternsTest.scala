@@ -23,7 +23,7 @@ class PatternsTest extends AbstractSuite
         | def oneArg(m:Int) : Int
         |}
         |
-        |class X(val i:Int) extends T1[Int] with T2 {
+        |class X[A](val i:Int) extends T1[Int] with T2 {
         | // ignore
         | private val v1:Float
         | // ignore
@@ -44,7 +44,7 @@ class PatternsTest extends AbstractSuite
       """
         |package x
         |import scala.concurrent.duration.{ Duration, FiniteDuration => FD }
-        |class XDecorator(enclosed: X) extends T1[Int] with T2 {
+        |class XDecorator[A](enclosed: X[A]) extends T1[Int] with T2 {
         |  def noArg = enclosed.noArg
         |  def noArgParams() = enclosed.noArgParams()
         |  def oneArg(m: Int) = enclosed.oneArg(m)

@@ -1,5 +1,6 @@
 package com.aktit.macros.model
 
+import scala.collection.immutable
 import scala.meta._
 
 /**
@@ -25,6 +26,18 @@ object Meta
 		def isProtected = meta.isProtected
 
 		def isPublic = meta.isPublic
+	}
+
+	trait ContainsTypeParams
+	{
+		def meta: Meta with TypeParams
+
+		def typeParams: immutable.Seq[TypeParam] = meta.tparams.map(TypeParam.apply)
+	}
+
+	trait TypeParams
+	{
+		def tparams: List[scala.meta.Type.Param]
 	}
 
 	trait Template

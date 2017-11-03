@@ -1,5 +1,7 @@
 package com.aktit.macros.model
 
+import com.aktit.macros.model
+
 import scala.collection.immutable
 import scala.meta._
 
@@ -12,6 +14,7 @@ case class Class(
 ) extends Code
 	with Method.Contains[Class]
 	with Meta.Contains[Class.Meta]
+	with Meta.ContainsTypeParams
 	with Code.Name[Class]
 	with Templ.Contains[Class]
 {
@@ -19,11 +22,11 @@ case class Class(
 
 	override def withName(name: String): Class = copy(meta = meta.copy(tname = scala.meta.Type.Name(name)))
 
-  def withConstructorParameter(param: Param): Class = withConstructorParameters(Seq(param))
+	def withConstructorParameter(param: TermParam): Class = withConstructorParameters(Seq(param))
 
-  def withConstructorParameters(params: Seq[Param]): Class = withConstructorParameterss(Seq(params))
+	def withConstructorParameters(params: Seq[TermParam]): Class = withConstructorParameterss(Seq(params))
 
-  def withConstructorParameterss(paramss: Seq[Seq[Param]]): Class = copy(
+	def withConstructorParameterss(paramss: Seq[Seq[TermParam]]): Class = copy(
     meta = meta.copy(
       paramss = paramss.map(_.map(_.meta.param).toList).toList
     )
@@ -47,7 +50,7 @@ object Class extends PartialParser[Class]
 		ctorMods: List[Mod],
 		paramss: List[List[Term.Param]],
 		template: Template
-	) extends com.aktit.macros.model.Meta with com.aktit.macros.model.Meta.Template
+	) extends model.Meta with model.Meta.Template with model.Meta.TypeParams
 
 	override def parser = {
 		case q"..$mods class $tname[..$tparams] ..$ctorMods (...$paramss) extends $template" =>

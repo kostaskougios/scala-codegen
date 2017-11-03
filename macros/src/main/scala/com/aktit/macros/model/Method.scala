@@ -17,9 +17,9 @@ trait Method extends Code
 
 	def withReturnType(returnType: String): Method
 
-	def parameters: Seq[Seq[Param]]
+	def parameters: Seq[Seq[TermParam]]
 
-	def withParameters(params: Seq[Seq[Param]]): Method
+	def withParameters(params: Seq[Seq[TermParam]]): Method
 
 	// converts this method to it's abstract (no impl) representation
 	def toAbstract: DeclaredMethod

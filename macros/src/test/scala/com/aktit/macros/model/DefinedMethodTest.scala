@@ -37,7 +37,7 @@ class DefinedMethodTest extends AbstractSuite
 
 	test("add parameter") {
 		val method = DefinedMethod.parseString("def f(i:Int):String=i.toString")
-		val modified = method.withParameters(method.parameters ++ Seq(Seq(Param.parseString("j:String"))))
+		val modified = method.withParameters(method.parameters ++ Seq(Seq(TermParam.parseString("j:String"))))
 		modified.syntax should be(q"def f(i:Int)(j:String):String=i.toString".syntax)
 	}
 
