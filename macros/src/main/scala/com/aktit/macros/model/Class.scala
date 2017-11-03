@@ -31,7 +31,7 @@ case class Class(
 
 	def extending: immutable.Seq[Type] = templ.inits.map(_.tpe).map(Type.apply)
 
-	def withExtending(types: Seq[Type]) = withTempl(templ.copy(inits = types.map(_.meta.tpe).map(tpe => Init(tpe, null, Nil)).toList))
+	def withExtending(types: Seq[Type]) = withTempl(templ.copy(inits = types.map(_.meta.tpe).map(tpe => Init(tpe, Name("invalid"), Nil)).toList))
 
 	override def tree = q"..${meta.mods} class ${meta.tname}[..${meta.tparams}] ..${meta.ctorMods} (...${meta.paramss}) extends ${meta.template}"
 
