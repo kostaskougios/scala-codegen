@@ -28,11 +28,13 @@ object Meta
 		def isPublic = meta.isPublic
 	}
 
-	trait ContainsTypeParams
+	trait ContainsTypeParams[T]
 	{
 		def meta: Meta with TypeParams
 
 		def typeParams: immutable.Seq[TypeParam] = meta.tparams.map(TypeParam.apply)
+
+		def withTypeParams(params: Seq[TypeParam]): T
 	}
 
 	trait TypeParams

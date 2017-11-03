@@ -14,7 +14,7 @@ case class Class(
 ) extends Code
 	with Method.Contains[Class]
 	with Meta.Contains
-	with Meta.ContainsTypeParams
+  with Meta.ContainsTypeParams[Class]
 	with Code.Name[Class]
 	with Templ.Contains[Class]
 {
@@ -39,6 +39,12 @@ case class Class(
 	override def tree = q"..${meta.mods} class ${meta.tname}[..${meta.tparams}] ..${meta.ctorMods} (...${meta.paramss}) extends ${meta.template}"
 
 	override def withTemplate(t: Template) = copy(meta = meta.copy(template = t))
+
+  override def withTypeParams(params: Seq[TypeParam]) = copy(
+    meta = meta.copy(
+      tparams = params.map(_.meta.param).toList
+    )
+  )
 }
 
 object Class extends PartialParser[Class]
