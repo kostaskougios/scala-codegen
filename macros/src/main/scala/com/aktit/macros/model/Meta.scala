@@ -35,6 +35,7 @@ object Meta
 		def typeParams: immutable.Seq[TypeParam] = meta.tparams.map(TypeParam.apply)
 
 		def withTypeParams(params: Seq[TypeParam]): T
+
 	}
 
 	trait TypeParams

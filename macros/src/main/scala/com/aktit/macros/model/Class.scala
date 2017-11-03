@@ -45,6 +45,12 @@ case class Class(
       tparams = params.map(_.meta.param).toList
     )
   )
+
+	def toTermParam(paramName: String) = {
+		val tpe = t"${meta.tname}"
+		param"${Name(paramName)} : ${Option(tpe)}"
+	}
+
 }
 
 object Class extends PartialParser[Class]

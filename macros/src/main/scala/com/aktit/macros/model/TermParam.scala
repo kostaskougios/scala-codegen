@@ -34,10 +34,11 @@ case class TermParam(meta: TermParam.Meta) extends Code
 object TermParam
 {
 
-  case class Meta(param: Term.Param) extends model.Meta
+  case class Meta(param: scala.meta.Term.Param) extends model.Meta
 
   def parseString(code: String) = TermParam(Meta(code.parse[Term.Param].get))
 
+  def apply(param: scala.meta.Term.Param): TermParam = TermParam(Meta(param))
   // creates a string as if these params are used in a method call, i.e. "(n)(m)" for two params n,m of some type
   def toString(parameters: Seq[Seq[TermParam]]) =
     if (parameters.isEmpty)
