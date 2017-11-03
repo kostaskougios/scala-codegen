@@ -1,13 +1,12 @@
-package com.aktit.macros.usecases
+package com.aktit.macros
 
 import com.aktit.macros.model.Package
-import com.aktit.macros.{ AbstractSuite, Patterns }
 
 /**
   * @author kostas.kougios
-  *         Date: 02/11/17
+  *         Date: 03/11/17
   */
-class DecoratorCreationTest extends AbstractSuite
+class PatternsTest extends AbstractSuite
 {
   test("create a decorator class") {
     val p = Package.fromSource(
