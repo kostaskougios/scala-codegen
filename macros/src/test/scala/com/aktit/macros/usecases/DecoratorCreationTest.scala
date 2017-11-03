@@ -1,7 +1,7 @@
 package com.aktit.macros.usecases
 
-import com.aktit.macros.AbstractSuite
-import com.aktit.macros.model.{ Class, Package, Param }
+import com.aktit.macros.model.Package
+import com.aktit.macros.{ AbstractSuite, Patterns }
 
 /**
   * @author kostas.kougios
@@ -40,26 +40,17 @@ class DecoratorCreationTest extends AbstractSuite
         |}
       """.stripMargin)
 
-    val classes = p.classes.map {
-      clz =>
-        val methods = clz.methods.filter(_.isPublic).map {
-          method =>
-            val args = Param.toString(method.parameters)
-            val impl = s"enclosed.${method.name} $args"
-            method.withImplementation(impl)
-        }
-
-        Class.withName(clz.name + "Decorator")
-          .withConstructorParameter(Param.parseString(s"enclosed : ${clz.name}"))
-          .withMethods(methods)
-          .withExtending(clz.extending)
-    }
-
-    val decorator = Package.withName(p.name)
-      .withImports(p.imports)
-      .withClasses(classes)
-
-    println(decorator.syntax)
-
+    val decorator = Patterns.decorator(p)
+    decorator.syntax should be(Package.fromSource(
+      """
+        |package x
+        |import scala.concurrent.duration.{ Duration, FiniteDuration => FD }
+        |class XDecorator(enclosed: X) extends T1[Int] with T2 {
+        |  def noArg = enclosed.noArg
+        |  def noArgParams() = enclosed.noArgParams()
+        |  def oneArg(m: Int) = enclosed.oneArg(m)
+        |  def multiArgs(n: Int)(m: Int) = enclosed.multiArgs(n)(m)
+        |}
+      """.stripMargin).syntax)
   }
 }
