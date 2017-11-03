@@ -29,6 +29,9 @@ class DecoratorCreationTest extends AbstractSuite
         | private val v1:Float
         | // ignore
         | val v2:Long
+        | // ignore
+        | private def privateDef = i*4
+        | protected def protectedDef = i*4
         |
         | def noArg = i*2
         | def noArgParams() = i*3
@@ -39,7 +42,7 @@ class DecoratorCreationTest extends AbstractSuite
 
     val classes = p.classes.map {
       clz =>
-        val methods = clz.methods.map {
+        val methods = clz.methods.filter(_.isPublic).map {
           method =>
             val args = Param.toString(method.parameters)
             val impl = s"enclosed.${method.name} $args"

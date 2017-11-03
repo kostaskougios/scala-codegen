@@ -9,6 +9,12 @@ import scala.meta._
 trait Method extends Code
 	with Code.Name[Method]
 {
+	def isPrivate: Boolean
+
+	def isProtected: Boolean
+
+	def isPublic: Boolean
+
 	def withReturnType(returnType: String): Method
 
 	def parameters: Seq[Seq[Param]]

@@ -1,5 +1,7 @@
 package com.aktit.macros.model
 
+import com.aktit.macros.model
+
 import scala.meta._
 
 /**
@@ -12,6 +14,7 @@ case class DefinedMethod(
 	meta: DefinedMethod.Meta
 ) extends Method
 	with Meta.Contains[DefinedMethod.Meta]
+	with Meta.ContainsMods
 {
 	override def name: String = meta.ename.value
 
@@ -60,7 +63,7 @@ object DefinedMethod extends PartialParser[DefinedMethod]
 		paramss: List[List[Term.Param]],
 		tpeopt: Option[scala.meta.Type],
 		expr: Term
-	) extends com.aktit.macros.model.Meta
+	) extends model.Meta with model.Meta.Mods
 
 	def parseString(c: String): DefinedMethod = parser(c.parse[Stat].get)
 

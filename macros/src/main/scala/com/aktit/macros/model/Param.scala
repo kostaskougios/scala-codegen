@@ -23,7 +23,7 @@ case class Param(meta: Param.Meta) extends Code
   def withType(tpe: String) = copy(
     meta = meta.copy(
       param = meta.param.copy(
-        decltpe = Some(Type.Name(tpe))
+        decltpe = Some(scala.meta.Type.Name(tpe))
       )
     )
   )
