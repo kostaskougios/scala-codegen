@@ -19,6 +19,7 @@ object Patterns
         }
 
         Class.withName(clz.name + "Decorator")
+          .withTypeParams(clz.typeParams)
           .withConstructorParameter(TermParam.parseString(s"enclosed : ${clz.name}"))
           .withMethods(methods)
           .withExtending(clz.extending)
