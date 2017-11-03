@@ -22,6 +22,8 @@ case class Class(
 
 	override def withName(name: String): Class = copy(meta = meta.copy(tname = scala.meta.Type.Name(name)))
 
+	def constructorParameters: List[List[TermParam]] = meta.paramss.map(_.map(TermParam.apply))
+
 	def withConstructorParameter(param: TermParam): Class = withConstructorParameters(Seq(param))
 
 	def withConstructorParameters(params: Seq[TermParam]): Class = withConstructorParameterss(Seq(params))
@@ -46,8 +48,8 @@ case class Class(
     )
   )
 
-	def toTermParam(paramName: String) = {
-		val tpe = t"${meta.tname}"
+	def toTermParam(paramName: String, tpesnel: Seq[Type]) = {
+		val tpe = t"${meta.tname}[..${tpesnel.map(_.meta.tpe).toList}]"
 		param"${Name(paramName)} : ${Option(tpe)}"
 	}
 

@@ -8,6 +8,10 @@ import com.aktit.macros.model
   */
 case class TypeParam(meta: TypeParam.Meta) extends Code with Meta.Contains
 {
+  def toType = Type(
+    t"${meta.param.name}[..${meta.param.tparams}]"
+  )
+
   override def tree = meta.param
 }
 
