@@ -6,7 +6,7 @@ import com.aktit.macros.model
   * @author kostas.kougios
   *         Date: 02/11/17
   */
-case class Type(meta: Type.Meta) extends Meta.Contains[Type.Meta]
+case class Type(meta: Type.Meta) extends Meta.Contains
 {
 }
 

@@ -6,7 +6,7 @@ import com.aktit.macros.model
   * @author kostas.kougios
   *         Date: 03/11/17
   */
-case class TypeParam(meta: TypeParam.Meta) extends Code with Meta.Contains[TypeParam.Meta]
+case class TypeParam(meta: TypeParam.Meta) extends Code with Meta.Contains
 {
   override def tree = meta.param
 }

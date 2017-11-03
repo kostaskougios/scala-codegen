@@ -24,8 +24,10 @@ object Templ extends PartialParser[Templ]
 			Templ(earlyStats, inits, self, stats)
 	}
 
-	trait Contains[S] extends Meta.Contains[Meta with Meta.Template]
+	trait Contains[S]
 	{
+		def meta: Meta with Meta.Template
+
 		protected def withTemplate(t: Template): S
 
 		def templ: Templ = Templ.parser(meta.template)

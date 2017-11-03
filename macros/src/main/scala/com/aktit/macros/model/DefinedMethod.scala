@@ -13,7 +13,7 @@ import scala.meta._
 case class DefinedMethod(
 	meta: DefinedMethod.Meta
 ) extends Method
-	with Meta.Contains[DefinedMethod.Meta]
+	with Meta.Contains
 	with Meta.ContainsMods
 {
 	override def name: String = meta.ename.value

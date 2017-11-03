@@ -13,7 +13,7 @@ import scala.meta._
 case class DeclaredMethod(
 	meta: DeclaredMethod.Meta
 ) extends Method
-	with Meta.Contains[DeclaredMethod.Meta]
+	with Meta.Contains
 	with Meta.ContainsMods
 {
 	def name: String = meta.ename.value

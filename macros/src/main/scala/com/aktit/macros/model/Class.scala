@@ -13,7 +13,7 @@ case class Class(
 	meta: Class.Meta
 ) extends Code
 	with Method.Contains[Class]
-	with Meta.Contains[Class.Meta]
+	with Meta.Contains
 	with Meta.ContainsTypeParams
 	with Code.Name[Class]
 	with Templ.Contains[Class]

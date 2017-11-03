@@ -12,9 +12,9 @@ trait Meta
 object Meta
 {
 
-	trait Contains[+T <: Meta]
+	trait Contains
 	{
-		def meta: T
+		def meta: Meta
 	}
 
 	trait ContainsMods

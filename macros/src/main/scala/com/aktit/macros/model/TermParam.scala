@@ -1,5 +1,7 @@
 package com.aktit.macros.model
 
+import com.aktit.macros.model
+
 import scala.meta._
 
 /**
@@ -7,7 +9,7 @@ import scala.meta._
   *         Date: 29/09/17
   */
 case class TermParam(meta: TermParam.Meta) extends Code
-  with Meta.Contains[TermParam.Meta]
+  with Meta.Contains
   with Code.Name[TermParam]
 {
   override def name: String = meta.param.name.value
@@ -32,7 +34,7 @@ case class TermParam(meta: TermParam.Meta) extends Code
 object TermParam
 {
 
-  case class Meta(param: Term.Param) extends com.aktit.macros.model.Meta
+  case class Meta(param: Term.Param) extends model.Meta
 
   def parseString(code: String) = TermParam(Meta(code.parse[Term.Param].get))
 

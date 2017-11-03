@@ -12,7 +12,7 @@ case class Package(
   meta: Package.Meta,
   children: Seq[Code]
 ) extends Code
-  with Meta.Contains[Package.Meta]
+  with Meta.Contains
   with Code.Name[Package]
 {
   def name: String = meta.nameTerm.syntax

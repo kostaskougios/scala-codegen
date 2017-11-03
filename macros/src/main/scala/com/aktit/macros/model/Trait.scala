@@ -10,7 +10,7 @@ case class Trait(
 	meta: Trait.Meta
 ) extends Code
 	with Method.Contains[Trait]
-	with Meta.Contains[Trait.Meta]
+	with Meta.Contains
 	with Code.Name[Trait]
 	with Templ.Contains[Trait]
 {
