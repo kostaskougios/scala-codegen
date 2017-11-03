@@ -8,7 +8,10 @@ import scala.meta._
   * @author kostas.kougios
   *         Date: 29/08/17
   */
-case class Package(meta: Package.Meta, children: Seq[Code]) extends Code
+case class Package(
+  meta: Package.Meta,
+  children: Seq[Code]
+) extends Code
   with Meta.Contains[Package.Meta]
   with Code.Name[Package]
 {
@@ -22,10 +25,7 @@ case class Package(meta: Package.Meta, children: Seq[Code]) extends Code
   override def withName(name: String) = copy(meta = meta.copy(nameTerm = Term.Name(name)))
 
   def withTraits(traits: Seq[Class]) = copy(
-    children = traits ++ children.filter {
-      case _: Trait => false
-      case _ => true
-    }
+    children = children ++ traits
   )
 
   def traits: Seq[Trait] = children.collect {
@@ -33,10 +33,7 @@ case class Package(meta: Package.Meta, children: Seq[Code]) extends Code
   }
 
   def withClasses(classes: Seq[Class]) = copy(
-    children = classes ++ children.filter {
-      case _: Class => false
-      case _ => true
-    }
+    children = children ++ classes
   )
 
   def classes: Seq[Class] = children.collect {
@@ -44,10 +41,7 @@ case class Package(meta: Package.Meta, children: Seq[Code]) extends Code
   }
 
   def withImports(imports: Seq[Import]) = copy(
-    children = imports ++ children.filter {
-      case _: Import => false
-      case _ => true
-    }
+    children = imports ++ children
   )
 
   def imports: Seq[Import] = children.collect {
