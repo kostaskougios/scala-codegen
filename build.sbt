@@ -23,6 +23,6 @@ lazy val code = project.settings(
 		val r = (runner in Compile).value
 		val cp = (dependencyClasspath in Compile).value
 		val s = streams.value
-		r.run("com.aktit.macros.Runner", cp.files, Array(sourceDirectory.value.toString + "/main/scala", "my.code"), s.log) foreach sys.error
+		r.run("com.aktit.macros.Runner", cp.files, Array(sourceDirectory.value.toString + "/main/scala", "my.code"), s.log)
 	}
 ).dependsOn(macros)
