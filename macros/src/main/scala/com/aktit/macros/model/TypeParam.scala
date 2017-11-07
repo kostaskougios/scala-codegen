@@ -14,7 +14,7 @@ case class TypeParam(meta: TypeParam.Meta) extends Code with Meta.Contains
     val typeArgs = meta.param.tparams.map(_.name.value)
     val ta = if (typeArgs.isEmpty) "" else s"[${typeArgs.mkString(",")}]"
     Type(
-      s"${meta.param.name}".parse[scala.meta.Type].get
+      s"${meta.param.name} $ta".parse[scala.meta.Type].get
     )
   }
 
