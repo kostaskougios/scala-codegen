@@ -8,21 +8,6 @@ import com.aktit.macros.model.Package
   */
 class PatternsTest extends AbstractSuite
 {
-  //  test("x") {
-  //
-  //    val p = Package.fromSource(
-  //      """
-  //        |package x
-  //        |
-  //        |class X[A](x:X[A])
-  //      """.stripMargin)
-  //
-  //    val params = p.classes.map {
-  //      c => c.constructorParameters
-  //    }
-  //    println(params)
-  //  }
-
   test("create a decorator class") {
     val p = Package.fromSource(
       """

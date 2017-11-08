@@ -4,7 +4,7 @@ name := "lang-enhance"
 version := "0.1"
 
 lazy val commonSettings = Seq(
-	scalaVersion := "2.12.3",
+	scalaVersion := "2.12.4",
 	scalacOptions += "-feature",
 	scalacOptions += "-unchecked",
 	scalacOptions += "-deprecation"
@@ -12,7 +12,7 @@ lazy val commonSettings = Seq(
 lazy val macros = project.settings(
 	commonSettings,
 	libraryDependencies += "org.scalameta" %% "scalameta" % "2.0.1",
-	libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.1" % "test"
+	libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.4" % "test"
 ).dependsOn()
 
 lazy val codeGen = TaskKey[Unit]("code-gen")
