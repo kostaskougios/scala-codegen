@@ -8,9 +8,9 @@ import scala.meta._
   * @author kostas.kougios
   *         Date: 29/09/17
   */
-case class TermParam(meta: TermParam.Meta) extends Code
-  with Meta.Contains
-  with Code.Name[TermParam]
+case class TermParamEx(meta: TermParamEx.Meta) extends CodeEx
+    with MetaEx.Contains
+    with CodeEx.Name[TermParamEx]
 {
   override def name: String = meta.param.name.value
 
@@ -31,16 +31,16 @@ case class TermParam(meta: TermParam.Meta) extends Code
   )
 }
 
-object TermParam
+object TermParamEx
 {
 
-  case class Meta(param: scala.meta.Term.Param) extends model.Meta
+  case class Meta(param: scala.meta.Term.Param) extends model.MetaEx
 
-  def parseString(code: String) = TermParam(Meta(code.parse[Term.Param].get))
+  def parseString(code: String) = TermParamEx(Meta(code.parse[Term.Param].get))
 
-  def apply(param: scala.meta.Term.Param): TermParam = TermParam(Meta(param))
+  def apply(param: scala.meta.Term.Param): TermParamEx = TermParamEx(Meta(param))
   // creates a string as if these params are used in a method call, i.e. "(n)(m)" for two params n,m of some type
-  def toString(parameters: Seq[Seq[TermParam]]) =
+  def toString(parameters: Seq[Seq[TermParamEx]]) =
     if (parameters.isEmpty)
       ""
     else

@@ -8,47 +8,47 @@ import scala.meta._
   * @author kostas.kougios
   *         Date: 01/09/17
   */
-class DefinedMethodTest extends AbstractSuite
+class DefinedMethodExTest extends AbstractSuite
 {
 	test("withName") {
-		val method = DefinedMethod.parser(q"def f(i:Int): String = { i.toString }")
+		val method = DefinedMethodEx.parser(q"def f(i:Int): String = { i.toString }")
 		method.withName("fMod").syntax should be(q"def fMod(i:Int): String = { i.toString }".syntax)
 	}
 
 	test("noArgReturningUnit") {
-		DefinedMethod.noArgReturningUnit("aMethod").syntax should be(q"def aMethod: Unit = {}".syntax)
+		DefinedMethodEx.noArgReturningUnit("aMethod").syntax should be(q"def aMethod: Unit = {}".syntax)
 	}
 
 	test("define using code") {
-		DefinedMethod.parseString("def x:Int = 5").name should be("x")
+		DefinedMethodEx.parseString("def x:Int = 5").name should be("x")
 	}
 
 	test("change parameters, name") {
-		val method = DefinedMethod.parseString("def f(i:Int):String= i.toString")
+		val method = DefinedMethodEx.parseString("def f(i:Int):String= i.toString")
 		val modified = method.withParameters(method.parameters.map(_.map(p => p.withName(p.name + "x"))))
 		modified.syntax should be(q"def f(ix:Int):String = i.toString".syntax)
 	}
 
 	test("change parameters, type") {
-		val method = DefinedMethod.parseString("def f(i:Int):String = i.toString")
+		val method = DefinedMethodEx.parseString("def f(i:Int):String = i.toString")
 		val modified = method.withParameters(method.parameters.map(_.map(p => p.withType("Seq[Int]"))))
 		modified.syntax should be(q"def f(i:Seq[Int]):String=i.toString".syntax)
 	}
 
 	test("add parameter") {
-		val method = DefinedMethod.parseString("def f(i:Int):String=i.toString")
-		val modified = method.withParameters(method.parameters ++ Seq(Seq(TermParam.parseString("j:String"))))
+		val method = DefinedMethodEx.parseString("def f(i:Int):String=i.toString")
+		val modified = method.withParameters(method.parameters ++ Seq(Seq(TermParamEx.parseString("j:String"))))
 		modified.syntax should be(q"def f(i:Int)(j:String):String=i.toString".syntax)
 	}
 
 	test("change return type") {
-		val method = DefinedMethod.parseString("def f(i:Int):String=i.toString")
+		val method = DefinedMethodEx.parseString("def f(i:Int):String=i.toString")
 		val modified = method.withReturnType("Seq[Long]")
 		modified.syntax should be(q"def f(i:Int):Seq[Long]=i.toString".syntax)
 	}
 
 	test("change method implementation") {
-		val method = DefinedMethod.parseString("def f(i:Int):String=i.toString")
+		val method = DefinedMethodEx.parseString("def f(i:Int):String=i.toString")
 		val modified = method.withImplementation("(i+1).toString")
 		modified.syntax should be(q"def f(i:Int):String=(i+1).toString".syntax)
 	}

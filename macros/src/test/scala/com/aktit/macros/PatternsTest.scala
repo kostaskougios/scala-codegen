@@ -1,6 +1,6 @@
 package com.aktit.macros
 
-import com.aktit.macros.model.Package
+import com.aktit.macros.model.PackageEx
 
 /**
   * @author kostas.kougios
@@ -9,7 +9,7 @@ import com.aktit.macros.model.Package
 class PatternsTest extends AbstractSuite
 {
   test("create a decorator class") {
-    val p = Package.fromSource(
+    val p = PackageEx.fromSource(
       """
         |package x
         |
@@ -40,7 +40,7 @@ class PatternsTest extends AbstractSuite
       """.stripMargin)
 
     val decorator = Patterns.decorator(p)
-    decorator.syntax should be(Package.fromSource(
+    decorator.syntax should be(PackageEx.fromSource(
       """
         |package x
         |import scala.concurrent.duration.{ Duration, FiniteDuration => FD }

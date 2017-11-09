@@ -7,33 +7,33 @@ import scala.meta._
   * @author kostas.kougios
   *         Date: 09/10/17
   */
-case class Templ(
+case class TemplateEx(
 	earlyStats: List[Stat],
 	inits: List[Init],
 	self: Self,
 	stats: List[Stat]
-) extends Code
+) extends CodeEx
 {
 	override def tree: Template = template"{ ..$earlyStats } with ..$inits { $self => ..$stats }"
 }
 
-object Templ extends PartialParser[Templ]
+object TemplateEx extends PartialParser[TemplateEx]
 {
 	override def parser = {
 		case template"{ ..$earlyStats } with ..$inits { $self => ..$stats }" =>
-			Templ(earlyStats, inits, self, stats)
+			TemplateEx(earlyStats, inits, self, stats)
 	}
 
 	trait Contains[S]
 	{
-		def meta: Meta with Meta.Template
+		def meta: MetaEx with MetaEx.Template
 
 		protected def withTemplate(t: Template): S
 
-		def templ: Templ = Templ.parser(meta.template)
+		def templ: TemplateEx = TemplateEx.parser(meta.template)
 
-		def withTempl(t: Templ) = withTemplate(t.tree)
+		def withTempl(t: TemplateEx) = withTemplate(t.tree)
 
-		def extendsTypes: immutable.Seq[Type] = templ.inits.map(_.tpe).map(Type.apply)
+		def extendsTypes: immutable.Seq[TypeEx] = templ.inits.map(_.tpe).map(TypeEx.apply)
 	}
 }

@@ -1,6 +1,6 @@
 package com.aktit.macros
 
-import com.aktit.macros.model.{ Class, Package, TermParam }
+import com.aktit.macros.model.{ ClassEx, PackageEx, TermParamEx }
 
 /**
   * @author kostas.kougios
@@ -8,24 +8,24 @@ import com.aktit.macros.model.{ Class, Package, TermParam }
   */
 object Patterns
 {
-  def decorator(p: Package) = {
+  def decorator(p: PackageEx) = {
     val classes = p.classes.map {
       clz =>
         val methods = clz.methods.filter(_.isPublic).map {
           method =>
-            val args = TermParam.toString(method.parameters)
+            val args = TermParamEx.toString(method.parameters)
             val impl = s"enclosed.${method.name} $args"
             method.withImplementation(impl)
         }
 
-        Class.withName(clz.name + "Decorator")
+        ClassEx.withName(clz.name + "Decorator")
           .withTypeParams(clz.typeParams)
-          .withConstructorParameter(TermParam(clz.toTermParam("enclosed", clz.typeParams.map(_.toType))))
+            .withConstructorParameter(TermParamEx(clz.toTermParam("enclosed", clz.typeParams.map(_.toType))))
           .withMethods(methods)
           .withExtending(clz.extending)
     }
 
-    val decorator = Package.withName(p.name)
+    val decorator = PackageEx.withName(p.name)
       .withImports(p.imports)
       .withClasses(classes)
     decorator

@@ -8,12 +8,12 @@ import scala.meta._
   * @author kostas.kougios
   *         Date: 29/08/17
   */
-case class Package(
-  meta: Package.Meta,
-  children: Seq[Code]
-) extends Code
-  with Meta.Contains
-  with Code.Name[Package]
+case class PackageEx(
+    meta: PackageEx.Meta,
+    children: Seq[CodeEx]
+) extends CodeEx
+    with MetaEx.Contains
+    with CodeEx.Name[PackageEx]
 {
   def name: String = meta.nameTerm.syntax
 
@@ -24,35 +24,35 @@ case class Package(
 
   override def withName(name: String) = copy(meta = meta.copy(nameTerm = Term.Name(name)))
 
-  def withTraits(traits: Seq[Class]) = copy(
+  def withTraits(traits: Seq[ClassEx]) = copy(
     children = children ++ traits
   )
 
-  def traits: Seq[Trait] = children.collect {
-    case t: Trait => t
+  def traits: Seq[TraitEx] = children.collect {
+    case t: TraitEx => t
   }
 
-  def withClasses(classes: Seq[Class]) = copy(
+  def withClasses(classes: Seq[ClassEx]) = copy(
     children = children ++ classes
   )
 
-  def classes: Seq[Class] = children.collect {
-    case c: Class => c
+  def classes: Seq[ClassEx] = children.collect {
+    case c: ClassEx => c
   }
 
-  def withImports(imports: Seq[Import]) = copy(
+  def withImports(imports: Seq[ImportEx]) = copy(
     children = imports ++ children
   )
 
-  def imports: Seq[Import] = children.collect {
-    case i: Import => i
+  def imports: Seq[ImportEx] = children.collect {
+    case i: ImportEx => i
   }
 
   override def toString = tree.syntax
 
 }
 
-object Package extends PartialParser[Package]
+object PackageEx extends PartialParser[PackageEx]
 {
   /**
     * Parses source and creates the Package (which includes imports, traits and classes)
@@ -61,22 +61,22 @@ object Package extends PartialParser[Package]
     * @return Package
     */
   def fromSource(src: String) = Parser().parseSource(src).collectFirst {
-    case p: Package => p
+    case p: PackageEx => p
   }.get
 
-  case class Meta(tree: Tree, nameTerm: Term.Ref) extends com.aktit.macros.model.Meta
+  case class Meta(tree: Tree, nameTerm: Term.Ref) extends com.aktit.macros.model.MetaEx
 
   override def parser = {
     case tree@q"package $ref { ..$topstats }" =>
-      Package(
+      PackageEx(
         Meta(
           tree,
           ref),
         topstats.map(
-          Import.parser.orElse(Trait.parser).orElse(Class.parser)
+          ImportEx.parser.orElse(TraitEx.parser).orElse(ClassEx.parser)
         )
       )
   }
 
-  def withName(name: String): Package = parser(q"package x {}").withName(name)
+  def withName(name: String): PackageEx = parser(q"package x {}").withName(name)
 }

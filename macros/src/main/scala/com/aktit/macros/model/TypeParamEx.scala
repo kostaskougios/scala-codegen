@@ -8,12 +8,12 @@ import scala.meta._
   * @author kostas.kougios
   *         Date: 03/11/17
   */
-case class TypeParam(meta: TypeParam.Meta) extends Code with Meta.Contains
+case class TypeParamEx(meta: TypeParamEx.Meta) extends CodeEx with MetaEx.Contains
 {
   def toType = {
     val typeArgs = meta.param.tparams.map(_.name.value)
     val ta = if (typeArgs.isEmpty) "" else s"[${typeArgs.mkString(",")}]"
-    Type(
+    TypeEx(
       s"${meta.param.name} $ta".parse[scala.meta.Type].get
     )
   }
@@ -21,12 +21,12 @@ case class TypeParam(meta: TypeParam.Meta) extends Code with Meta.Contains
   override def tree = meta.param
 }
 
-object TypeParam
+object TypeParamEx
 {
 
   case class Meta(
     param: scala.meta.Type.Param
-  ) extends model.Meta
+  ) extends model.MetaEx
 
-  def apply(param: scala.meta.Type.Param): TypeParam = TypeParam(Meta(param))
+  def apply(param: scala.meta.Type.Param): TypeParamEx = TypeParamEx(Meta(param))
 }

@@ -7,19 +7,19 @@ import scala.meta._
   * @author kostas.kougios
   *         Date: 12/10/17
   */
-trait Meta
+trait MetaEx
 
-object Meta
+object MetaEx
 {
 
 	trait Contains
 	{
-		def meta: Meta
+		def meta: MetaEx
 	}
 
 	trait ContainsMods
 	{
-		def meta: Meta with Mods
+		def meta: MetaEx with Mods
 
 		def isPrivate = meta.isPrivate
 
@@ -30,11 +30,11 @@ object Meta
 
 	trait ContainsTypeParams[T]
 	{
-		def meta: Meta with TypeParams
+		def meta: MetaEx with TypeParams
 
-		def typeParams: immutable.Seq[TypeParam] = meta.tparams.map(TypeParam.apply)
+		def typeParams: immutable.Seq[TypeParamEx] = meta.tparams.map(TypeParamEx.apply)
 
-		def withTypeParams(params: Seq[TypeParam]): T
+		def withTypeParams(params: Seq[TypeParamEx]): T
 
 	}
 

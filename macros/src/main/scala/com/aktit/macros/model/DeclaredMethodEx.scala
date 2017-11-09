@@ -10,11 +10,11 @@ import scala.meta._
   * @author kostas.kougios
   *         Date: 31/08/17
   */
-case class DeclaredMethod(
-	meta: DeclaredMethod.Meta
-) extends Method
-	with Meta.Contains
-	with Meta.ContainsMods
+case class DeclaredMethodEx(
+	meta: DeclaredMethodEx.Meta
+) extends MethodEx
+	with MetaEx.Contains
+	with MetaEx.ContainsMods
 {
 	def name: String = meta.ename.value
 
@@ -24,7 +24,7 @@ case class DeclaredMethod(
 		)
 	)
 
-	override def withParameters(params: Seq[Seq[TermParam]]) = copy(
+	override def withParameters(params: Seq[Seq[TermParamEx]]) = copy(
 		meta = meta.copy(
 			paramss = params.map(_.map(_.meta.param).toList).toList
 		)
@@ -32,7 +32,7 @@ case class DeclaredMethod(
 
 	override def tree = q"..${meta.mods} def ${meta.ename}[..${meta.tparams}](...${meta.paramss}): ${meta.tpe}"
 
-	override def parameters: Seq[Seq[TermParam]] = meta.paramss.map(_.map(p => TermParam(TermParam.Meta(p))))
+	override def parameters: Seq[Seq[TermParamEx]] = meta.paramss.map(_.map(p => TermParamEx(TermParamEx.Meta(p))))
 
 	override def withReturnType(returnType: String) = copy(
 		meta = meta.copy(
@@ -42,16 +42,16 @@ case class DeclaredMethod(
 
 	override def toAbstract = this
 
-	override def withImplementation(code: String) = DefinedMethod.parser(
+	override def withImplementation(code: String) = DefinedMethodEx.parser(
 		q"..${meta.mods} def ${meta.ename}[..${meta.tparams}](...${meta.paramss}): ${meta.tpe} = ${code.parse[Term].get}"
 	)
 }
 
-object DeclaredMethod extends PartialParser[DeclaredMethod]
+object DeclaredMethodEx extends PartialParser[DeclaredMethodEx]
 {
 	override val parser = {
 		case q"..$mods def $ename[..$tparams](...$paramss): $tpe" =>
-			DeclaredMethod(Meta(mods, ename, tparams, paramss, tpe))
+			DeclaredMethodEx(Meta(mods, ename, tparams, paramss, tpe))
 	}
 
 	case class Meta(
@@ -60,9 +60,9 @@ object DeclaredMethod extends PartialParser[DeclaredMethod]
 		tparams: List[scala.meta.Type.Param],
 		paramss: List[List[Term.Param]],
 		tpe: scala.meta.Type
-	) extends model.Meta with model.Meta.Mods
+	) extends model.MetaEx with model.MetaEx.Mods
 
-	def parseString(c: String): DeclaredMethod = parser(c.parse[Stat].get)
+	def parseString(c: String): DeclaredMethodEx = parser(c.parse[Stat].get)
 
-	def noArgReturningUnit(name: String): DeclaredMethod = DeclaredMethod(Meta(Nil, Term.Name(name), Nil, Nil, scala.meta.Type.Name("Unit")))
+	def noArgReturningUnit(name: String): DeclaredMethodEx = DeclaredMethodEx(Meta(Nil, Term.Name(name), Nil, Nil, scala.meta.Type.Name("Unit")))
 }

@@ -10,11 +10,11 @@ import scala.meta._
   * @author kostas.kougios
   *         Date: 31/08/17
   */
-case class DefinedMethod(
-	meta: DefinedMethod.Meta
-) extends Method
-	with Meta.Contains
-	with Meta.ContainsMods
+case class DefinedMethodEx(
+	meta: DefinedMethodEx.Meta
+) extends MethodEx
+	with MetaEx.Contains
+	with MetaEx.ContainsMods
 {
 	override def name: String = meta.ename.value
 
@@ -24,9 +24,9 @@ case class DefinedMethod(
 		)
 	)
 
-	override def parameters = meta.paramss.map(_.map(p => TermParam(TermParam.Meta(p))))
+	override def parameters = meta.paramss.map(_.map(p => TermParamEx(TermParamEx.Meta(p))))
 
-	override def withParameters(params: Seq[Seq[TermParam]]) = copy(
+	override def withParameters(params: Seq[Seq[TermParamEx]]) = copy(
 		meta = meta.copy(
 			paramss = params.map(_.map(_.meta.param).toList).toList
 		)
@@ -44,16 +44,16 @@ case class DefinedMethod(
 		)
 	)
 
-	override def toAbstract = DeclaredMethod.parser(q"..${meta.mods} def ${meta.ename}[..${meta.tparams}](...${meta.paramss}): ${meta.tpeopt.getOrElse(throw new IllegalStateException(s"please declare the type of this method in order to be able to convert it to it's abstract representation: $syntax"))}")
+	override def toAbstract = DeclaredMethodEx.parser(q"..${meta.mods} def ${meta.ename}[..${meta.tparams}](...${meta.paramss}): ${meta.tpeopt.getOrElse(throw new IllegalStateException(s"please declare the type of this method in order to be able to convert it to it's abstract representation: $syntax"))}")
 
 	override def tree = q"..${meta.mods} def ${meta.ename}[..${meta.tparams}](...${meta.paramss}): ${meta.tpeopt} = ${meta.expr}"
 }
 
-object DefinedMethod extends PartialParser[DefinedMethod]
+object DefinedMethodEx extends PartialParser[DefinedMethodEx]
 {
 	override val parser = {
 		case q"..$mods def $ename[..$tparams](...$paramss): $tpeopt = $expr" =>
-			DefinedMethod(Meta(mods, ename, tparams, paramss, tpeopt, expr))
+			DefinedMethodEx(Meta(mods, ename, tparams, paramss, tpeopt, expr))
 	}
 
 	case class Meta(
@@ -63,9 +63,9 @@ object DefinedMethod extends PartialParser[DefinedMethod]
 		paramss: List[List[Term.Param]],
 		tpeopt: Option[scala.meta.Type],
 		expr: Term
-	) extends model.Meta with model.Meta.Mods
+	) extends model.MetaEx with model.MetaEx.Mods
 
-	def parseString(c: String): DefinedMethod = parser(c.parse[Stat].get)
+	def parseString(c: String): DefinedMethodEx = parser(c.parse[Stat].get)
 
-	def noArgReturningUnit(name: String): DefinedMethod = parser(q"def x:Unit={}").withName(name)
+	def noArgReturningUnit(name: String): DefinedMethodEx = parser(q"def x:Unit={}").withName(name)
 }

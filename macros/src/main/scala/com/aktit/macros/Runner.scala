@@ -2,7 +2,7 @@ package com.aktit.macros
 
 import java.io.File
 
-import com.aktit.macros.model.Package
+import com.aktit.macros.model.PackageEx
 
 /**
   * @author kostas.kougios
@@ -30,7 +30,7 @@ object Runner extends App
 	val parser = Parser()
 	val results = parser.files(files)
 	println(results.collect {
-		case p: Package =>
+        case p: PackageEx =>
 			p.traits.flatMap(_.methods).mkString("\n---------------------------\n")
 	}.mkString("\n\n"))
 }

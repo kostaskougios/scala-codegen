@@ -6,7 +6,7 @@ import scala.meta.Tree
   * @author kostas.kougios
   *         Date: 08/09/17
   */
-trait Code
+trait CodeEx
 {
 	def tree: Tree
 
@@ -15,7 +15,7 @@ trait Code
 	override def toString = syntax
 }
 
-object Code
+object CodeEx
 {
 
 	trait Name[T]
