@@ -49,6 +49,6 @@ object TraitEx extends PartialParser[TraitEx]
 			TraitEx(Meta(mods, tname, tparams, template))
 	}
 
-  def withName(name: String) = parser(q"trait X").withName(name)
+	def withName(name: String): TraitEx = parser(q"trait X").withName(name)
 
 }

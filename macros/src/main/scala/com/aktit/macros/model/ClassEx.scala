@@ -36,7 +36,7 @@ case class ClassEx(
 
 	def extending: immutable.Seq[TypeEx] = templ.inits.map(_.tpe).map(TypeEx.apply)
 
-	def withExtending(types: Seq[TypeEx]) = withTempl(templ.copy(inits = types.map(_.meta.tpe).map(tpe => Init(tpe, Name("invalid"), Nil)).toList))
+    def withExtending(types: Seq[TypeEx]): ClassEx = withTempl(templ.copy(inits = types.map(_.meta.tpe).map(tpe => Init(tpe, Name("invalid"), Nil)).toList))
 
 	override def tree = q"..${meta.mods} class ${meta.tname}[..${meta.tparams}] ..${meta.ctorMods} (...${meta.paramss}) extends ${meta.template}"
 
@@ -71,5 +71,5 @@ object ClassEx extends PartialParser[ClassEx]
 			ClassEx(Meta(mods, tname, tparams, ctorMods, paramss, template))
 	}
 
-  def withName(name: String) = parser(q"class X {}").withName(name)
+    def withName(name: String): ClassEx = parser(q"class X {}").withName(name)
 }
