@@ -8,7 +8,7 @@ import com.aktit.macros.model.{ ClassEx, PackageEx, TermParamEx }
   */
 object Patterns
 {
-  def decorator(p: PackageEx) = {
+    def decorator(p: PackageEx): PackageEx = {
     val classes = p.classes.map {
       clz =>
         val methods = clz.methods.filter(_.isPublic).map {
