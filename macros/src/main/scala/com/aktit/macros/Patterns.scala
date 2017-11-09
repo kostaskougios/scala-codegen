@@ -20,7 +20,7 @@ object Patterns
 
         ClassEx.withName(clz.name + "Decorator")
           .withTypeParams(clz.typeParams)
-            .withConstructorParameter(TermParamEx(clz.toTermParam("enclosed", clz.typeParams.map(_.toType))))
+            .withConstructorParameter(clz.toTermParam("enclosed", clz.typeParams.map(_.toType)))
           .withMethods(methods)
           .withExtending(clz.extending)
     }
