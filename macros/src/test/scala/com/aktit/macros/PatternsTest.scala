@@ -23,11 +23,8 @@ class PatternsTest extends AbstractSuite
       |}
       |
       |class X[A](val i:Int) extends T1[Int] with T2 {
-      | // ignore
       | private val v1:Float
-      | // ignore
       | val v2:Long
-      | // ignore
       | private def privateDef = i*4
       | protected def protectedDef = i*4
       |

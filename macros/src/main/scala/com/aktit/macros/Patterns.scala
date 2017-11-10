@@ -36,7 +36,7 @@ object Patterns
             clz =>
                 val methods = clz.methods.filter(_.isPublic).map {
                     method =>
-                        val impl = s"""forwarder("${method.name}",Seq(${method.parameters.flatMap(_.map(_.name))}))"""
+                        val impl = s"""forwarder("${method.name}",Array(${method.parameters.flatMap(_.map(_.name)).mkString(",")}))"""
                         method.withImplementation(impl)
                 }
 
