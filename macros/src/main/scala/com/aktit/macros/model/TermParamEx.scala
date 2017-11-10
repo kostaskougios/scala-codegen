@@ -1,7 +1,5 @@
 package com.aktit.macros.model
 
-import com.aktit.macros.model
-
 import scala.meta._
 
 /**
@@ -10,6 +8,7 @@ import scala.meta._
   */
 case class TermParamEx(meta: TermParamEx.Meta) extends CodeEx
     with MetaEx.Contains
+    with MetaEx.ContainsMods
     with CodeEx.Name[TermParamEx]
 {
   override def name: String = meta.param.name.value
@@ -42,7 +41,10 @@ case class TermParamEx(meta: TermParamEx.Meta) extends CodeEx
 object TermParamEx
 {
 
-  case class Meta(param: scala.meta.Term.Param) extends model.MetaEx
+  case class Meta(param: scala.meta.Term.Param) extends MetaEx with MetaEx.Mods
+  {
+    override def mods = param.mods
+  }
 
   def parseString(code: String) = TermParamEx(Meta(code.parse[Term.Param].get))
 

@@ -57,8 +57,8 @@ case class ClassEx(
     def toType: TypeEx = TypeEx(t"${meta.tname}[..${typeParams.map(_.toType.meta.tpe).toList}]")
 
     def constructorVals: Seq[ValEx] = {
-        val cc = isCaseClass
-        constructorParameters.flatMap(_.map(_.toVal))
+        val cparams = if (isCaseClass) constructorParameters.flatten else constructorParameters.flatten.filter(_.isVal)
+        cparams.map(_.toVal)
     }
 
     /**
