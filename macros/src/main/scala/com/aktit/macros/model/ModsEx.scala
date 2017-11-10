@@ -6,25 +6,29 @@ import scala.meta._
   * @author kostas.kougios
   *         Date: 10/11/17
   */
+
+case class ModsEx(meta: ModsEx.Meta)
+{
+    def isPrivate = meta.isPrivate
+
+    def isProtected = meta.isProtected
+
+    def isPublic = meta.isPublic
+
+    def isVal = meta.isVal
+
+    def isCase = meta.isCase
+}
+
 object ModsEx
 {
-    def isPrivate(mods: Seq[Mod]) = mods.collect {
-        case mod"private[$_]" => true
-    }.nonEmpty
 
-    def isProtected(mods: Seq[Mod]) = mods.collect {
-        case mod"protected[$_]" => true
-    }.nonEmpty
+    case class Meta(mods: Seq[Mod]) extends MetaEx with MetaEx.Mods
 
-    def isPublic(mods: Seq[Mod]): Boolean = !isPrivate(mods) && !isProtected(mods)
+    def apply(mods: Seq[Mod]): ModsEx = ModsEx(Meta(mods))
 
-    def isVal(mods: Seq[Mod]): Boolean = mods.exists {
-        case _: Mod.ValParam => true
-        case _ => false
-    }
-
-    def isCaseClass(mods: Seq[Mod]): Boolean = mods.exists {
-        case _: Mod.Case => true
-        case _ => false
+    trait Contains extends MetaEx.Contains with MetaEx.ContainsMods
+    {
+        def mods: ModsEx = ModsEx(meta.mods)
     }
 }

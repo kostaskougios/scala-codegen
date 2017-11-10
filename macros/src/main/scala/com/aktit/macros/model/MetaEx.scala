@@ -52,10 +52,24 @@ object MetaEx
 	{
 		def mods: Seq[Mod]
 
-		def isPrivate = ModsEx.isPrivate(mods)
+		def isPrivate = mods.collect {
+			case mod"private[$_]" => true
+		}.nonEmpty
 
-		def isProtected = ModsEx.isProtected(mods)
+		def isProtected = mods.collect {
+			case mod"protected[$_]" => true
+		}.nonEmpty
 
-		def isPublic: Boolean = ModsEx.isPublic(mods)
+		def isPublic: Boolean = !isPrivate && !isProtected
+
+		def isVal: Boolean = mods.exists {
+			case _: Mod.ValParam => true
+			case _ => false
+		}
+
+		def isCase: Boolean = mods.exists {
+			case _: Mod.Case => true
+			case _ => false
+		}
 	}
 }

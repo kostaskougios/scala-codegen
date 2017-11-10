@@ -16,12 +16,13 @@ case class ClassEx(
 	with CodeEx.Name[ClassEx]
 	with TemplateEx.Contains[ClassEx]
     with ValEx.Contains
+    with ModsEx.Contains
 {
 	override def name: String = meta.tname.value
 
 	override def withName(name: String): ClassEx = copy(meta = meta.copy(tname = scala.meta.Type.Name(name)))
 
-    def isCaseClass: Boolean = ModsEx.isCaseClass(meta.mods)
+    def isCaseClass: Boolean = mods.isCase
 
 	def constructorParameters: List[List[TermParamEx]] = meta.paramss.map(_.map(TermParamEx.apply))
 

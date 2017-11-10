@@ -1,7 +1,5 @@
 package com.aktit.macros.model
 
-import com.aktit.macros.model
-
 import scala.meta._
 
 /**
@@ -13,9 +11,11 @@ case class TraitEx(
 ) extends CodeEx
 	with MethodEx.Contains[TraitEx]
 	with MetaEx.Contains
+	with MetaEx.ContainsMods
 	with MetaEx.ContainsTypeParams[TraitEx]
 	with CodeEx.Name[TraitEx]
 	with TemplateEx.Contains[TraitEx]
+	with ModsEx.Contains
 {
 	def name: String = meta.tname.value
 
@@ -42,7 +42,7 @@ object TraitEx extends PartialParser[TraitEx]
 		tname: scala.meta.Type.Name,
 		tparams: List[scala.meta.Type.Param],
 		template: Template
-	) extends model.MetaEx with model.MetaEx.Template with model.MetaEx.TypeParams
+	) extends MetaEx with MetaEx.Template with MetaEx.TypeParams with MetaEx.Mods
 
 	override def parser = {
 		case q"..$mods trait $tname[..$tparams] extends $template" =>

@@ -13,6 +13,7 @@ trait ValEx extends CodeEx
     with MetaEx.Contains
     with CodeEx.Name[ValEx]
     with TypeEx.Contains[ValEx]
+    with ModsEx.Contains
 {
     override def meta: MetaEx with Mods
 }

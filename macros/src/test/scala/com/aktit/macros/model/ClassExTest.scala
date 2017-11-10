@@ -44,12 +44,6 @@ class ClassExTest extends AbstractSuite
     }
 
     test("constructor arg without modifiers") {
-
-        val t1 = TermParamEx.parseString("constrArg:Int")
-        println(t1.meta.param.mods)
-        val t2 = TermParamEx.parseString("val constrArg:Int")
-        println(t2.meta.param.mods)
-
         val c = ClassEx.parser(q"class X(constrArg:Int)")
         c.vals should be(Nil)
     }
