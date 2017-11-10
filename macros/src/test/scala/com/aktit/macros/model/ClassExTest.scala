@@ -44,6 +44,12 @@ class ClassExTest extends AbstractSuite
     }
 
     test("constructor arg without modifiers") {
+
+        val t1 = TermParamEx.parseString("constrArg:Int")
+        println(t1.meta.param.mods)
+        val t2 = TermParamEx.parseString("val constrArg:Int")
+        println(t2.meta.param.mods)
+
         val c = ClassEx.parser(q"class X(constrArg:Int)")
         c.vals should be(Nil)
     }
@@ -69,5 +75,11 @@ class ClassExTest extends AbstractSuite
         val c = ClassEx.parser(q"case class X(constrArg:Int)")
         c.vals.map(_.name) should be(Seq("constrArg"))
         c.vals.count(_.isPublic) should be(1)
+    }
+
+    test("case class private vals") {
+        val c = ClassEx.parser(q"case class X(private constrArg:Int)")
+        c.vals.map(_.name) should be(Seq("constrArg"))
+        c.vals.count(_.isPrivate) should be(1)
     }
 }

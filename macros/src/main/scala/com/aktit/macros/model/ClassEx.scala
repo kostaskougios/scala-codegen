@@ -21,10 +21,7 @@ case class ClassEx(
 
 	override def withName(name: String): ClassEx = copy(meta = meta.copy(tname = scala.meta.Type.Name(name)))
 
-    def isCaseClass: Boolean = meta.mods.exists {
-        case Mod.Case() => true
-        case _ => false
-    }
+    def isCaseClass: Boolean = ModsEx.isCaseClass(meta.mods)
 
 	def constructorParameters: List[List[TermParamEx]] = meta.paramss.map(_.map(TermParamEx.apply))
 
@@ -59,7 +56,10 @@ case class ClassEx(
 
     def toType: TypeEx = TypeEx(t"${meta.tname}[..${typeParams.map(_.toType.meta.tpe).toList}]")
 
-    def constructorVals: Seq[ValEx] = constructorParameters.flatMap(_.map(_.toVal))
+    def constructorVals: Seq[ValEx] = {
+        val cc = isCaseClass
+        constructorParameters.flatMap(_.map(_.toVal))
+    }
 
     /**
       * @return all vals (including those in the constructor)

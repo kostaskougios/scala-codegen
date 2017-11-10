@@ -18,4 +18,13 @@ object ModsEx
 
     def isPublic(mods: Seq[Mod]): Boolean = !isPrivate(mods) && !isProtected(mods)
 
+    def isVal(mods: Seq[Mod]): Boolean = mods.exists {
+        case _: Mod.ValParam => true
+        case _ => false
+    }
+
+    def isCaseClass(mods: Seq[Mod]): Boolean = mods.exists {
+        case _: Mod.Case => true
+        case _ => false
+    }
 }
