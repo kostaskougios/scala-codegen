@@ -50,7 +50,7 @@ case class ClassEx(
     )
 
     def toTermParam(paramName: String, tpesnel: Seq[TypeEx]) = TermParamEx {
-        val tpe = t"${meta.tname}[..${tpesnel.map(_.meta.tpe).toList}]"
+        val tpe = if (tpesnel.isEmpty) t"${meta.tname}" else t"${meta.tname}[..${tpesnel.map(_.meta.tpe).toList}]"
         param"${Name(paramName)} : ${Option(tpe)}"
     }
 

@@ -8,6 +8,21 @@ import com.aktit.codegen.model.PackageEx
   */
 class PatternsTest extends AbstractSuite
 {
+    val packageWithSimpleClass = PackageEx.fromSource(
+        """
+          |package x
+          |
+          |import scala.concurrent.duration.{Duration,FiniteDuration => FD}
+          |
+          |trait T1 {
+          | def noArg : T
+          |}
+          |
+          |class X(i:Int) extends T1 {
+          | def noArg = i*2
+          |}
+        """.stripMargin)
+
     val packageWithXClass = PackageEx.fromSource(
         """
           |package x
@@ -34,6 +49,19 @@ class PatternsTest extends AbstractSuite
           | def multiArgs(n:Int)(m:Int) = n*m*i
           |}
         """.stripMargin)
+
+    test("create decorator simple") {
+        val decorator = Patterns.decorator(packageWithSimpleClass)
+        decorator.syntax should be(PackageEx.fromSource(
+            """
+              |package x
+              |import scala.concurrent.duration.{ Duration, FiniteDuration => FD }
+              |class XDecorator(enclosed: X) extends T1 {
+              |  def noArg = enclosed.noArg
+              |}
+            """.stripMargin).syntax)
+
+    }
 
     test("create a decorator class") {
         val decorator = Patterns.decorator(packageWithXClass)
