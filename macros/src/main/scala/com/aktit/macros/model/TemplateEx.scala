@@ -12,9 +12,11 @@ case class TemplateEx(
 	inits: List[Init],
 	self: Self,
 	stats: List[Stat]
-) extends CodeEx
+) extends CodeEx with ValEx.Contains
 {
 	override def tree: Template = template"{ ..$earlyStats } with ..$inits { $self => ..$stats }"
+
+	override def vals = stats.collect(ValEx.parser)
 }
 
 object TemplateEx extends PartialParser[TemplateEx]

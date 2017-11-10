@@ -10,7 +10,7 @@ import scala.meta._
   */
 case class TypeParamEx(meta: TypeParamEx.Meta) extends CodeEx with MetaEx.Contains
 {
-  def toType = {
+    def toType: TypeEx = {
     val typeArgs = meta.param.tparams.map(_.name.value)
     val ta = if (typeArgs.isEmpty) "" else s"[${typeArgs.mkString(",")}]"
     TypeEx(

@@ -6,8 +6,9 @@ import com.aktit.macros.model
   * @author kostas.kougios
   *         Date: 02/11/17
   */
-case class TypeEx(meta: TypeEx.Meta) extends MetaEx.Contains
+case class TypeEx(meta: TypeEx.Meta) extends CodeEx with MetaEx.Contains
 {
+    override def tree = meta.tpe
 }
 
 object TypeEx
