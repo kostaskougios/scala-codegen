@@ -2,7 +2,7 @@ package com.aktit.macros
 
 import java.io.File
 
-import com.aktit.macros.model.{ CodeEx, PackageEx }
+import com.aktit.macros.model.PackageEx
 
 import scala.meta._
 
@@ -16,16 +16,16 @@ import scala.meta._
   */
 class Parser
 {
-    def parse(sources: Seq[String]): Seq[CodeEx] = sources.flatMap(parseSource)
+	def parse(sources: Seq[String]): Seq[PackageEx] = sources.flatMap(parseSource)
 
-    def files(files: Seq[File]): Seq[CodeEx] = parse(files.map { file =>
+	def files(files: Seq[File]): Seq[PackageEx] = parse(files.map { file =>
 		val src = scala.io.Source.fromFile(file, "UTF-8")
 		try src.mkString finally src.close()
 	})
 
-    def file(file: File): Seq[CodeEx] = files(Seq(file))
+	def file(file: File): Seq[PackageEx] = files(Seq(file))
 
-    def parseSource(source: String): Seq[CodeEx] = {
+	def parseSource(source: String): Seq[PackageEx] = {
 		// see https://docs.scala-lang.org/overviews/quasiquotes/syntax-summary.html
 		source.parse[Source] match {
 			case Parsed.Success(tree) =>
