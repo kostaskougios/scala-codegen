@@ -2,7 +2,6 @@ package com.aktit.macros.model
 
 import com.aktit.macros.model
 
-import scala.collection.immutable
 import scala.meta._
 
 /**
@@ -35,15 +34,13 @@ case class ClassEx(
     )
   )
 
-	def extending: immutable.Seq[TypeEx] = templ.inits.map(_.tpe).map(TypeEx.apply)
-
     def withExtending(tpe: TypeEx): ClassEx = withExtending(Seq(tpe))
 
-    def withExtending(types: Seq[TypeEx]): ClassEx = withTempl(templ.copy(inits = types.map(_.meta.tpe).map(tpe => Init(tpe, Name("invalid"), Nil)).toList))
+    def withExtending(types: Seq[TypeEx]): ClassEx = withTemplate(template.withExtending(types))
 
 	override def tree = q"..${meta.mods} class ${meta.tname}[..${meta.tparams}] ..${meta.ctorMods} (...${meta.paramss}) extends ${meta.template}"
 
-	override def withTemplate(t: Template) = copy(meta = meta.copy(template = t))
+    override protected def withTemplateInner(t: Template) = copy(meta = meta.copy(template = t))
 
 	override def withTypeParams(params: Seq[TypeParamEx]) = copy(
     meta = meta.copy(
@@ -58,7 +55,7 @@ case class ClassEx(
 
     def toType: TypeEx = TypeEx(t"${meta.tname}[..${typeParams.map(_.toType.meta.tpe).toList}]")
 
-    def vals: Seq[ValEx] = templ.vals
+    def vals: Seq[ValEx] = template.vals
 }
 
 object ClassEx extends PartialParser[ClassEx]

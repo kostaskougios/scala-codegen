@@ -23,7 +23,7 @@ case class TraitEx(
 
 	override def toString = tree.syntax
 
-	override def withTemplate(t: Template) = copy(meta.copy(template = t))
+	override protected def withTemplateInner(t: Template) = copy(meta.copy(template = t))
 
 	override def tree = q"..${meta.mods} trait ${meta.tname}[..${meta.tparams}] extends ${meta.template}"
 

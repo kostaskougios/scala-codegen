@@ -53,7 +53,7 @@ object MethodEx extends PartialParser[MethodEx]
 		}
 
 		def withMethods(methods: Seq[MethodEx]): T = {
-			withTemplate(
+			withTemplateInner(
 				Template(
 					meta.template.early,
 					meta.template.inits,
