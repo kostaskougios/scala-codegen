@@ -39,4 +39,9 @@ class ClassExTest extends AbstractSuite
         val c = ClassEx.parser(q"class X(constrArg:Int)")
         c.vals should be(Nil)
     }
+
+    test("constructor arg a private val") {
+        val c = ClassEx.parser(q"class X(private val constrArg:Int)")
+        c.vals.map(_.name) should be(Seq("constrArg"))
+    }
 }
