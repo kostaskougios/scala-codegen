@@ -37,7 +37,7 @@ object Patterns
                 val methods = clz.methods.filter(_.isPublic).map {
                     method =>
                         val impl = s"""forwarder("${method.name}",Array(${method.parameters.flatMap(_.map(_.name)).mkString(",")}))"""
-                        method.withImplementation(impl)
+                        method.withImplementation(impl).withOverrides
                 }
 
                 ClassEx.withName(clz.name + "Proxy")

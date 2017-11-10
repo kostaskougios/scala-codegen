@@ -52,6 +52,17 @@ class PatternsTest extends AbstractSuite
 
   test("create a proxy class") {
     val proxy = Patterns.proxy(packageWithXClass)
-    println(proxy.syntax)
+    proxy.syntax should be(PackageEx.fromSource(
+      """
+        |package x
+        |import scala.concurrent.duration.{ Duration, FiniteDuration => FD }
+        |class XProxy[A](forwarder: (String, Seq[Any]) => Any) extends X[A] {
+        |  override def noArg = forwarder("noArg", Array())
+        |  override def noArgParams() = forwarder("noArgParams", Array())
+        |  override def oneArg(m: Int) = forwarder("oneArg", Array(m))
+        |  override def multiArgs(n: Int)(m: Int) = forwarder("multiArgs", Array(n, m))
+        |}
+        |
+      """.stripMargin).syntax)
   }
 }

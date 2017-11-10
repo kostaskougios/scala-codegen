@@ -47,6 +47,12 @@ case class DefinedMethodEx(
 	override def toAbstract = DeclaredMethodEx.parser(q"..${meta.mods} def ${meta.ename}[..${meta.tparams}](...${meta.paramss}): ${meta.tpeopt.getOrElse(throw new IllegalStateException(s"please declare the type of this method in order to be able to convert it to it's abstract representation: $syntax"))}")
 
 	override def tree = q"..${meta.mods} def ${meta.ename}[..${meta.tparams}](...${meta.paramss}): ${meta.tpeopt} = ${meta.expr}"
+
+	override def withOverrides = copy(
+		meta = meta.copy(
+			mods = Mod.Override() +: meta.mods
+		)
+	)
 }
 
 object DefinedMethodEx extends PartialParser[DefinedMethodEx]

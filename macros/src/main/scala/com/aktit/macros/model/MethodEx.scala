@@ -27,6 +27,8 @@ trait MethodEx extends CodeEx
 	// adds impl (or replaces the existing one)
 	def withImplementation(code: String): DefinedMethodEx
 
+	def withOverrides: MethodEx
+
 	override def tree: Stat
 }
 

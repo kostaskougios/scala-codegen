@@ -45,6 +45,12 @@ case class DeclaredMethodEx(
 	override def withImplementation(code: String) = DefinedMethodEx.parser(
 		q"..${meta.mods} def ${meta.ename}[..${meta.tparams}](...${meta.paramss}): ${meta.tpe} = ${code.parse[Term].get}"
 	)
+
+    override def withOverrides = copy(
+        meta = meta.copy(
+            mods = Mod.Override() +: meta.mods
+        )
+    )
 }
 
 object DeclaredMethodEx extends PartialParser[DeclaredMethodEx]
