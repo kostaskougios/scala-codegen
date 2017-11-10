@@ -43,10 +43,21 @@ class ClassExTest extends AbstractSuite
         ClassEx.parser(q"class X").isCaseClass should be(false)
     }
 
-    test("constructor arg not a val") {
+    test("constructor arg without modifiers") {
         val c = ClassEx.parser(q"class X(constrArg:Int)")
-        println(c.vals.map(_.isPublic))
         c.vals should be(Nil)
+    }
+
+    test("constructor public arg") {
+        val c = ClassEx.parser(q"class X(val publ:Int)")
+        c.vals.map(_.name) should be(Seq("publ"))
+        c.vals.head.isPublic should be(true)
+    }
+
+    test("constructor private arg") {
+        val c = ClassEx.parser(q"class X(private val priv:Int)")
+        c.vals.map(_.name) should be(Seq("priv"))
+        c.vals.head.isPrivate should be(true)
     }
 
     test("constructor arg a private val") {
