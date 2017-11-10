@@ -9,9 +9,9 @@ import scala.meta._
   * @author kostas.kougios
   *         Date: 10/11/17
   */
-class ValExTest extends FunSuite
+class ValDeclaredExTest extends FunSuite
 {
-    val intVal = ValEx.parser(q"val x:Int")
+    val intVal = ValDeclaredEx.parser(q"val x:Int")
 
     test("name") {
         intVal.name should be("x")

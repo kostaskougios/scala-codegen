@@ -7,7 +7,7 @@ import scala.meta._
   * @author kostas.kougios
   *         Date: 09/10/17
   */
-case class TemplateEx(meta: TemplateEx.Meta) extends CodeEx with ValEx.Contains with MetaEx.Contains
+case class TemplateEx(meta: TemplateEx.Meta) extends CodeEx with ValDeclaredEx.Contains with MetaEx.Contains
 {
 	def extending: immutable.Seq[TypeEx] = meta.inits.map(_.tpe).map(TypeEx.apply)
 
@@ -19,7 +19,7 @@ case class TemplateEx(meta: TemplateEx.Meta) extends CodeEx with ValEx.Contains 
 
 	override def tree: Template = template"{ ..${meta.earlyStats} } with ..${meta.inits} { ${meta.self} => ..${meta.stats} }"
 
-	override def vals = meta.stats.collect(ValEx.parser)
+	override def vals = meta.stats.collect(ValDeclaredEx.parser)
 }
 
 object TemplateEx extends PartialParser[TemplateEx]

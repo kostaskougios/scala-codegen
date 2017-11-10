@@ -6,12 +6,12 @@ import scala.meta._
   * @author kostas.kougios
   *         Date: 10/11/17
   */
-case class ValEx(meta: ValEx.Meta)
+case class ValDeclaredEx(meta: ValDeclaredEx.Meta)
     extends CodeEx
         with MetaEx.ContainsMods
         with MetaEx.Contains
-        with CodeEx.Name[ValEx]
-        with TypeEx.Contains[ValEx]
+        with CodeEx.Name[ValDeclaredEx]
+        with TypeEx.Contains[ValDeclaredEx]
 {
     override def tree = q"..${meta.mods} val ..${meta.patsnel}: ${meta.tpe}"
 
@@ -34,19 +34,19 @@ case class ValEx(meta: ValEx.Meta)
     )
 }
 
-object ValEx extends PartialParser[ValEx]
+object ValDeclaredEx extends PartialParser[ValDeclaredEx]
 {
 
     case class Meta(mods: List[Mod], patsnel: List[scala.meta.Pat], tpe: Type) extends MetaEx with MetaEx.Mods
 
     override def parser = {
         case q"..$mods val ..$patsnel: $tpe" =>
-            ValEx(Meta(mods, patsnel, tpe))
+            ValDeclaredEx(Meta(mods, patsnel, tpe))
     }
 
     trait Contains
     {
-        def vals: Seq[ValEx]
+        def vals: Seq[ValDeclaredEx]
     }
 
 }
