@@ -34,4 +34,9 @@ class ClassExTest extends AbstractSuite
      """)
         c.vals.map(_.name) should be(Seq("constrArg", "privVal", "protVal", "pubVal"))
     }
+
+    test("constructor arg not a val") {
+        val c = ClassEx.parser(q"class X(constrArg:Int)")
+        c.vals should be(Nil)
+    }
 }

@@ -22,6 +22,8 @@ case class TermParamEx(meta: TermParamEx.Meta) extends CodeEx
     )
   )
 
+  def `type`: Option[TypeEx] = meta.param.decltpe.map(TypeEx.apply)
+
   def withType(tpe: String) = copy(
     meta = meta.copy(
       param = meta.param.copy(
@@ -30,7 +32,7 @@ case class TermParamEx(meta: TermParamEx.Meta) extends CodeEx
     )
   )
 
-  def toVal: ValEx = ValEx.parser(syntax.parse[Stat].get)
+  def toVal: Option[ValEx] = ValEx.parser.lift(syntax.parse[Stat].get)
 }
 
 object TermParamEx

@@ -2,6 +2,8 @@ package com.aktit.macros.model
 
 import com.aktit.macros.model.MetaEx.Mods
 
+import scala.meta._
+
 /**
   * @author kostas.kougios
   *         Date: 10/11/17
@@ -18,6 +20,8 @@ trait ValEx extends CodeEx
 object ValEx extends PartialParser[ValEx]
 {
     override def parser = ValDeclaredEx.parser.orElse(ValDefinedEx.parser)
+
+    def fromSource(s: String): ValEx = parser(s.parse[Stat].get)
 
     trait Contains
     {
