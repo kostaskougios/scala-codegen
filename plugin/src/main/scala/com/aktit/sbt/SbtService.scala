@@ -2,7 +2,7 @@ package com.aktit.sbt
 
 import java.io.File
 
-import com.aktit.macros.Parser
+import com.aktit.codegen.Parser
 
 /**
   * @author kostas.kougios

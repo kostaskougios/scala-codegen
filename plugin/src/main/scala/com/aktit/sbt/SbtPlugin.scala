@@ -9,7 +9,7 @@ import sbt._
   */
 object SbtPlugin extends AutoPlugin
 {
-    println("******************* Loading SbtPlugin 1")
+    println("******************* Loading SbtPlugin")
     override lazy val projectSettings = Seq(commands += helloCommand)
 
     lazy val helloCommand =
