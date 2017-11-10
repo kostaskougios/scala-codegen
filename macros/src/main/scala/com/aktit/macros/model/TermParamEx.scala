@@ -32,7 +32,11 @@ case class TermParamEx(meta: TermParamEx.Meta) extends CodeEx
     )
   )
 
-  def toVal: Option[ValEx] = ValEx.parser.lift(syntax.parse[Stat].get)
+  def toVal: ValEx = {
+    val p = meta.param
+    val q = q"..${p.mods} val ..${List(Pat.Var(Term.Name(p.name.value)))}: ${p.decltpe.get}"
+    ValEx.parser(q)
+  }
 }
 
 object TermParamEx

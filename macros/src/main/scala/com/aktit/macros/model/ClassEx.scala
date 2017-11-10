@@ -59,7 +59,7 @@ case class ClassEx(
 
     def toType: TypeEx = TypeEx(t"${meta.tname}[..${typeParams.map(_.toType.meta.tpe).toList}]")
 
-    def constructorVals: Seq[ValEx] = constructorParameters.flatMap(_.flatMap(_.toVal))
+    def constructorVals: Seq[ValEx] = constructorParameters.flatMap(_.map(_.toVal))
 
     /**
       * @return all vals (including those in the constructor)

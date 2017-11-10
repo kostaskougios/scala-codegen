@@ -45,6 +45,7 @@ class ClassExTest extends AbstractSuite
 
     test("constructor arg not a val") {
         val c = ClassEx.parser(q"class X(constrArg:Int)")
+        println(c.vals.map(_.isPublic))
         c.vals should be(Nil)
     }
 
@@ -56,5 +57,6 @@ class ClassExTest extends AbstractSuite
     test("case class vals") {
         val c = ClassEx.parser(q"case class X(constrArg:Int)")
         c.vals.map(_.name) should be(Seq("constrArg"))
+        c.vals.count(_.isPublic) should be(1)
     }
 }
