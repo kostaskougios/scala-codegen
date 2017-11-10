@@ -16,5 +16,7 @@ codeGen := {
     val r = (runner in Compile).value
     val cp = (dependencyClasspath in Compile).value
     val s = streams.value
-    SbtService.withPackages(sourceDirectory.value.toString + "/main/scala", "some.model")
+    for (p <- com.aktit.sbt.SbtService.withPackages(sourceDirectory.value.toString + "/main/scala", "some.model")) {
+        println(p)
+    }
 }

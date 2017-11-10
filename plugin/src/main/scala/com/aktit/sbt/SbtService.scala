@@ -3,6 +3,7 @@ package com.aktit.sbt
 import java.io.File
 
 import com.aktit.codegen.Parser
+import com.aktit.codegen.model.PackageEx
 
 /**
   * @author kostas.kougios
@@ -10,7 +11,7 @@ import com.aktit.codegen.Parser
   */
 object SbtService
 {
-    def withPackages(srcDir: String, enhancePackage: String) = {
+    def withPackages(srcDir: String, enhancePackage: String): Seq[PackageEx] = {
         println(
             s"""
                			   		   |src dir: $srcDir
