@@ -11,11 +11,17 @@ import scala.meta._
   */
 class ValExTest extends FunSuite
 {
+    val intVal = ValEx.parser(q"val x:Int")
+
     test("name") {
-        ValEx.parser(q"val x:Int").name should be("x")
+        intVal.name should be("x")
     }
 
     test("withName") {
-        ValEx.parser(q"val x:Int").withName("y").syntax should be(q"val y:Int".syntax)
+        intVal.withName("y").syntax should be(q"val y:Int".syntax)
+    }
+
+    test("type") {
+        intVal.`type`.name should be("Int")
     }
 }
