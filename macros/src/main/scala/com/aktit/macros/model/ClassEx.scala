@@ -36,6 +36,8 @@ case class ClassEx(
 
 	def extending: immutable.Seq[TypeEx] = templ.inits.map(_.tpe).map(TypeEx.apply)
 
+    def withExtending(tpe: TypeEx): ClassEx = withExtending(Seq(tpe))
+
     def withExtending(types: Seq[TypeEx]): ClassEx = withTempl(templ.copy(inits = types.map(_.meta.tpe).map(tpe => Init(tpe, Name("invalid"), Nil)).toList))
 
 	override def tree = q"..${meta.mods} class ${meta.tname}[..${meta.tparams}] ..${meta.ctorMods} (...${meta.paramss}) extends ${meta.template}"
@@ -52,6 +54,8 @@ case class ClassEx(
 		val tpe = t"${meta.tname}[..${tpesnel.map(_.meta.tpe).toList}]"
 		param"${Name(paramName)} : ${Option(tpe)}"
 	}
+
+    def toType: TypeEx = TypeEx(t"${meta.tname}[..${typeParams.map(_.toType.meta.tpe).toList}]")
 
 }
 
