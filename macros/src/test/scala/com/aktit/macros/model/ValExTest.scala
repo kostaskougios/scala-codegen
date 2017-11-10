@@ -14,4 +14,8 @@ class ValExTest extends FunSuite
     test("name") {
         ValEx.parser(q"val x:Int").name should be("x")
     }
+
+    test("withName") {
+        ValEx.parser(q"val x:Int").withName("y").syntax should be(q"val y:Int".syntax)
+    }
 }

@@ -14,7 +14,11 @@ case class ValEx(meta: ValEx.Meta) extends CodeEx with MetaEx.ContainsMods with 
         case n: Pat.Var => n.name.value
     }.get
 
-    override def withName(name: String) = ???
+    override def withName(name: String) = copy(
+        meta = meta.copy(
+            patsnel = List(Pat.Var(Term.Name(name)))
+        )
+    )
 }
 
 object ValEx extends PartialParser[ValEx]
