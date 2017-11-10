@@ -2,8 +2,8 @@ package com.aktit.sbt
 
 import java.io.File
 
-import com.aktit.codegen.Parser
 import com.aktit.codegen.model.PackageEx
+import com.aktit.sbt.model.CompilationFile
 import org.apache.commons.io.FileUtils
 
 /**
@@ -12,7 +12,7 @@ import org.apache.commons.io.FileUtils
   */
 object SbtService
 {
-    def withPackages(srcDir: String, enhancePackage: String): Seq[PackageEx] = {
+    def withPackages(srcDir: String, enhancePackage: String): Seq[CompilationFile] = {
         println(
             s"""
                			   		   |src dir: $srcDir
@@ -28,13 +28,22 @@ object SbtService
                			   		   |${files.mkString("\n")}
                			   		   |""".stripMargin)
 
-        val parser = new Parser
-        parser.files(files)
+        files.map {
+            file =>
+                CompilationFile(
+                    file,
+                    PackageEx.fromFile(file)
+                )
+        }
     }
 
-    def save(packages: Seq[PackageEx], targetDir: String): Unit = for (p <- packages) {
-        val dir = p.name.replace('.', '/')
-        val out = new File(targetDir, dir)
-        FileUtils.writeStringToFile(out, p.syntax)
+    def save(compilationFile: CompilationFile, targetDir: String): Unit = save(Seq(compilationFile), targetDir)
+
+    def save(compilationFiles: Seq[CompilationFile], targetDir: String): Unit = for (cf <- compilationFiles) {
+        val dir = cf.pckg.name.replace('.', '/')
+        val target = new File(targetDir, dir)
+        target.mkdirs()
+        val out = new File(target, cf.file.getName)
+        FileUtils.writeStringToFile(out, cf.pckg.syntax)
     }
 }

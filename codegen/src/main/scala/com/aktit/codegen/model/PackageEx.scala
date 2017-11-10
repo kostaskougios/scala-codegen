@@ -1,6 +1,9 @@
 package com.aktit.codegen.model
 
+import java.io.File
+
 import com.aktit.codegen.Parser
+import org.apache.commons.io.FileUtils
 
 import scala.meta._
 
@@ -63,6 +66,8 @@ object PackageEx extends PartialParser[PackageEx]
     def fromSource(src: String) = Parser().parseSource(src).collectFirst {
         case p: PackageEx => p
     }.get
+
+    def fromFile(file: File) = fromSource(FileUtils.readFileToString(file))
 
     case class Meta(tree: Tree, nameTerm: Term.Ref) extends com.aktit.codegen.model.MetaEx
 
