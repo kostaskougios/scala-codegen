@@ -1,7 +1,5 @@
 package com.aktit.macros.model
 
-import com.aktit.macros.model
-
 import scala.meta._
 
 /**
@@ -13,6 +11,7 @@ case class ClassEx(
 ) extends CodeEx
 	with MethodEx.Contains[ClassEx]
 	with MetaEx.Contains
+    with MetaEx.ContainsMods
 	with MetaEx.ContainsTypeParams[ClassEx]
 	with CodeEx.Name[ClassEx]
 	with TemplateEx.Contains[ClassEx]
@@ -21,6 +20,11 @@ case class ClassEx(
 	override def name: String = meta.tname.value
 
 	override def withName(name: String): ClassEx = copy(meta = meta.copy(tname = scala.meta.Type.Name(name)))
+
+    def isCaseClass: Boolean = meta.mods.exists {
+        case Mod.Case() => true
+        case _ => false
+    }
 
 	def constructorParameters: List[List[TermParamEx]] = meta.paramss.map(_.map(TermParamEx.apply))
 
@@ -72,7 +76,7 @@ object ClassEx extends PartialParser[ClassEx]
 		ctorMods: List[Mod],
 		paramss: List[List[Term.Param]],
 		template: Template
-	) extends model.MetaEx with model.MetaEx.Template with model.MetaEx.TypeParams
+    ) extends MetaEx with MetaEx.Template with MetaEx.TypeParams with MetaEx.Mods
 
 	override def parser = {
 		case q"..$mods class $tname[..$tparams] ..$ctorMods (...$paramss) extends $template" =>
