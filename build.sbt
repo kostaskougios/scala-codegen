@@ -1,6 +1,3 @@
-
-name := "lang-enhance"
-
 lazy val commonSettings = Seq(
 	organization := "com.aktit",
 	version := "0.1.1-SNAPSHOT",
