@@ -11,7 +11,7 @@ case class ValEx(meta: ValEx.Meta) extends CodeEx with MetaEx.ContainsMods with 
     override def tree = q"..${meta.mods} val ..${meta.patsnel}: ${meta.tpe}"
 
     override def name = meta.patsnel.collectFirst {
-        case n: Term.Name => n.value
+        case n: Pat.Var => n.name.value
     }.get
 
     override def withName(name: String) = ???
