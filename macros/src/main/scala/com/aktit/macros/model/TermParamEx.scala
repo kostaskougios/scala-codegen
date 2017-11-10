@@ -29,6 +29,8 @@ case class TermParamEx(meta: TermParamEx.Meta) extends CodeEx
       )
     )
   )
+
+  def toVal: ValEx = ValEx.parser(syntax.parse[Stat].get)
 }
 
 object TermParamEx

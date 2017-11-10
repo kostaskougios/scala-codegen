@@ -55,7 +55,12 @@ case class ClassEx(
 
     def toType: TypeEx = TypeEx(t"${meta.tname}[..${typeParams.map(_.toType.meta.tpe).toList}]")
 
-    def vals: Seq[ValEx] = template.vals
+    def constructorVals: Seq[ValEx] = constructorParameters.flatMap(_.map(_.toVal))
+
+    /**
+      * @return all vals (including those in the constructor)
+      */
+    def vals: Seq[ValEx] = constructorVals ++ template.vals
 }
 
 object ClassEx extends PartialParser[ClassEx]
