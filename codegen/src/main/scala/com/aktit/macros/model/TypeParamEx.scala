@@ -1,7 +1,5 @@
 package com.aktit.macros.model
 
-import com.aktit.macros.model
-
 import scala.meta._
 
 /**
@@ -26,7 +24,7 @@ object TypeParamEx
 
     case class Meta(
         param: scala.meta.Type.Param
-    ) extends model.MetaEx
+    ) extends MetaEx
 
     def apply(param: scala.meta.Type.Param): TypeParamEx = TypeParamEx(Meta(param))
 }

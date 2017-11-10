@@ -1,7 +1,5 @@
 package com.aktit.macros.model
 
-import com.aktit.macros.model
-
 import scala.meta._
 
 /**
@@ -20,7 +18,7 @@ case class TypeEx(meta: TypeEx.Meta) extends CodeEx with MetaEx.Contains
 object TypeEx
 {
 
-    case class Meta(tpe: Type) extends model.MetaEx
+    case class Meta(tpe: Type) extends MetaEx
 
     def apply(name: String): TypeEx = TypeEx(Meta(Type.Name(name)))
 

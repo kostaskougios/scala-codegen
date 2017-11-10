@@ -1,7 +1,5 @@
 package com.aktit.macros.model
 
-import com.aktit.macros.model
-
 import scala.meta._
 
 /**
@@ -66,7 +64,7 @@ object DeclaredMethodEx extends PartialParser[DeclaredMethodEx]
         tparams: List[scala.meta.Type.Param],
         paramss: List[List[Term.Param]],
         tpe: scala.meta.Type
-    ) extends model.MetaEx with model.MetaEx.Mods
+    ) extends MetaEx with MetaEx.Mods
 
     def parseString(c: String): DeclaredMethodEx = parser(c.parse[Stat].get)
 

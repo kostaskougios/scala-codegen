@@ -1,7 +1,5 @@
 package com.aktit.macros.model
 
-import com.aktit.macros.model.MetaEx.Mods
-
 import scala.meta._
 
 /**
@@ -14,7 +12,7 @@ trait ValEx extends CodeEx
     with CodeEx.Name[ValEx]
     with TypeEx.Contains[ValEx]
 {
-    override def meta: MetaEx with Mods
+    override def meta: MetaEx with MetaEx.Mods
 }
 
 object ValEx extends PartialParser[ValEx]

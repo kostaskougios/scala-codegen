@@ -10,10 +10,14 @@ lazy val commonSettings = Seq(
 	scalacOptions += "-deprecation"
 )
 
-lazy val plugin = project.settings(
+lazy val codegen = project.settings(
 	commonSettings,
-	name := "lang-enhance-plugin",
-	sbtPlugin := true,
 	libraryDependencies += "org.scalameta" %% "scalameta" % "2.0.1",
 	libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.4" % "test"
 )
+
+lazy val plugin = project.settings(
+    commonSettings,
+    name := "lang-enhance-plugin",
+    sbtPlugin := true
+).dependsOn(codegen)

@@ -1,5 +1,6 @@
-package com.aktit.macros
+package com.aktit.sbt
 
+import sbt.Keys._
 import sbt._
 
 /**
@@ -8,6 +9,8 @@ import sbt._
   */
 object SbtPlugin extends AutoPlugin
 {
+    override lazy val projectSettings = Seq(commands += helloCommand)
+
     lazy val helloCommand =
         Command.command("hello") { (state: State) =>
             println("Hi!")

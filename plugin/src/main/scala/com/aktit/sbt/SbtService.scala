@@ -1,6 +1,8 @@
-package com.aktit.macros
+package com.aktit.sbt
 
 import java.io.File
+
+import com.aktit.macros.Parser
 
 /**
   * @author kostas.kougios
