@@ -1,4 +1,5 @@
 
+
 name := "example"
 
 version := "0.1"
@@ -15,5 +16,5 @@ codeGen := {
     val r = (runner in Compile).value
     val cp = (dependencyClasspath in Compile).value
     val s = streams.value
-    r.run("com.aktit.macros.SbtService", cp.files, Array(sourceDirectory.value.toString + "/main/scala", "my.code"), s.log)
+    SbtService.withPackages(sourceDirectory.value.toString + "/main/scala", "some.model")
 }
