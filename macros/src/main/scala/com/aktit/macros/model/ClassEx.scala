@@ -16,7 +16,7 @@ case class ClassEx(
 	with MetaEx.ContainsTypeParams[ClassEx]
 	with CodeEx.Name[ClassEx]
 	with TemplateEx.Contains[ClassEx]
-    with ValDeclaredEx.Contains
+    with ValEx.Contains
 {
 	override def name: String = meta.tname.value
 
@@ -55,7 +55,7 @@ case class ClassEx(
 
     def toType: TypeEx = TypeEx(t"${meta.tname}[..${typeParams.map(_.toType.meta.tpe).toList}]")
 
-    def vals: Seq[ValDeclaredEx] = template.vals
+    def vals: Seq[ValEx] = template.vals
 }
 
 object ClassEx extends PartialParser[ClassEx]

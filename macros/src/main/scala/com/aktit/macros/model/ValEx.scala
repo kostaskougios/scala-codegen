@@ -18,4 +18,9 @@ trait ValEx extends CodeEx
 object ValEx extends PartialParser[ValEx]
 {
     override def parser = ValDeclaredEx.parser.orElse(ValDefinedEx.parser)
+
+    trait Contains
+    {
+        def vals: Seq[ValEx]
+    }
 }
