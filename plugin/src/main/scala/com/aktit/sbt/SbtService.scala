@@ -4,6 +4,7 @@ import java.io.File
 
 import com.aktit.codegen.Parser
 import com.aktit.codegen.model.PackageEx
+import org.apache.commons.io.FileUtils
 
 /**
   * @author kostas.kougios
@@ -29,5 +30,11 @@ object SbtService
 
         val parser = new Parser
         parser.files(files)
+    }
+
+    def save(packages: Seq[PackageEx], targetDir: String): Unit = for (p <- packages) {
+        val dir = p.name.replace('.', '/')
+        val out = new File(targetDir, dir)
+        FileUtils.writeStringToFile(out, p.syntax)
     }
 }

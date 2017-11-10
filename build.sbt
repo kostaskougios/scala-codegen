@@ -16,5 +16,6 @@ lazy val codegen = project.settings(
 lazy val plugin = project.settings(
     commonSettings,
     name := "lang-enhance-plugin",
-    sbtPlugin := true
+	sbtPlugin := true,
+	libraryDependencies += "commons-io" % "commons-io" % "2.4"
 ).dependsOn(codegen)
