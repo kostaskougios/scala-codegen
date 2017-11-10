@@ -25,7 +25,7 @@ object TypeEx
 
     def apply(tpe: Type): TypeEx = TypeEx(Meta(tpe))
 
-    trait Contains[T]
+    trait Contains[+T]
     {
         def `type`: TypeEx
 

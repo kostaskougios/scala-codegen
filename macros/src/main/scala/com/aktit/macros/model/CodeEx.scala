@@ -18,7 +18,7 @@ trait CodeEx
 object CodeEx
 {
 
-	trait Name[T]
+    trait Name[+T]
 	{
 		def name: String
 

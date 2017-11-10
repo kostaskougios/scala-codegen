@@ -7,9 +7,7 @@ import scala.meta._
   *         Date: 10/11/17
   */
 case class ValDefinedEx(meta: ValDefinedEx.Meta)
-    extends CodeEx
-        with MetaEx.ContainsMods
-        with MetaEx.Contains
+    extends ValEx
         with CodeEx.Name[ValDefinedEx]
         with TypeEx.Contains[ValDefinedEx]
 {
