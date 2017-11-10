@@ -21,6 +21,8 @@ object TypeEx
 
     case class Meta(tpe: Type) extends model.MetaEx
 
+    def apply(name: String): TypeEx = TypeEx(Meta(Type.Name(name)))
+
     def apply(tpe: Type): TypeEx = TypeEx(Meta(tpe))
 
     trait Contains[T]

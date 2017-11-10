@@ -24,4 +24,8 @@ class ValExTest extends FunSuite
     test("type") {
         intVal.`type`.name should be("Int")
     }
+
+    test("withType") {
+        intVal.withType(TypeEx("Long")).syntax should be(q"val x:Long".syntax)
+    }
 }
