@@ -15,7 +15,6 @@ case class TraitEx(
 	with MetaEx.ContainsTypeParams[TraitEx]
 	with CodeEx.Name[TraitEx]
 	with TemplateEx.Contains[TraitEx]
-	with ModsEx.Contains
 {
 	def name: String = meta.tname.value
 

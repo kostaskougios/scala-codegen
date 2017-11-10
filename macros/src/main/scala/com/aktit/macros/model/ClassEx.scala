@@ -16,7 +16,6 @@ case class ClassEx(
 	with CodeEx.Name[ClassEx]
 	with TemplateEx.Contains[ClassEx]
     with ValEx.Contains
-    with ModsEx.Contains
 {
 	override def name: String = meta.tname.value
 

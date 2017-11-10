@@ -26,9 +26,4 @@ object ModsEx
     case class Meta(mods: Seq[Mod]) extends MetaEx with MetaEx.Mods
 
     def apply(mods: Seq[Mod]): ModsEx = ModsEx(Meta(mods))
-
-    trait Contains extends MetaEx.Contains with MetaEx.ContainsMods
-    {
-        def mods: ModsEx = ModsEx(meta.mods)
-    }
 }

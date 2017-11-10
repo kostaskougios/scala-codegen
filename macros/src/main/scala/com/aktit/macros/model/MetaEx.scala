@@ -21,11 +21,17 @@ object MetaEx
 	{
 		def meta: MetaEx with Mods
 
-		def isPrivate = meta.isPrivate
+		def mods: ModsEx = ModsEx(meta.mods)
 
-		def isProtected = meta.isProtected
+		def isPrivate = mods.isPrivate
 
-		def isPublic = meta.isPublic
+		def isProtected = mods.isProtected
+
+		def isPublic: Boolean = mods.isPublic
+
+		def isVal: Boolean = mods.isVal
+
+		def isCase: Boolean = mods.isCase
 	}
 
 	trait ContainsTypeParams[T]

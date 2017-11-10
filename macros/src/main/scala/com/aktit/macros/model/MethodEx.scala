@@ -8,13 +8,9 @@ import scala.meta._
   */
 trait MethodEx extends CodeEx
 	with CodeEx.Name[MethodEx]
+	with MetaEx.Contains
+	with MetaEx.ContainsMods
 {
-	def isPrivate: Boolean
-
-	def isProtected: Boolean
-
-	def isPublic: Boolean
-
 	def withReturnType(returnType: String): MethodEx
 
 	def parameters: Seq[Seq[TermParamEx]]

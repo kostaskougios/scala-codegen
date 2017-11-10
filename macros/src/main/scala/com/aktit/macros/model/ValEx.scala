@@ -9,11 +9,10 @@ import scala.meta._
   *         Date: 10/11/17
   */
 trait ValEx extends CodeEx
-    with MetaEx.ContainsMods
     with MetaEx.Contains
+    with MetaEx.ContainsMods
     with CodeEx.Name[ValEx]
     with TypeEx.Contains[ValEx]
-    with ModsEx.Contains
 {
     override def meta: MetaEx with Mods
 }
