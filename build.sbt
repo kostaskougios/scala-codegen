@@ -10,8 +10,8 @@ lazy val commonSettings = Seq(
 lazy val codegen = project.settings(
 	commonSettings,
 	libraryDependencies ++= Seq(
-		"org.scalameta" %% "scalameta" % "2.1.2",
-		"org.scalatest" %% "scalatest" % "3.0.4" % "test",
+		"org.scalameta" %% "scalameta" % "3.2.0",
+		"org.scalatest" %% "scalatest" % "3.0.5" % "test",
 		"commons-io" % "commons-io" % "2.4"
 	)
 
