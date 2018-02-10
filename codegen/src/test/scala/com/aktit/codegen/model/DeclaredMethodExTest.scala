@@ -46,4 +46,10 @@ class DeclaredMethodExTest extends AbstractSuite
         val modified = method.withReturnType("Seq[Long]")
         modified.syntax should be(q"def f(i:Int):Seq[Long]".syntax)
     }
+
+    test("returnType") {
+        val method = DeclaredMethodEx.parseString("def f(i:Int):MyClass")
+        method.returnType.map(_.name) should be(Some("MyClass"))
+    }
+
 }

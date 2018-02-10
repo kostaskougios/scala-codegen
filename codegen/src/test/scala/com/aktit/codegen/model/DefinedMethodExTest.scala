@@ -52,4 +52,9 @@ class DefinedMethodExTest extends AbstractSuite
         val modified = method.withImplementation("(i+1).toString")
         modified.syntax should be(q"def f(i:Int):String=(i+1).toString".syntax)
     }
+
+    test("returnType") {
+        val method = DefinedMethodEx.parseString("def f(i:Int):MyClass = ???")
+        method.returnType.map(_.name) should be(Some("MyClass"))
+    }
 }

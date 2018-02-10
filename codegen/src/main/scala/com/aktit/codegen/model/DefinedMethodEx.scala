@@ -36,6 +36,8 @@ case class DefinedMethodEx(
         )
     )
 
+    override def returnType = meta.tpeopt.map(TypeEx.apply)
+
     override def withImplementation(code: String) = copy(
         meta = meta.copy(
             expr = code.parse[Term].get

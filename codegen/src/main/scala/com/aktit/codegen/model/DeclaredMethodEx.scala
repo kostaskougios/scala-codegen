@@ -38,6 +38,9 @@ case class DeclaredMethodEx(
         )
     )
 
+	override def returnType = Some(TypeEx(meta.tpe))
+
+
     override def toAbstract = this
 
     override def withImplementation(code: String) = DefinedMethodEx.parser(

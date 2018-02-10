@@ -13,6 +13,8 @@ trait MethodEx extends CodeEx
 {
     def withReturnType(returnType: String): MethodEx
 
+    def returnType: Option[TypeEx]
+
     def parameters: Seq[Seq[TermParamEx]]
 
     def withParameters(params: Seq[Seq[TermParamEx]]): MethodEx
