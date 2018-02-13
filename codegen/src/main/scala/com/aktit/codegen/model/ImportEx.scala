@@ -11,8 +11,10 @@ case class ImportEx(meta: ImportEx.Meta) extends CodeEx
 	def imports = meta.importersnel.flatMap {
 		i =>
 			i.importees.map {
-				ie =>
-					Imported(i.ref.toString, ie.toString)
+				case ie: Importee.Name =>
+					Imported(i.ref.toString, ie.name.value, None)
+				case ie: Importee.Rename =>
+					Imported(i.ref.toString, ie.name.value, Some(ie.rename.value))
 			}
 	}
     override def tree = q"import ..${meta.importersnel}"
@@ -29,4 +31,4 @@ object ImportEx extends PartialParser[ImportEx]
     }
 }
 
-case class Imported(packageName: String, typeName: String)
+case class Imported(packageName: String, typeName: String, renamedFrom: Option[String])
