@@ -8,6 +8,13 @@ import scala.meta._
   */
 case class ImportEx(meta: ImportEx.Meta) extends CodeEx
 {
+	def imports = meta.importersnel.flatMap {
+		i =>
+			i.importees.map {
+				ie =>
+					Imported(i.ref.toString, ie.toString)
+			}
+	}
     override def tree = q"import ..${meta.importersnel}"
 }
 
@@ -21,3 +28,5 @@ object ImportEx extends PartialParser[ImportEx]
             ImportEx(Meta(importersnel))
     }
 }
+
+case class Imported(packageName: String, typeName: String)
