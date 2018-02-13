@@ -15,6 +15,8 @@ case class ImportEx(meta: ImportEx.Meta) extends CodeEx
 					TypeImport(i.ref.toString, ie.name.value)
 				case ie: Importee.Rename =>
 					TypeImportRenamed(i.ref.toString, ie.name.value, ie.rename.value)
+				case _: Importee.Wildcard =>
+					WildcardImport(i.ref.toString)
 			}
 	}
     override def tree = q"import ..${meta.importersnel}"
@@ -34,10 +36,10 @@ object ImportEx extends PartialParser[ImportEx]
 trait Imported
 {
 	def packageName: String
-
-	def typeName: String
 }
 
 case class TypeImport(packageName: String, typeName: String) extends Imported
 
 case class TypeImportRenamed(packageName: String, typeName: String, renamedFrom: String) extends Imported
+
+case class WildcardImport(packageName: String) extends Imported

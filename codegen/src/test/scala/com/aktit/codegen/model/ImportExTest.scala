@@ -21,4 +21,9 @@ class ImportExTest extends AbstractSuite
 		imports.imports should be(Seq(TypeImportRenamed("com.pcg1", "A", "AX")))
 	}
 
+	test("wildcard import") {
+		val imports = ImportEx.parser(q"import com.pcg1._")
+		imports.imports should be(Seq(WildcardImport("com.pcg1")))
+	}
+
 }
