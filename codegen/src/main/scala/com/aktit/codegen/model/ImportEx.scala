@@ -8,13 +8,13 @@ import scala.meta._
   */
 case class ImportEx(meta: ImportEx.Meta) extends CodeEx
 {
-	def imports = meta.importersnel.flatMap {
+	def imports: Seq[Imported] = meta.importersnel.flatMap {
 		i =>
 			i.importees.map {
 				case ie: Importee.Name =>
-					Imported(i.ref.toString, ie.name.value, None)
+					TypeImport(i.ref.toString, ie.name.value)
 				case ie: Importee.Rename =>
-					Imported(i.ref.toString, ie.name.value, Some(ie.rename.value))
+					TypeImportRenamed(i.ref.toString, ie.name.value, ie.rename.value)
 			}
 	}
     override def tree = q"import ..${meta.importersnel}"
@@ -31,4 +31,13 @@ object ImportEx extends PartialParser[ImportEx]
     }
 }
 
-case class Imported(packageName: String, typeName: String, renamedFrom: Option[String])
+trait Imported
+{
+	def packageName: String
+
+	def typeName: String
+}
+
+case class TypeImport(packageName: String, typeName: String) extends Imported
+
+case class TypeImportRenamed(packageName: String, typeName: String, renamedFrom: String) extends Imported

@@ -8,17 +8,17 @@ class ImportExTest extends AbstractSuite
 {
 	test("import") {
 		val imports = ImportEx.parser(q"import com.pcg1.A")
-		imports.imports should be(Seq(Imported("com.pcg1", "A", None)))
+		imports.imports should be(Seq(TypeImport("com.pcg1", "A")))
 	}
 
 	test("multiple imports") {
 		val imports = ImportEx.parser(q"import com.pcg1.{A,B}")
-		imports.imports should be(Seq(Imported("com.pcg1", "A", None), Imported("com.pcg1", "B", None)))
+		imports.imports should be(Seq(TypeImport("com.pcg1", "A"), TypeImport("com.pcg1", "B")))
 	}
 
 	test("renamed import") {
 		val imports = ImportEx.parser(q"import com.pcg1.{A => AX}")
-		imports.imports should be(Seq(Imported("com.pcg1", "A", Some("AX"))))
+		imports.imports should be(Seq(TypeImportRenamed("com.pcg1", "A", "AX")))
 	}
 
 }
