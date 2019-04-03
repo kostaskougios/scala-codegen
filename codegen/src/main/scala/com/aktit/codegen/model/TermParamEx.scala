@@ -26,7 +26,7 @@ case class TermParamEx(meta: TermParamEx.Meta) extends CodeEx
     def withType(tpe: String) = copy(
         meta = meta.copy(
             param = meta.param.copy(
-                decltpe = Some(scala.meta.Type.Name(tpe))
+                decltpe = Some(tpe.parse[Type].get)
             )
         )
     )

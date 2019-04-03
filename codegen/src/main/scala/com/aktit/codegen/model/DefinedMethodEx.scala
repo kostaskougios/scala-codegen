@@ -32,7 +32,7 @@ case class DefinedMethodEx(
 
     override def withReturnType(returnType: String) = copy(
         meta = meta.copy(
-            tpeopt = Some(scala.meta.Type.Name(returnType))
+            tpeopt = Some(returnType.parse[Type].get)
         )
     )
 

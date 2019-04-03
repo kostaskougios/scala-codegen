@@ -34,7 +34,7 @@ case class DeclaredMethodEx(
 
     override def withReturnType(returnType: String) = copy(
         meta = meta.copy(
-            tpe = scala.meta.Type.Name(returnType)
+            tpe = returnType.parse[Type].get
         )
     )
 
