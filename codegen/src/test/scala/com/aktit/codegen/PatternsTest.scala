@@ -1,6 +1,7 @@
 package com.aktit.codegen
 
 import com.aktit.codegen.model.PackageEx
+import com.aktit.codegen.patterns.{Decorator, Proxy}
 
 /**
   * @author kostas.kougios
@@ -51,7 +52,7 @@ class PatternsTest extends AbstractSuite
         """.stripMargin)
 
     test("create decorator simple") {
-        val decorator = Patterns.decorator(packageWithSimpleClass)
+        val decorator = Decorator.decorator(packageWithSimpleClass)
         decorator.syntax should be(PackageEx.fromSource(
             """
               |package x
@@ -64,7 +65,7 @@ class PatternsTest extends AbstractSuite
     }
 
     test("create a decorator class") {
-        val decorator = Patterns.decorator(packageWithXClass)
+        val decorator = Decorator.decorator(packageWithXClass)
         decorator.syntax should be(PackageEx.fromSource(
             """
               |package x
@@ -79,7 +80,7 @@ class PatternsTest extends AbstractSuite
     }
 
     test("create a proxy class") {
-        val proxy = Patterns.proxy(packageWithXClass)
+        val proxy = Proxy.proxy(packageWithXClass)
         proxy.syntax should be(PackageEx.fromSource(
             """
               |package x
