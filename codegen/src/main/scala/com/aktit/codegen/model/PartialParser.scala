@@ -8,8 +8,8 @@ import scala.meta.Tree
   */
 trait PartialParser[T]
 {
-    /**
-      * @return a partial function that might parse a Tree
-      */
-    def parser: PartialFunction[Tree, T]
+	/**
+	  * @return a partial function that might parse a Tree
+	  */
+	def parser: PartialFunction[Tree, T]
 }

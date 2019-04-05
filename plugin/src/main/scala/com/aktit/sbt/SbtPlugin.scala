@@ -8,12 +8,12 @@ import sbt._
   */
 object SbtPlugin extends AutoPlugin
 {
-    println("Lang Enhance Plugin loaded.")
-    //    override lazy val projectSettings = Seq(commands += helloCommand)
-    //
-    //    lazy val helloCommand =
-    //        Command.command("hello") { (state: State) =>
-    //            println("Hi!")
-    //            state
-    //        }
+	println("Lang Enhance Plugin loaded.")
+	//    override lazy val projectSettings = Seq(commands += helloCommand)
+	//
+	//    lazy val helloCommand =
+	//        Command.command("hello") { (state: State) =>
+	//            println("Hi!")
+	//            state
+	//        }
 }

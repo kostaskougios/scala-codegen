@@ -6,5 +6,5 @@ package some.service.impl
   */
 class SomeServiceImpl extends SomeService
 {
-    override def serve(a: Int) = a * 4
+	override def serve(a: Int) = a * 4
 }

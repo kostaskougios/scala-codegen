@@ -9,6 +9,6 @@ import com.aktit.codegen.model.PackageEx
   *         Date: 10/11/17
   */
 case class CompilationFile(
-    file: File,
-    pckg: PackageEx
+	file: File,
+	pckg: PackageEx
 )

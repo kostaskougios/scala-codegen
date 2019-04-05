@@ -6,5 +6,5 @@ package some.service
   */
 trait SomeService
 {
-    def serve(a: Int): Int
+	def serve(a: Int): Int
 }

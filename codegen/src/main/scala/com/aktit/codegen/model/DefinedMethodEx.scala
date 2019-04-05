@@ -9,69 +9,69 @@ import scala.meta._
   *         Date: 31/08/17
   */
 case class DefinedMethodEx(
-    meta: DefinedMethodEx.Meta
+	meta: DefinedMethodEx.Meta
 ) extends MethodEx
-    with MetaEx.Contains
-    with MetaEx.ContainsMods
+	with MetaEx.Contains
+	with MetaEx.ContainsMods
 {
-    override def name: String = meta.ename.value
+	override def name: String = meta.ename.value
 
-    override def withName(name: String) = copy(
-        meta = meta.copy(
-            ename = meta.ename.copy(value = name)
-        )
-    )
+	override def withName(name: String) = copy(
+		meta = meta.copy(
+			ename = meta.ename.copy(value = name)
+		)
+	)
 
-    override def parameters = meta.paramss.map(_.map(p => TermParamEx(TermParamEx.Meta(p))))
+	override def parameters = meta.paramss.map(_.map(p => TermParamEx(TermParamEx.Meta(p))))
 
-    override def withParameters(params: Seq[Seq[TermParamEx]]) = copy(
-        meta = meta.copy(
-            paramss = params.map(_.map(_.meta.param).toList).toList
-        )
-    )
+	override def withParameters(params: Seq[Seq[TermParamEx]]) = copy(
+		meta = meta.copy(
+			paramss = params.map(_.map(_.meta.param).toList).toList
+		)
+	)
 
-    override def withReturnType(returnType: String) = copy(
-        meta = meta.copy(
-            tpeopt = Some(returnType.parse[Type].get)
-        )
-    )
+	override def withReturnType(returnType: String) = copy(
+		meta = meta.copy(
+			tpeopt = Some(returnType.parse[Type].get)
+		)
+	)
 
-    override def returnType = meta.tpeopt.map(TypeEx.apply)
+	override def returnType = meta.tpeopt.map(TypeEx.apply)
 
-    override def withImplementation(code: String) = copy(
-        meta = meta.copy(
-            expr = code.parse[Term].get
-        )
-    )
+	override def withImplementation(code: String) = copy(
+		meta = meta.copy(
+			expr = code.parse[Term].get
+		)
+	)
 
-    override def toAbstract = DeclaredMethodEx.parser(q"..${meta.mods} def ${meta.ename}[..${meta.tparams}](...${meta.paramss}): ${meta.tpeopt.getOrElse(throw new IllegalStateException(s"please declare the type of this method in order to be able to convert it to it's abstract representation: $syntax"))}")
+	override def toAbstract = DeclaredMethodEx.parser(q"..${meta.mods} def ${meta.ename}[..${meta.tparams}](...${meta.paramss}): ${meta.tpeopt.getOrElse(throw new IllegalStateException(s"please declare the type of this method in order to be able to convert it to it's abstract representation: $syntax"))}")
 
-    override def tree = q"..${meta.mods} def ${meta.ename}[..${meta.tparams}](...${meta.paramss}): ${meta.tpeopt} = ${meta.expr}"
+	override def tree = q"..${meta.mods} def ${meta.ename}[..${meta.tparams}](...${meta.paramss}): ${meta.tpeopt} = ${meta.expr}"
 
-    override def withOverrides = copy(
-        meta = meta.copy(
-            mods = Mod.Override() +: meta.mods
-        )
-    )
+	override def withOverrides = copy(
+		meta = meta.copy(
+			mods = Mod.Override() +: meta.mods
+		)
+	)
 }
 
 object DefinedMethodEx extends PartialParser[DefinedMethodEx]
 {
-    override val parser = {
-        case q"..$mods def $ename[..$tparams](...$paramss): $tpeopt = $expr" =>
-            DefinedMethodEx(Meta(mods, ename, tparams, paramss, tpeopt, expr))
-    }
+	override val parser = {
+		case q"..$mods def $ename[..$tparams](...$paramss): $tpeopt = $expr" =>
+			DefinedMethodEx(Meta(mods, ename, tparams, paramss, tpeopt, expr))
+	}
 
-    case class Meta(
-        mods: List[Mod],
-        ename: Term.Name,
-        tparams: List[scala.meta.Type.Param],
-        paramss: List[List[Term.Param]],
-        tpeopt: Option[scala.meta.Type],
-        expr: Term
-    ) extends MetaEx with MetaEx.Mods
+	case class Meta(
+		mods: List[Mod],
+		ename: Term.Name,
+		tparams: List[scala.meta.Type.Param],
+		paramss: List[List[Term.Param]],
+		tpeopt: Option[scala.meta.Type],
+		expr: Term
+	) extends MetaEx with MetaEx.Mods
 
-    def parseString(c: String): DefinedMethodEx = parser(c.parse[Stat].get)
+	def parseString(c: String): DefinedMethodEx = parser(c.parse[Stat].get)
 
-    def noArgReturningUnit(name: String): DefinedMethodEx = parser(q"def x:Unit={}").withName(name)
+	def noArgReturningUnit(name: String): DefinedMethodEx = parser(q"def x:Unit={}").withName(name)
 }

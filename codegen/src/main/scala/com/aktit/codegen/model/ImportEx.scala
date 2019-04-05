@@ -19,18 +19,19 @@ case class ImportEx(meta: ImportEx.Meta) extends CodeEx
 					WildcardImport(i.ref.toString)
 			}
 	}
-    override def tree = q"import ..${meta.importersnel}"
+
+	override def tree = q"import ..${meta.importersnel}"
 }
 
 object ImportEx extends PartialParser[ImportEx]
 {
 
-    case class Meta(importersnel: List[Importer]) extends com.aktit.codegen.model.MetaEx
+	case class Meta(importersnel: List[Importer]) extends com.aktit.codegen.model.MetaEx
 
-    override def parser = {
-        case q"import ..$importersnel" =>
-            ImportEx(Meta(importersnel))
-    }
+	override def parser = {
+		case q"import ..$importersnel" =>
+			ImportEx(Meta(importersnel))
+	}
 }
 
 trait Imported

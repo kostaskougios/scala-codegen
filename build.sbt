@@ -20,8 +20,8 @@ lazy val codegen = project.settings(
 )
 
 lazy val plugin = project.settings(
-    commonSettings,
-    name := "lang-enhance-plugin",
+	commonSettings,
+	name := "lang-enhance-plugin",
 	sbtPlugin := true,
 	libraryDependencies += Apache.CommonIO
 ).dependsOn(codegen)

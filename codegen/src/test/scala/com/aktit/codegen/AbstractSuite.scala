@@ -1,6 +1,6 @@
 package com.aktit.codegen
 
-import org.scalatest.{ FunSuite, Matchers }
+import org.scalatest.{FunSuite, Matchers}
 
 /**
   * @author kostas.kougios

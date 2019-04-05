@@ -8,21 +8,21 @@ import scala.meta.Tree
   */
 trait CodeEx
 {
-    def tree: Tree
+	def tree: Tree
 
-    def syntax: String = tree.syntax
+	def syntax: String = tree.syntax
 
-    override def toString = syntax
+	override def toString = syntax
 }
 
 object CodeEx
 {
 
-    trait Name[+T]
-    {
-        def name: String
+	trait Name[+T]
+	{
+		def name: String
 
-        def withName(name: String): T
-    }
+		def withName(name: String): T
+	}
 
 }
