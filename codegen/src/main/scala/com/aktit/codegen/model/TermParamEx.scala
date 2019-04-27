@@ -51,7 +51,7 @@ object TermParamEx
 	def apply(param: scala.meta.Term.Param): TermParamEx = TermParamEx(Meta(param))
 
 	// creates a string as if these params are used in a method call, i.e. "(n)(m)" for two params n,m of some type
-	def toString(parameters: Seq[Seq[TermParamEx]]) =
+	def toString(parameters: Seq[Seq[TermParamEx]]): String =
 		if (parameters.isEmpty)
 			""
 		else

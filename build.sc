@@ -20,7 +20,7 @@ object codegen extends Common
 
 trait Common extends SbtModule
 {
-	def scalaVersion = "2.12.8"
+	override def scalaVersion = "2.12.8"
 
 	override def scalacOptions = Seq("-deprecation", "-feature", "-unchecked")
 }
