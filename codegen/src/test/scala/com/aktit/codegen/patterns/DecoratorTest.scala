@@ -1,13 +1,15 @@
-package com.aktit.codegen
+package com.aktit.codegen.patterns
 
 import com.aktit.codegen.model.PackageEx
-import com.aktit.codegen.patterns.{Decorator, Proxy}
+import org.scalatest.FunSuite
+import org.scalatest.Matchers._
 
 /**
   * @author kostas.kougios
-  *         Date: 03/11/17
+  *         23/06/19 - 23:54
   */
-class PatternsTest extends AbstractSuite
+class DecoratorTest
+	extends FunSuite
 {
 	val packageWithSimpleClass = PackageEx.fromSource(
 		"""
@@ -79,19 +81,4 @@ class PatternsTest extends AbstractSuite
 			""".stripMargin).syntax)
 	}
 
-	test("create a proxy class") {
-		val proxy = Proxy.proxy(packageWithXClass)
-		proxy.syntax should be(PackageEx.fromSource(
-			"""
-			  |package x
-			  |import scala.concurrent.duration.{ Duration, FiniteDuration => FD }
-			  |class XProxy[A](forwarder: (String, Seq[Any]) => Any) extends X[A] {
-			  |  override def noArg = forwarder("noArg", Array())
-			  |  override def noArgParams() = forwarder("noArgParams", Array())
-			  |  override def oneArg(m: Int) = forwarder("oneArg", Array(m))
-			  |  override def multiArgs(n: Int)(m: Int) = forwarder("multiArgs", Array(n, m))
-			  |}
-			  |
-      """.stripMargin).syntax)
-	}
 }
