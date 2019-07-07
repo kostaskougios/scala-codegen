@@ -12,6 +12,8 @@ trait ValEx extends CodeEx
 	with CodeEx.Name[ValEx]
 	with TypeEx.Contains[ValEx]
 {
+	def toTermParamEx: TermParamEx = TermParamEx.parseString(syntax)
+
 	override def meta: MetaEx with MetaEx.Mods
 }
 
