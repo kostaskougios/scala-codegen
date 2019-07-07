@@ -9,11 +9,23 @@ import org.scalatest.Matchers._
   */
 class ModsExTest extends FunSuite
 {
+	test("empty") {
+		ModsEx.empty.syntax should be("")
+	}
+
 	test("case class") {
 		ModsEx.empty.withCase.syntax should be("case")
 	}
 
-	test("empty") {
-		ModsEx.empty.syntax should be("")
+	test("private") {
+		ModsEx.empty.withPrivate.syntax should be("private")
+	}
+
+	test("protected") {
+		ModsEx.empty.withProtected.syntax should be("protected")
+	}
+
+	test("val") {
+		ModsEx.empty.withVal.syntax should be("val")
 	}
 }

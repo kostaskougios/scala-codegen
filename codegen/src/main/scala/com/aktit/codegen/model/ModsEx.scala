@@ -24,7 +24,19 @@ case class ModsEx(meta: ModsEx.Meta)
 
 	def syntax = meta.mods.map(_.syntax).mkString(" ")
 
-	def withCase = apply(meta.mods :+ Mod.Case())
+	def withCase = apply(meta.mods :+ mod"case")
+
+	def withPrivate = apply(meta.mods :+ mod"private")
+
+	def withProtected = apply(meta.mods :+ mod"protected")
+
+	def withVal = apply(meta.mods :+ mod"valparam")
+
+	def withImplicit = apply(meta.mods :+ mod"implicit")
+
+	def withFinal = apply(meta.mods :+ mod"final")
+
+	def withOverride = apply(meta.mods :+ mod"override")
 }
 
 object ModsEx
