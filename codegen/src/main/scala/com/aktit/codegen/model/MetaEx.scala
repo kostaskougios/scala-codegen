@@ -17,7 +17,7 @@ object MetaEx
 		def meta: MetaEx
 	}
 
-	trait ContainsMods
+	trait ContainsMods[T]
 	{
 		def meta: MetaEx with Mods
 
@@ -32,6 +32,8 @@ object MetaEx
 		def isVal: Boolean = mods.isVal
 
 		def isCase: Boolean = mods.isCase
+
+		def withMods(mods: ModsEx): T
 	}
 
 	trait ContainsTypeParams[T]

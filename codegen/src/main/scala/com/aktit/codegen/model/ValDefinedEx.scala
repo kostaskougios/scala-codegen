@@ -30,6 +30,8 @@ case class ValDefinedEx(meta: ValDefinedEx.Meta)
 			tpeopt = Some(t.meta.tpe)
 		)
 	)
+
+	override def withMods(mods: ModsEx) = copy(meta = meta.copy(mods = mods.meta.mods.toList))
 }
 
 object ValDefinedEx extends PartialParser[ValDefinedEx]

@@ -11,7 +11,7 @@ case class TraitEx(
 ) extends CodeEx
 	with MethodEx.Contains[TraitEx]
 	with MetaEx.Contains
-	with MetaEx.ContainsMods
+	with MetaEx.ContainsMods[TraitEx]
 	with MetaEx.ContainsTypeParams[TraitEx]
 	with CodeEx.Name[TraitEx]
 	with TemplateEx.Contains[TraitEx]
@@ -31,6 +31,9 @@ case class TraitEx(
 			tparams = params.map(_.meta.param).toList
 		)
 	)
+
+	override def withMods(mods: ModsEx) = copy(meta = meta.copy(mods = mods.meta.mods.toList))
+
 }
 
 object TraitEx extends PartialParser[TraitEx]

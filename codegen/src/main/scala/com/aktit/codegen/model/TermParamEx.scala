@@ -8,7 +8,7 @@ import scala.meta._
   */
 case class TermParamEx(meta: TermParamEx.Meta) extends CodeEx
 	with MetaEx.Contains
-	with MetaEx.ContainsMods
+	with MetaEx.ContainsMods[TermParamEx]
 	with CodeEx.Name[TermParamEx]
 {
 	override def name: String = meta.param.name.value
@@ -36,6 +36,11 @@ case class TermParamEx(meta: TermParamEx.Meta) extends CodeEx
 		val q = q"..${p.mods} val ..${List(Pat.Var(Term.Name(p.name.value)))}: ${p.decltpe.get}"
 		ValEx.parser(q)
 	}
+
+	override def withMods(mods: ModsEx) = copy(
+		meta = meta.copy(param = meta.param.copy(mods = mods.meta.mods.toList))
+	)
+
 }
 
 object TermParamEx

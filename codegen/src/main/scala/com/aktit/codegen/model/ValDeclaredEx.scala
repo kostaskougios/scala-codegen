@@ -30,6 +30,9 @@ case class ValDeclaredEx(meta: ValDeclaredEx.Meta)
 			tpe = t.meta.tpe
 		)
 	)
+
+	override def withMods(mods: ModsEx) = copy(meta = meta.copy(mods = mods.meta.mods.toList))
+
 }
 
 object ValDeclaredEx extends PartialParser[ValDeclaredEx]

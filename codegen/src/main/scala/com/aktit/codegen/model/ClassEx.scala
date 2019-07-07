@@ -11,7 +11,7 @@ case class ClassEx(
 ) extends CodeEx
 	with MethodEx.Contains[ClassEx]
 	with MetaEx.Contains
-	with MetaEx.ContainsMods
+	with MetaEx.ContainsMods[ClassEx]
 	with MetaEx.ContainsTypeParams[ClassEx]
 	with CodeEx.Name[ClassEx]
 	with TemplateEx.Contains[ClassEx]
@@ -39,7 +39,7 @@ case class ClassEx(
 
 	def withExtending(types: Seq[TypeEx]): ClassEx = withTemplate(template.withExtending(types))
 
-	def withMods(mods: ModsEx): ClassEx = copy(
+	override def withMods(mods: ModsEx) = copy(
 		meta = meta.copy(mods = mods.meta.mods)
 	)
 

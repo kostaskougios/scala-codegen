@@ -10,9 +10,9 @@ import scala.meta._
   */
 case class DefinedMethodEx(
 	meta: DefinedMethodEx.Meta
-) extends MethodEx
+) extends MethodEx[DefinedMethodEx]
 	with MetaEx.Contains
-	with MetaEx.ContainsMods
+	with MetaEx.ContainsMods[DefinedMethodEx]
 {
 	override def name: String = meta.ename.value
 
@@ -53,6 +53,9 @@ case class DefinedMethodEx(
 			mods = Mod.Override() +: meta.mods
 		)
 	)
+
+	override def withMods(mods: ModsEx) = copy(meta = meta.copy(mods = mods.meta.mods.toList))
+
 }
 
 object DefinedMethodEx extends PartialParser[DefinedMethodEx]

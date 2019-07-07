@@ -2,6 +2,7 @@ package com.aktit.codegen.patterns
 
 import com.aktit.codegen.model.PackageEx
 import org.scalatest.FunSuite
+import org.scalatest.Matchers._
 
 /**
   * @author kostas.kougios
@@ -24,6 +25,6 @@ class CombineCaseClassesTest extends FunSuite
 			  |case class Basket(discount:Float,numOfItems:Int)
 			""".stripMargin)
 		val combined = CombineCaseClasses.combine("BasketedItem", itemPackage.classes ++ basketPackage.classes: _*)
-		println(combined.syntax)
+		combined.syntax should be("case class BasketedItem(id: Int, name: String, discount: Float, numOfItems: Int)")
 	}
 }

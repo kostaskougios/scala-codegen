@@ -6,18 +6,18 @@ import scala.meta._
   * @author kostas.kougios
   *         Date: 01/09/17
   */
-trait MethodEx extends CodeEx
-	with CodeEx.Name[MethodEx]
+trait MethodEx[A] extends CodeEx
+	with CodeEx.Name[MethodEx[A]]
 	with MetaEx.Contains
-	with MetaEx.ContainsMods
+	with MetaEx.ContainsMods[A]
 {
-	def withReturnType(returnType: String): MethodEx
+	def withReturnType(returnType: String): MethodEx[A]
 
 	def returnType: Option[TypeEx]
 
 	def parameters: Seq[Seq[TermParamEx]]
 
-	def withParameters(params: Seq[Seq[TermParamEx]]): MethodEx
+	def withParameters(params: Seq[Seq[TermParamEx]]): MethodEx[A]
 
 	// converts this method to it's abstract (no impl) representation
 	def toAbstract: DeclaredMethodEx
@@ -25,12 +25,12 @@ trait MethodEx extends CodeEx
 	// adds impl (or replaces the existing one)
 	def withImplementation(code: String): DefinedMethodEx
 
-	def withOverrides: MethodEx
+	def withOverrides: MethodEx[A]
 
 	override def tree: Stat
 }
 
-object MethodEx extends PartialParser[MethodEx]
+object MethodEx extends PartialParser[MethodEx[_]]
 {
 	override val parser = DeclaredMethodEx.parser.orElse(DefinedMethodEx.parser)
 
@@ -40,7 +40,7 @@ object MethodEx extends PartialParser[MethodEx]
 	{
 		def meta: MetaEx with MetaEx.Template
 
-		def methods: Seq[MethodEx] = meta.template.children.collect(parser)
+		def methods: Seq[MethodEx[_]] = meta.template.children.collect(parser)
 
 		def declaredMethods: Seq[DeclaredMethodEx] = methods.collect {
 			case d: DeclaredMethodEx => d
@@ -50,7 +50,7 @@ object MethodEx extends PartialParser[MethodEx]
 			case d: DefinedMethodEx => d
 		}
 
-		def withMethods(methods: Seq[MethodEx]): T = {
+		def withMethods(methods: Seq[MethodEx[_]]): T = {
 			withTemplateInner(
 				Template(
 					meta.template.early,

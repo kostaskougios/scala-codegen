@@ -1,6 +1,6 @@
 package com.aktit.codegen.patterns
 
-import com.aktit.codegen.model.ClassEx
+import com.aktit.codegen.model.{ClassEx, ModsEx}
 
 /**
   * @author kostas.kougios
@@ -12,7 +12,7 @@ object CombineCaseClasses
 		val vals = classes.flatMap(_.vals)
 
 		ClassEx.withName(newClassName)
-    		.withConstructorParameters(vals.map(_.toTermParamEx))
+			.withConstructorParameters(vals.map(v => v.toTermParamEx.withMods(ModsEx.empty)))
 			.withCaseClass
 	}
 }

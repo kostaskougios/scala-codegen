@@ -8,7 +8,7 @@ import scala.meta._
   */
 trait ValEx extends CodeEx
 	with MetaEx.Contains
-	with MetaEx.ContainsMods
+	with MetaEx.ContainsMods[ValEx]
 	with CodeEx.Name[ValEx]
 	with TypeEx.Contains[ValEx]
 {
