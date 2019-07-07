@@ -18,6 +18,8 @@ case class ModsEx(meta: ModsEx.Meta)
 	def isVal = meta.isVal
 
 	def isCase = meta.isCase
+
+	def syntax = meta.mods.map(_.syntax).mkString(" ")
 }
 
 object ModsEx
