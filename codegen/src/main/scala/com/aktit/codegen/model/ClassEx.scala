@@ -39,13 +39,13 @@ case class ClassEx(
 
 	def withExtending(types: Seq[TypeEx]): ClassEx = withTemplate(template.withExtending(types))
 
-	def withMods(mods: List[ModsEx]): ClassEx = copy(
-		meta = meta.copy(mods = mods.flatMap(_.meta.mods))
+	def withMods(mods: ModsEx): ClassEx = copy(
+		meta = meta.copy(mods = mods.meta.mods)
 	)
 
-	def withCaseClass = withMods(List(ModsEx.caseClass))
+	def withCaseClass = withMods(mods.withCase)
 
-	override def tree = q"..${meta.mods} class ${meta.tname}[..${meta.tparams}] ..${meta.ctorMods} (...${meta.paramss}) extends ${meta.template}"
+	override def tree = q"..${meta.mods.toList} class ${meta.tname}[..${meta.tparams}] ..${meta.ctorMods} (...${meta.paramss}) extends ${meta.template}"
 
 	override protected def withTemplateInner(t: Template) = copy(meta = meta.copy(template = t))
 
@@ -77,7 +77,7 @@ object ClassEx extends PartialParser[ClassEx]
 {
 
 	case class Meta(
-		mods: List[Mod],
+		mods: Seq[Mod],
 		tname: scala.meta.Type.Name,
 		tparams: List[scala.meta.Type.Param],
 		ctorMods: List[Mod],

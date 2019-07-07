@@ -10,6 +10,10 @@ import org.scalatest.Matchers._
 class ModsExTest extends FunSuite
 {
 	test("case class") {
-		ModsEx.caseClass.syntax should be("case")
+		ModsEx.empty.withCase.syntax should be("case")
+	}
+
+	test("empty") {
+		ModsEx.empty.syntax should be("")
 	}
 }

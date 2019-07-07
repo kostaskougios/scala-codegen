@@ -9,6 +9,9 @@ import scala.meta._
 
 case class ModsEx(meta: ModsEx.Meta)
 {
+
+	import ModsEx._
+
 	def isPrivate = meta.isPrivate
 
 	def isProtected = meta.isProtected
@@ -20,6 +23,8 @@ case class ModsEx(meta: ModsEx.Meta)
 	def isCase = meta.isCase
 
 	def syntax = meta.mods.map(_.syntax).mkString(" ")
+
+	def withCase = apply(meta.mods :+ Mod.Case())
 }
 
 object ModsEx
@@ -29,5 +34,5 @@ object ModsEx
 
 	def apply(mods: Seq[Mod]): ModsEx = ModsEx(Meta(mods))
 
-	def caseClass: ModsEx = apply(Seq(Mod.Case()))
+	def empty: ModsEx = apply(Nil)
 }
