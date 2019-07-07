@@ -28,4 +28,9 @@ class ModsExTest extends FunSuite
 	test("val") {
 		ModsEx.empty.withVal.syntax should be("val")
 	}
+
+	test("remove val") {
+		ModsEx.empty.withVal.removeVal.syntax should be("")
+	}
+
 }

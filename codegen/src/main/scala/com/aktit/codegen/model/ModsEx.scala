@@ -32,6 +32,11 @@ case class ModsEx(meta: ModsEx.Meta)
 
 	def withVal = apply(meta.mods :+ mod"valparam")
 
+	def removeVal = apply(meta.mods.filterNot {
+		case mod"valparam" => true
+		case _ => false
+	})
+
 	def withImplicit = apply(meta.mods :+ mod"implicit")
 
 	def withFinal = apply(meta.mods :+ mod"final")
