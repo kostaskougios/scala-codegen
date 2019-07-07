@@ -12,7 +12,7 @@ object CombineCaseClasses
 		val vals = classes.flatMap(_.vals)
 
 		ClassEx.withName(newClassName)
-			.withConstructorParameters(vals.map(v => v.toTermParamEx.withMods(ModsEx.empty)))
+			.withConstructorParameters(vals.map(_.toTermParamEx.withMods(ModsEx.empty)))
 			.withCaseClass
 	}
 }
