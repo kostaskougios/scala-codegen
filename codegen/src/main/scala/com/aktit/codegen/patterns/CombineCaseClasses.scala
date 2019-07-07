@@ -13,5 +13,6 @@ object CombineCaseClasses
 
 		ClassEx.withName(newClassName)
     		.withConstructorParameters(vals.map(_.toTermParamEx))
+			.withCaseClass
 	}
 }

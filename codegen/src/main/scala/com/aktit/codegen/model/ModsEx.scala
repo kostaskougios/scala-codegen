@@ -26,4 +26,6 @@ object ModsEx
 	case class Meta(mods: Seq[Mod]) extends MetaEx with MetaEx.Mods
 
 	def apply(mods: Seq[Mod]): ModsEx = ModsEx(Meta(mods))
+
+	def caseClass: ModsEx = apply(Seq(Mod.Case()))
 }

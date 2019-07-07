@@ -39,6 +39,12 @@ case class ClassEx(
 
 	def withExtending(types: Seq[TypeEx]): ClassEx = withTemplate(template.withExtending(types))
 
+	def withMods(mods: List[ModsEx]): ClassEx = copy(
+		meta = meta.copy(mods = mods.flatMap(_.meta.mods))
+	)
+
+	def withCaseClass = withMods(List(ModsEx.caseClass))
+
 	override def tree = q"..${meta.mods} class ${meta.tname}[..${meta.tparams}] ..${meta.ctorMods} (...${meta.paramss}) extends ${meta.template}"
 
 	override protected def withTemplateInner(t: Template) = copy(meta = meta.copy(template = t))
