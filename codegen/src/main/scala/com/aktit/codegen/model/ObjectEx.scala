@@ -10,6 +10,7 @@ case class ObjectEx(meta: ObjectEx.Meta) extends CodeEx
 	with MethodEx.Contains[ObjectEx]
 	with MetaEx.Contains
 	with MetaEx.ContainsMods[ObjectEx]
+	with CodeEx.Name[ObjectEx]
 {
 	override def tree = q"..${meta.mods.toList} object ${meta.ename} extends ${meta.template}"
 
@@ -18,6 +19,10 @@ case class ObjectEx(meta: ObjectEx.Meta) extends CodeEx
 	override def withMods(mods: ModsEx) = copy(
 		meta = meta.copy(mods = mods.meta.mods)
 	)
+
+	override def name = meta.ename.value
+
+	override def withName(name: String) = copy(meta = meta.copy(ename = Term.Name(name)))
 }
 
 object ObjectEx extends PartialParser[ObjectEx]
@@ -34,4 +39,5 @@ object ObjectEx extends PartialParser[ObjectEx]
 			ObjectEx(Meta(mods, ename, template))
 	}
 
+	def withName(name: String): ObjectEx = parser(q"object X {}").withName(name)
 }
