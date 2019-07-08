@@ -13,6 +13,13 @@ trait CodeEx
 	def syntax: String = tree.syntax
 
 	override def toString = syntax
+
+	override def equals(o: Any) = o match {
+		case c: CodeEx => c.syntax == syntax
+		case _ => super.equals(o)
+	}
+
+	override def hashCode = syntax.hashCode
 }
 
 object CodeEx
