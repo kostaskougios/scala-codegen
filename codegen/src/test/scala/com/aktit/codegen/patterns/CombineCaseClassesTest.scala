@@ -1,6 +1,6 @@
 package com.aktit.codegen.patterns
 
-import com.aktit.codegen.model.{ClassEx, PackageEx}
+import com.aktit.codegen.model.{ClassEx, ImportEx, PackageEx}
 import org.scalatest.FunSuite
 import org.scalatest.Matchers._
 
@@ -48,8 +48,8 @@ class CombineCaseClassesTest extends FunSuite
 		""")
 
 		val combined = CombineCaseClasses.combine("tx", "BasketedItem")(itemWithDatePackage, basketWithDatePackage)(itemWithDatePackage.classes ++ basketWithDatePackage.classes: _*)
-		combined.classes.head should be(ClassEx.parser(
-			q"case class BasketedItem(id: Int, date:Date, discount: Float, since: Date)"
+		combined.imports should be(Seq(
+			ImportEx.parser(q"import java.sql.Date")
 		))
 	}
 }
