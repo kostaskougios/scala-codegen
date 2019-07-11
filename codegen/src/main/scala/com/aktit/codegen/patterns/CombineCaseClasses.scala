@@ -16,6 +16,16 @@ object CombineCaseClasses
 			.withConstructorParameters(vals.map(_.toValTermParamEx.withMods(ModsEx.empty)))
 			.withCaseClass
 
+		val companion = ObjectEx.withName(newClassName)
+			.withMethods(Seq(createConstructorFromParts(newClassName, classes)))
+
+		PackageEx.withName(targetPackage)
+			.withImports(imports)
+			.withClasses(Seq(caseClass))
+			.withObjects(Seq(companion))
+	}
+
+	private def createConstructorFromParts(newClassName: String, classes: Seq[ClassEx]) = {
 		val applyArgs = classes.map(c => TermParamEx.parseString(s"${c.unCapitalizedName}: ${c.name} "))
 		val applyConstructorArgs = classes.flatMap {
 			c =>
@@ -24,17 +34,10 @@ object CombineCaseClasses
 						s"${c.unCapitalizedName}.${v.name}"
 				}
 		}.mkString(", ")
-		val fromParts = DefinedMethodEx.withName("apply")
+		DefinedMethodEx.withName("apply")
 			.withParameters(Seq(applyArgs))
 			.withReturnType(newClassName)
 			.withImplementation(s"$newClassName($applyConstructorArgs)")
 
-		val companion = ObjectEx.withName(newClassName)
-			.withMethods(Seq(fromParts))
-
-		PackageEx.withName(targetPackage)
-			.withImports(imports)
-			.withClasses(Seq(caseClass))
-			.withObjects(Seq(companion))
 	}
 }
