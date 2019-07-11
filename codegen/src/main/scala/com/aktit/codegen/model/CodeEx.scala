@@ -1,5 +1,7 @@
 package com.aktit.codegen.model
 
+import org.apache.commons.text.WordUtils
+
 import scala.meta.Tree
 
 /**
@@ -28,6 +30,8 @@ object CodeEx
 	trait Name[+T]
 	{
 		def name: String
+
+		def unCapitalizedName: String = WordUtils.uncapitalize(name)
 
 		def withName(name: String): T
 	}
