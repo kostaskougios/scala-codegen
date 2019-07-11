@@ -39,6 +39,10 @@ case class PackageEx(
 		children = children ++ classes
 	)
 
+	def withObjects(objects: Seq[ObjectEx]) = copy(
+		children = children ++ objects
+	)
+
 	def classes: Seq[ClassEx] = children.collect {
 		case c: ClassEx => c
 	}

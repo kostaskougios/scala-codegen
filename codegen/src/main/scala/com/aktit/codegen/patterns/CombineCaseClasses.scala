@@ -1,6 +1,6 @@
 package com.aktit.codegen.patterns
 
-import com.aktit.codegen.model.{ClassEx, ModsEx, PackageEx}
+import com.aktit.codegen.model.{ClassEx, ModsEx, ObjectEx, PackageEx}
 
 /**
   * @author kostas.kougios
@@ -8,7 +8,7 @@ import com.aktit.codegen.model.{ClassEx, ModsEx, PackageEx}
   */
 object CombineCaseClasses
 {
-	def combine(targetPackage: String, newClassName: String)(packages: PackageEx*)(classes: ClassEx*) = {
+	def combine(targetPackage: String, newClassName: String)(packages: PackageEx*)(classes: ClassEx*): PackageEx = {
 		val vals = classes.flatMap(_.vals)
 		val imports = packages.flatMap(_.imports).distinct
 
@@ -16,8 +16,11 @@ object CombineCaseClasses
 			.withConstructorParameters(vals.map(_.toTermParamEx.withMods(ModsEx.empty)))
 			.withCaseClass
 
+		val companion = ObjectEx.withName(newClassName)
+
 		PackageEx.withName(targetPackage)
 			.withImports(imports)
 			.withClasses(Seq(caseClass))
+			.withObjects(Seq(companion))
 	}
 }
