@@ -1,6 +1,7 @@
 package com.aktit.codegen.patterns
 
 import com.aktit.codegen.model._
+import org.apache.commons.text.WordUtils
 
 /**
   * @author kostas.kougios
@@ -16,8 +17,9 @@ object CombineCaseClasses
 			.withConstructorParameters(vals.map(_.toValTermParamEx.withMods(ModsEx.empty)))
 			.withCaseClass
 
-		val fromParts = DefinedMethodEx.noArgReturningUnit("apply")
-			.withParameters(Seq(vals.map(_.toMethodArgTermParamEx)))
+		val applyArgs = classes.map(c => TermParamEx.parseString(s"${WordUtils.uncapitalize(c.name)}: ${c.name} "))
+		val fromParts = DefinedMethodEx.withName("apply")
+			.withParameters(Seq(applyArgs))
 			.withReturnType(newClassName)
 
 		val companion = ObjectEx.withName(newClassName)

@@ -76,5 +76,5 @@ object DefinedMethodEx extends PartialParser[DefinedMethodEx]
 
 	def parseString(c: String): DefinedMethodEx = parser(c.parse[Stat].get)
 
-	def noArgReturningUnit(name: String): DefinedMethodEx = parser(q"def x:Unit={}").withName(name)
+	def withName(name: String): DefinedMethodEx = parser(q"def x:Unit={}").withName(name)
 }

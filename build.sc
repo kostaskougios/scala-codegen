@@ -6,6 +6,7 @@ object codegen extends Common
 {
 	override def ivyDeps = Agg(
 		Apache.CommonIO,
+		Apache.CommonText,
 		ScalaMeta
 	)
 
@@ -34,6 +35,8 @@ object Deps
 	object Apache
 	{
 		val CommonIO = ivy"commons-io:commons-io:2.4"
+
+		val CommonText = ivy"org.apache.commons:commons-text:1.7"
 	}
 
 }
