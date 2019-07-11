@@ -1,6 +1,6 @@
 package com.aktit.codegen.patterns
 
-import com.aktit.codegen.model.{ClassEx, ImportEx, PackageEx}
+import com.aktit.codegen.model.{ClassEx, ImportEx, ObjectEx, PackageEx}
 import org.scalatest.FunSuite
 import org.scalatest.Matchers._
 
@@ -52,4 +52,30 @@ class CombineCaseClassesTest extends FunSuite
 			ImportEx.parser(q"import java.sql.Date")
 		))
 	}
+
+	test("companion object") {
+		val itemWithDatePackage = PackageEx.parser(
+			q"""
+			package x1 {
+				case class Item(id:Int,date:Date)
+			}
+		""")
+		val basketWithDatePackage = PackageEx.parser(
+			q"""
+			package x2 {
+				case class Basket(discount:Float,since:Date)
+   			}
+		""")
+
+		val combined = CombineCaseClasses.combine("tx", "BasketedItem")(itemWithDatePackage, basketWithDatePackage)(itemWithDatePackage.classes ++ basketWithDatePackage.classes: _*)
+		combined.objects should be(Seq(
+			ObjectEx.parser(
+				q"""
+					object BasketedItem {
+	 					def apply(item:Item,basket:Basket):BasketedItem = BasketedItem(item.id,item.date,basket.discount,basket.since)
+	   				}
+				 """)
+		))
+	}
+
 }

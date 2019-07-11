@@ -39,13 +39,18 @@ case class PackageEx(
 		children = children ++ classes
 	)
 
+	def classes: Seq[ClassEx] = children.collect {
+		case c: ClassEx => c
+	}
+
 	def withObjects(objects: Seq[ObjectEx]) = copy(
 		children = children ++ objects
 	)
 
-	def classes: Seq[ClassEx] = children.collect {
-		case c: ClassEx => c
+	def objects: Seq[ObjectEx] = children.collect {
+		case c: ObjectEx => c
 	}
+
 
 	def withImports(imports: Seq[ImportEx]) = copy(
 		children = imports ++ children
