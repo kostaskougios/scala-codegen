@@ -1,9 +1,24 @@
 import Deps._
 import mill._
 import mill.scalalib._
+import mill.scalalib.publish.{Developer, License, PomSettings, VersionControl}
 
-object codegen extends Common
+object codegen extends Common with PublishModule
 {
+
+	def publishVersion = "0.1.0-SNAPSHOT"
+
+	def pomSettings = PomSettings(
+		description = "generate scala classes",
+		organization = "com.aktit",
+		url = "https://github.com/",
+		licenses = Seq(License.MIT),
+		versionControl = VersionControl.github("kostaskougios", "lang-enhance"),
+		developers = Seq(
+			Developer("kostaskougios", "Kostas Kougios", "https://github.com/kostaskougios")
+		)
+	)
+
 	override def ivyDeps = Agg(
 		Apache.CommonIO,
 		Apache.CommonText,
