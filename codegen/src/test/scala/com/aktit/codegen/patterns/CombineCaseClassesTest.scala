@@ -28,8 +28,8 @@ class CombineCaseClassesTest extends FunSuite
 		""")
 
 		val combined = CombineCaseClasses.createClass("tx", "BasketedItem")
-			.withPackages(itemPackage, basketPackage)
-			.withClasses(itemPackage.classes ++ basketPackage.classes: _*)
+			.fromPackages(itemPackage, basketPackage)
+			.fromClasses(itemPackage.classes ++ basketPackage.classes: _*)
 			.build
 		combined.classes.head should be(ClassEx.parser(q"case class BasketedItem(id: Int, name: String, discount: Float, numOfItems: Int)"))
 	}
@@ -51,8 +51,8 @@ class CombineCaseClassesTest extends FunSuite
 		""")
 
 		val combined = CombineCaseClasses.createClass("tx", "BasketedItem")
-			.withPackages(itemWithDatePackage, basketWithDatePackage)
-			.withClasses(itemWithDatePackage.classes ++ basketWithDatePackage.classes: _*)
+			.fromPackages(itemWithDatePackage, basketWithDatePackage)
+			.fromClasses(itemWithDatePackage.classes ++ basketWithDatePackage.classes: _*)
 			.build
 		combined.imports should be(Seq(
 			ImportEx.parser(q"import java.sql.Date")
@@ -74,8 +74,8 @@ class CombineCaseClassesTest extends FunSuite
 		""")
 
 		val combined = CombineCaseClasses.createClass("tx", "BasketedItem")
-			.withPackages(itemWithDatePackage, basketWithDatePackage)
-			.withClasses(itemWithDatePackage.classes ++ basketWithDatePackage.classes: _*)
+			.fromPackages(itemWithDatePackage, basketWithDatePackage)
+			.fromClasses(itemWithDatePackage.classes ++ basketWithDatePackage.classes: _*)
 			.build
 		combined.objects should be(Seq(
 			ObjectEx.parser(

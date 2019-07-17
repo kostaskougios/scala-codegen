@@ -1,5 +1,4 @@
-import com.aktit.codegen.Parser
-import com.aktit.codegen.patterns.CombineCaseClasses
+
 
 name := "examples"
 
@@ -13,8 +12,8 @@ generate := {
 	val userPackage = parser.file(s"$combineDir/User.scala")
 	val purchasePackage = parser.file(s"$combineDir/Purchase.scala")
 	val userPurchases = CombineCaseClasses.createClass("com.aktit.example.combine", "UserPurchases")
-		.withPackages(userPackage, purchasePackage)
-		.withClasses(userPackage.classes.head, purchasePackage.classes.head)
+		.fromPackages(userPackage, purchasePackage)
+		.fromClasses(userPackage.classes.head, purchasePackage.classes.head)
 		.build
 
 	println(userPurchases.syntax)

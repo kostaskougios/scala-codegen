@@ -58,9 +58,9 @@ object CombineCaseClasses
 				def build = new CombineCaseClasses(targetPackage, newClassName, packages, classes).combine
 			}
 
-			def withClasses(classes: ClassEx*) = new ClassesBuilder(classes)
+			def fromClasses(classes: ClassEx*) = new ClassesBuilder(classes)
 		}
 
-		def withPackages(packages: PackageEx*) = new PackagesBuilder(packages)
+		def fromPackages(packages: PackageEx*) = new PackagesBuilder(packages)
 	}
 }
