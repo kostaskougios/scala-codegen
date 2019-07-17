@@ -49,18 +49,19 @@ object CombineCaseClasses
 
 	class Builder(targetPackage: String, newClassName: String)
 	{
+		def fromPackages(packages: PackageEx*) = new PackagesBuilder(packages)
+
+		def fromFirstClassOfEach(packages: PackageEx*) = new PackagesBuilder(packages).fromClasses(packages.map(_.classes.head) : _*)
 
 		class PackagesBuilder(packages: Seq[PackageEx])
 		{
+			def fromClasses(classes: ClassEx*) = new ClassesBuilder(classes)
 
 			class ClassesBuilder(classes: Seq[ClassEx])
 			{
 				def build = new CombineCaseClasses(targetPackage, newClassName, packages, classes).combine
 			}
-
-			def fromClasses(classes: ClassEx*) = new ClassesBuilder(classes)
 		}
 
-		def fromPackages(packages: PackageEx*) = new PackagesBuilder(packages)
 	}
 }
