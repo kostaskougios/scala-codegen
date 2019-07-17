@@ -1,4 +1,5 @@
-
+import com.aktit.codegen.Parser
+import com.aktit.codegen.patterns.CombineCaseClasses
 
 name := "examples"
 
