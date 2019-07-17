@@ -13,8 +13,7 @@ generate := {
 	val userPackage = parser.file(s"$combineDir/User.scala")
 	val purchasePackage = parser.file(s"$combineDir/Purchase.scala")
 	val userPurchases = CombineCaseClasses.createClass("com.aktit.example.combine", "UserPurchases")
-		.fromPackages(userPackage, purchasePackage)
-		.fromClasses(userPackage.classes.head, purchasePackage.classes.head)
+		.fromFirstClassOfEach(userPackage, purchasePackage)
 		.build
 
 	println(userPurchases.syntax)
