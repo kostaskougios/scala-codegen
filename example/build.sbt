@@ -1,3 +1,6 @@
+import com.aktit.codegen.Parser
+import com.aktit.codegen.patterns.CombineCaseClasses
+import org.apache.commons.io.FileUtils
 
 
 name := "examples"
