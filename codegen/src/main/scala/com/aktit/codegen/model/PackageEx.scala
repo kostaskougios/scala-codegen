@@ -25,7 +25,10 @@ case class PackageEx(
 		q"package ${meta.nameTerm} { ..$topstats }"
 	}
 
-	override def withName(name: String) = copy(meta = meta.copy(nameTerm = Term.Name(name)))
+	override def withName(name: String) = {
+		val nt = PackageEx.fromSource(s"package $name").meta.nameTerm // any better idea?
+		copy(meta = meta.copy(nameTerm = nt))
+	}
 
 	def withTraits(traits: Seq[ClassEx]) = copy(
 		children = children ++ traits

@@ -7,9 +7,20 @@ class PackageExTest extends AbstractSuite
 	test("name") {
 		val p = PackageEx.fromSource(
 			"""
-		package p
+		package p.a
 		""")
-		p.name should be("p")
+		p.name should be("p.a")
 	}
 
+	test("syntax") {
+		val p = PackageEx.fromSource(
+			"""
+		package com.aktit.example.combine
+		""")
+		p.syntax should be("package com.aktit.example.combine")
+	}
+
+	test("withName") {
+		PackageEx.withName("com.aktit").syntax should be("package com.aktit")
+	}
 }

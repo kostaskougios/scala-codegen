@@ -1,5 +1,4 @@
-import com.aktit.codegen.Parser
-import com.aktit.codegen.patterns.CombineCaseClasses
+
 
 name := "examples"
 
@@ -17,4 +16,5 @@ generate := {
 		.build
 
 	println(userPurchases.syntax)
+	FileUtils.writeStringToFile(new File(combineDir, "UserPurchases.scala"), userPurchases.syntax)
 }
