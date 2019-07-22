@@ -2,7 +2,12 @@ package com.aktit.codegen.patterns
 
 import com.aktit.codegen.model._
 
-class CombineCaseClasses private(targetPackage: String, newClassName: String, packages: Seq[PackageEx], classes: Seq[ClassEx])
+class CombineCaseClasses private(
+	targetPackage: String,
+	newClassName: String,
+	packages: Seq[PackageEx],
+	classes: Seq[ClassEx]
+)
 {
 	def combine: PackageEx = {
 		val vals = classes.flatMap(_.vals)
@@ -51,7 +56,7 @@ object CombineCaseClasses
 	{
 		def fromPackages(packages: PackageEx*) = new PackagesBuilder(packages)
 
-		def fromFirstClassOfEach(packages: PackageEx*) = new PackagesBuilder(packages).fromClasses(packages.map(_.classes.head) : _*)
+		def fromFirstClassOfEach(packages: PackageEx*) = new PackagesBuilder(packages).fromClasses(packages.map(_.classes.head): _*)
 
 		class PackagesBuilder(packages: Seq[PackageEx])
 		{
@@ -61,7 +66,9 @@ object CombineCaseClasses
 			{
 				def build = new CombineCaseClasses(targetPackage, newClassName, packages, classes).combine
 			}
+
 		}
 
 	}
+
 }
