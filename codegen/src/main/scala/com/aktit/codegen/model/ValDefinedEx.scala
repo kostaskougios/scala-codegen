@@ -39,6 +39,8 @@ object ValDefinedEx extends PartialParser[ValDefinedEx]
 
 	case class Meta(mods: List[Mod], patsnel: List[scala.meta.Pat], tpeopt: Option[Type], expr: Term) extends MetaEx with MetaEx.Mods
 
+	def fromSource(src: String): ValDefinedEx = parser(src.parse[Stat].get)
+
 	override def parser = {
 		case q"..$mods val ..$patsnel: $tpeopt = $expr" =>
 			ValDefinedEx(Meta(mods, patsnel, tpeopt, expr))

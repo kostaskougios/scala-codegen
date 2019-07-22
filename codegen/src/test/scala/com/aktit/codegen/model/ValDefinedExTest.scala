@@ -28,4 +28,9 @@ class ValDefinedExTest extends FunSuite
 	test("withType") {
 		intVal.withType(TypeEx("Long")).syntax should be(q"val x:Long = 5".syntax)
 	}
+
+	test("from source") {
+		ValDefinedEx.fromSource("val x:Int=5").syntax should be(q"val x:Int=5".syntax)
+	}
+
 }
