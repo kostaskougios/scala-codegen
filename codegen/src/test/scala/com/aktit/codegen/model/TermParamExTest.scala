@@ -18,6 +18,10 @@ class TermParamExTest extends AbstractSuite
 		TermParamEx.fromSource("x: Int").withType("Long").syntax should be(q"x: Long".syntax)
 	}
 
+	test("type") {
+		TermParamEx.fromSource("x: Int").`type`.get.syntax should be("Int")
+	}
+
 	test("withName") {
 		TermParamEx.fromSource("x: Int").withName("y").syntax should be(q"y: Int".syntax)
 	}
