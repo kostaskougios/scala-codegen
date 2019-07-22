@@ -51,7 +51,7 @@ object TermParamEx
 		override def mods = param.mods
 	}
 
-	def parseString(code: String) = TermParamEx(Meta(code.parse[Term.Param].get))
+	def fromSource(code: String): TermParamEx = TermParamEx(Meta(code.parse[Term.Param].get))
 
 	def apply(param: scala.meta.Term.Param): TermParamEx = TermParamEx(Meta(param))
 

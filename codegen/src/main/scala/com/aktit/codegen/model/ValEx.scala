@@ -12,9 +12,9 @@ trait ValEx extends CodeEx
 	with CodeEx.Name[ValEx]
 	with TypeEx.Contains[ValEx]
 {
-	def toValTermParamEx: TermParamEx = TermParamEx.parseString(syntax)
+	def toValTermParamEx: TermParamEx = TermParamEx.fromSource(syntax)
 
-	def toMethodArgTermParamEx: TermParamEx = TermParamEx.parseString(s"$name: ${`type`}")
+	def toMethodArgTermParamEx: TermParamEx = TermParamEx.fromSource(s"$name: ${`type`}")
 
 	override def meta: MetaEx with MetaEx.Mods
 }

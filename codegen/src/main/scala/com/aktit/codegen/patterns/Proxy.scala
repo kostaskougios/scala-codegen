@@ -19,7 +19,7 @@ object Proxy
 
 				ClassEx.withName(clz.name + "Proxy")
 					.withTypeParams(clz.typeParams)
-					.withConstructorParameter(TermParamEx.parseString("forwarder:(String,Seq[Any])=>Any"))
+					.withConstructorParameter(TermParamEx.fromSource("forwarder:(String,Seq[Any])=>Any"))
 					.withMethods(methods)
 					.withExtending(clz.toType)
 		}

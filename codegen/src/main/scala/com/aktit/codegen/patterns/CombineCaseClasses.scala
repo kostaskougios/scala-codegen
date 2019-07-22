@@ -27,7 +27,7 @@ class CombineCaseClasses private(
 	}
 
 	private def createConstructorFromParts = {
-		val applyArgs = classes.map(c => TermParamEx.parseString(s"${c.unCapitalizedName}: ${c.name} "))
+		val applyArgs = classes.map(c => TermParamEx.fromSource(s"${c.unCapitalizedName}: ${c.name} "))
 		val applyConstructorArgs = classes.flatMap {
 			c =>
 				c.vals.map {
