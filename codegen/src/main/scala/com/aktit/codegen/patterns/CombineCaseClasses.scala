@@ -1,21 +1,23 @@
 package com.aktit.codegen.patterns
 
 import com.aktit.codegen.model._
+import com.aktit.codegen.patterns.CombineCaseClasses.{Beginning, End, ExtraField}
 
 class CombineCaseClasses private(
 	targetPackage: String,
 	newClassName: String,
 	packages: Seq[PackageEx],
-	classes: Seq[ClassEx]
+	classes: Seq[ClassEx],
+	extraFields: Seq[ExtraField]
 )
 {
+	private val beginning = extraFields.filter(_.pos == Beginning)
+	private val end = extraFields.filter(_.pos == End)
+
 	def combine: PackageEx = {
-		val vals = classes.flatMap(_.vals)
 		val imports = packages.flatMap(_.imports).distinct
 
-		val caseClass = ClassEx.withName(newClassName)
-			.withConstructorParameters(vals.map(_.toValTermParamEx.withMods(ModsEx.empty)))
-			.withCaseClass
+		val caseClass = createCaseClass
 
 		val companion = ObjectEx.withName(newClassName)
 			.withMethods(Seq(createConstructorFromParts))
@@ -26,15 +28,31 @@ class CombineCaseClasses private(
 			.withObjects(Seq(companion))
 	}
 
+	private def createCaseClass = {
+		val vals = classes.flatMap(_.vals)
+
+		ClassEx.withName(newClassName)
+			.withConstructorParameters(
+				beginning.map(_.param) ++
+					vals.map(_.toValTermParamEx.withMods(ModsEx.empty)) ++
+					end.map(_.param)
+			)
+			.withCaseClass
+	}
+
 	private def createConstructorFromParts = {
-		val applyArgs = classes.map(c => TermParamEx.fromSource(s"${c.unCapitalizedName}: ${c.name} "))
-		val applyConstructorArgs = classes.flatMap {
-			c =>
-				c.vals.map {
-					v =>
-						s"${c.unCapitalizedName}.${v.name}"
-				}
-		}.mkString(", ")
+		val applyArgs = beginning.map(_.param) ++ classes.map(c => TermParamEx.fromSource(s"${c.unCapitalizedName}: ${c.name} ")) ++ end.map(_.param)
+		val applyConstructorArgs = (
+			beginning.map(_.param.name) ++
+				classes.flatMap {
+					c =>
+						c.vals.map {
+							v =>
+								s"${c.unCapitalizedName}.${v.name}"
+						}
+				} ++
+				end.map(_.param.name)
+			).mkString(", ")
 		DefinedMethodEx.withName("apply")
 			.withParameters(Seq(applyArgs))
 			.withReturnType(newClassName)
@@ -60,15 +78,26 @@ object CombineCaseClasses
 
 		class PackagesBuilder(packages: Seq[PackageEx])
 		{
-			def fromClasses(classes: ClassEx*) = new ClassesBuilder(classes)
+			def fromClasses(classes: ClassEx*) = new ClassesBuilder(classes, Nil)
 
-			class ClassesBuilder(classes: Seq[ClassEx])
+			class ClassesBuilder(classes: Seq[ClassEx], extraFields: Seq[ExtraField])
 			{
-				def build = new CombineCaseClasses(targetPackage, newClassName, packages, classes).combine
+				def withExtraFields(extra: ExtraField*) = new ClassesBuilder(classes, extra)
+
+				def build = new CombineCaseClasses(targetPackage, newClassName, packages, classes, extraFields).combine
 			}
 
 		}
 
 	}
 
+	sealed trait Pos
+
+	object Beginning extends Pos
+
+	object End extends Pos
+
+	case class ExtraField(pos: Pos, param: TermParamEx)
+
+	def extraField(pos: Pos, name: String, `type`: String) = ExtraField(pos, TermParamEx.fromSource(s"$name:${`type`}"))
 }

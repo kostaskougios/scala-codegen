@@ -1,6 +1,7 @@
 package com.aktit.codegen.patterns
 
 import com.aktit.codegen.model.{ClassEx, ImportEx, ObjectEx, PackageEx}
+import com.aktit.codegen.patterns.CombineCaseClasses.{Beginning, End, extraField}
 import org.scalatest.FunSuite
 import org.scalatest.Matchers._
 
@@ -85,6 +86,35 @@ class CombineCaseClassesTest extends FunSuite
 	   				}
 				 """)
 		))
+	}
+
+	test("extra fields") {
+		val itemPackage = PackageEx.parser(
+			q"""
+			package x1 {
+				case class Item(id:Int,name:String)
+			}
+		""")
+
+		val basketPackage = PackageEx.parser(
+			q"""
+			package x2 {
+				case class Basket(discount:Float,numOfItems:Int)
+			}
+		""")
+
+		val combined = CombineCaseClasses.createClass("tx", "BasketedItem")
+			.fromPackages(itemPackage, basketPackage)
+			.fromClasses(itemPackage.classes ++ basketPackage.classes: _*)
+			.withExtraFields(extraField(Beginning, "beginning", "String"), extraField(End, "end", "Float"))
+			.build
+		combined.classes.head should be(ClassEx.parser(q"case class BasketedItem(beginning:String,id: Int, name: String, discount: Float, numOfItems: Int,end:Float)"))
+		combined.objects.head should be(ObjectEx.parser(
+			q"""
+					object BasketedItem {
+	 					def apply(beginning:String,item:Item,basket:Basket,end:Float):BasketedItem = BasketedItem(beginning,item.id,item.name,basket.discount,basket.numOfItems,end)
+	   				}
+				 """))
 	}
 
 }
