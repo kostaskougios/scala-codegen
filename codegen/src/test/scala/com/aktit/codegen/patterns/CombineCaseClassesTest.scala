@@ -82,7 +82,8 @@ class CombineCaseClassesTest extends FunSuite
 			ObjectEx.parser(
 				q"""
 					object BasketedItem {
-	 					def apply(item:Item,basket:Basket):BasketedItem = BasketedItem(item.id,item.date,basket.discount,basket.since)
+	 					def apply(item:Item,basket:Basket):BasketedItem =
+	 					BasketedItem(item.id,item.date,basket.discount,basket.since)
 	   				}
 				 """)
 		))
@@ -112,7 +113,8 @@ class CombineCaseClassesTest extends FunSuite
 		combined.objects.head should be(ObjectEx.parser(
 			q"""
 					object BasketedItem {
-	 					def apply(beginning:String,item:Item,basket:Basket,end:Float):BasketedItem = BasketedItem(beginning,item.id,item.name,basket.discount,basket.numOfItems,end)
+	 					def apply(beginning:String,item:Item,basket:Basket,end:Float):BasketedItem =
+	 					BasketedItem(beginning,item.id,item.name,basket.discount,basket.numOfItems,end)
 	   				}
 				 """))
 	}
