@@ -63,6 +63,17 @@ object MethodEx extends PartialParser[MethodEx[_]]
 			)
 		}
 
+		def withVals(vals: Seq[ValEx]): T = {
+			withTemplateInner(
+				Template(
+					meta.template.early,
+					meta.template.inits,
+					meta.template.self,
+					meta.template.stats.filterNot(ValEx.isVal) ++ vals.map(_.tree)
+				)
+			)
+		}
+
 	}
 
 }

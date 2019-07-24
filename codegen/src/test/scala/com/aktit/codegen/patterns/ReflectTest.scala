@@ -1,7 +1,8 @@
 package com.aktit.codegen.patterns
 
-import com.aktit.codegen.model.PackageEx
+import com.aktit.codegen.model.{PackageEx, ValDefinedEx}
 import org.scalatest.FunSuite
+import org.scalatest.Matchers._
 
 import scala.meta._
 
@@ -11,7 +12,7 @@ import scala.meta._
   */
 class ReflectTest extends FunSuite
 {
-	test("reflect case classes") {
+	test("reflect case classes vals") {
 		val pckg = PackageEx.parser(
 			q"""
 			package x1 {
@@ -22,5 +23,8 @@ class ReflectTest extends FunSuite
 
 		val reflect = Reflect.forPackage(pckg, "com.aktit.reflect.Field").build
 		println(reflect.syntax)
+		val vals = reflect.classes.head.vals
+		vals should contain(ValDefinedEx.parser(q"val idField = com.aktit.reflect.Field(id, _.id)"))
+		vals should contain(ValDefinedEx.parser(q"val dateField = com.aktit.reflect.Field(date, _.date)"))
 	}
 }

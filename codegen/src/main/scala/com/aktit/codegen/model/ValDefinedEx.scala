@@ -11,7 +11,7 @@ case class ValDefinedEx(meta: ValDefinedEx.Meta)
 		with CodeEx.Name[ValDefinedEx]
 		with TypeEx.Contains[ValDefinedEx]
 {
-	override def tree = q"..${meta.mods} val ..${meta.patsnel}: ${meta.tpeopt}  = ${meta.expr}"
+	override def tree: Defn.Val = q"..${meta.mods} val ..${meta.patsnel}: ${meta.tpeopt}  = ${meta.expr}"
 
 	override def name = meta.patsnel.collectFirst {
 		case n: Pat.Var => n.name.value
@@ -31,6 +31,12 @@ case class ValDefinedEx(meta: ValDefinedEx.Meta)
 		)
 	)
 
+	def withExpression(code: String) = copy(
+		meta = meta.copy(
+			expr = code.parse[Term].get
+		)
+	)
+
 	override def withMods(mods: ModsEx) = copy(meta = meta.copy(mods = mods.meta.mods.toList))
 }
 
@@ -40,6 +46,8 @@ object ValDefinedEx extends PartialParser[ValDefinedEx]
 	case class Meta(mods: List[Mod], patsnel: List[scala.meta.Pat], tpeopt: Option[Type], expr: Term) extends MetaEx with MetaEx.Mods
 
 	def fromSource(src: String): ValDefinedEx = parser(src.parse[Stat].get)
+
+	def withName(name: String): ValDefinedEx = parser(q"val x = ???").withName(name)
 
 	override def parser = {
 		case q"..$mods val ..$patsnel: $tpeopt = $expr" =>

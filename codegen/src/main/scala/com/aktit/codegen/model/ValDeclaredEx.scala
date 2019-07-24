@@ -11,7 +11,7 @@ case class ValDeclaredEx(meta: ValDeclaredEx.Meta)
 		with CodeEx.Name[ValDeclaredEx]
 		with TypeEx.Contains[ValDeclaredEx]
 {
-	override def tree = q"..${meta.mods} val ..${meta.patsnel}: ${meta.tpe}"
+	override def tree: Decl.Val = q"..${meta.mods} val ..${meta.patsnel}: ${meta.tpe}"
 
 	override def name = meta.patsnel.collectFirst {
 		case n: Pat.Var => n.name.value
@@ -41,6 +41,8 @@ object ValDeclaredEx extends PartialParser[ValDeclaredEx]
 	case class Meta(mods: List[Mod], patsnel: List[scala.meta.Pat], tpe: Type) extends MetaEx with MetaEx.Mods
 
 	def fromSource(src: String): ValDeclaredEx = parser(src.parse[Stat].get)
+
+	def withName(name: String): ValDeclaredEx = parser(q"val x : Unit").withName(name)
 
 	override def parser = {
 		case q"..$mods val ..$patsnel: $tpe" =>

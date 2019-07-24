@@ -1,6 +1,6 @@
 package com.aktit.codegen.patterns
 
-import com.aktit.codegen.model.{ClassEx, DefinedMethodEx, PackageEx}
+import com.aktit.codegen.model.{ClassEx, PackageEx, ValDefinedEx}
 
 /**
   * @author kostas.kougios
@@ -22,13 +22,13 @@ private class Reflect(
 	}
 
 	private def generateReflect(clz: ClassEx) = {
-		val valAccessors = clz.vals.map {
+		val fields = clz.vals.map {
 			v =>
-				DefinedMethodEx.withName(v.name + "Field")
-					.withImplementation(s"$fieldClass(${v.name},_.${v.name})")
+				ValDefinedEx.withName(v.name + "Field")
+					.withExpression(s"$fieldClass(${v.name},_.${v.name})")
 		}
 		ClassEx.withName(clz.name + "Reflect")
-			.withMethods(valAccessors)
+			.withVals(fields)
 	}
 
 }
