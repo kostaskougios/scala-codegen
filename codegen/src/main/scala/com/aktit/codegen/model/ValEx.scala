@@ -23,7 +23,7 @@ trait ValEx extends CodeEx
 
 object ValEx extends PartialParser[ValEx]
 {
-	override def parser = ValDeclaredEx.parser.orElse(ValDefinedEx.parser)
+	override def parser = DeclaredValEx.parser.orElse(DefinedValEx.parser)
 
 	def isVal(t: Tree): Boolean = parser.isDefinedAt(t)
 

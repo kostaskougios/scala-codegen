@@ -9,16 +9,16 @@ import scala.meta._
   * @author kostas.kougios
   *         Date: 10/11/17
   */
-class ValDeclaredExTest extends FunSuite
+class DefinedValExTest extends FunSuite
 {
-	val intVal = ValDeclaredEx.parser(q"val x:Int")
+	val intVal = DefinedValEx.parser(q"val x:Int = 5")
 
 	test("name") {
 		intVal.name should be("x")
 	}
 
 	test("withName") {
-		intVal.withName("y").syntax should be(q"val y:Int".syntax)
+		intVal.withName("y").syntax should be(q"val y:Int = 5".syntax)
 	}
 
 	test("type") {
@@ -26,10 +26,11 @@ class ValDeclaredExTest extends FunSuite
 	}
 
 	test("withType") {
-		intVal.withType(TypeEx("Long")).syntax should be(q"val x:Long".syntax)
+		intVal.withType(TypeEx("Long")).syntax should be(q"val x:Long = 5".syntax)
 	}
 
 	test("from source") {
-		ValDeclaredEx.fromSource("val x:Int").syntax should be(q"val x:Int".syntax)
+		DefinedValEx.fromSource("val x:Int=5").syntax should be(q"val x:Int=5".syntax)
 	}
+
 }

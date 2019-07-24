@@ -6,10 +6,10 @@ import scala.meta._
   * @author kostas.kougios
   *         Date: 10/11/17
   */
-case class ValDefinedEx(meta: ValDefinedEx.Meta)
+case class DefinedValEx(meta: DefinedValEx.Meta)
 	extends ValEx
-		with CodeEx.Name[ValDefinedEx]
-		with TypeEx.Contains[ValDefinedEx]
+		with CodeEx.Name[DefinedValEx]
+		with TypeEx.Contains[DefinedValEx]
 {
 	override def tree: Defn.Val = q"..${meta.mods} val ..${meta.patsnel}: ${meta.tpeopt}  = ${meta.expr}"
 
@@ -40,23 +40,23 @@ case class ValDefinedEx(meta: ValDefinedEx.Meta)
 	override def withMods(mods: ModsEx) = copy(meta = meta.copy(mods = mods.meta.mods.toList))
 }
 
-object ValDefinedEx extends PartialParser[ValDefinedEx]
+object DefinedValEx extends PartialParser[DefinedValEx]
 {
 
 	case class Meta(mods: List[Mod], patsnel: List[scala.meta.Pat], tpeopt: Option[Type], expr: Term) extends MetaEx with MetaEx.Mods
 
-	def fromSource(src: String): ValDefinedEx = parser(src.parse[Stat].get)
+	def fromSource(src: String): DefinedValEx = parser(src.parse[Stat].get)
 
-	def withName(name: String): ValDefinedEx = parser(q"val x = ???").withName(name)
+	def withName(name: String): DefinedValEx = parser(q"val x = ???").withName(name)
 
 	override def parser = {
 		case q"..$mods val ..$patsnel: $tpeopt = $expr" =>
-			ValDefinedEx(Meta(mods, patsnel, tpeopt, expr))
+			DefinedValEx(Meta(mods, patsnel, tpeopt, expr))
 	}
 
 	trait Contains
 	{
-		def vals: Seq[ValDefinedEx]
+		def vals: Seq[DefinedValEx]
 	}
 
 }

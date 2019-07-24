@@ -6,10 +6,10 @@ import scala.meta._
   * @author kostas.kougios
   *         Date: 10/11/17
   */
-case class ValDeclaredEx(meta: ValDeclaredEx.Meta)
+case class DeclaredValEx(meta: DeclaredValEx.Meta)
 	extends ValEx
-		with CodeEx.Name[ValDeclaredEx]
-		with TypeEx.Contains[ValDeclaredEx]
+		with CodeEx.Name[DeclaredValEx]
+		with TypeEx.Contains[DeclaredValEx]
 {
 	override def tree: Decl.Val = q"..${meta.mods} val ..${meta.patsnel}: ${meta.tpe}"
 
@@ -35,23 +35,23 @@ case class ValDeclaredEx(meta: ValDeclaredEx.Meta)
 
 }
 
-object ValDeclaredEx extends PartialParser[ValDeclaredEx]
+object DeclaredValEx extends PartialParser[DeclaredValEx]
 {
 
 	case class Meta(mods: List[Mod], patsnel: List[scala.meta.Pat], tpe: Type) extends MetaEx with MetaEx.Mods
 
-	def fromSource(src: String): ValDeclaredEx = parser(src.parse[Stat].get)
+	def fromSource(src: String): DeclaredValEx = parser(src.parse[Stat].get)
 
-	def withName(name: String): ValDeclaredEx = parser(q"val x : Unit").withName(name)
+	def withName(name: String): DeclaredValEx = parser(q"val x : Unit").withName(name)
 
 	override def parser = {
 		case q"..$mods val ..$patsnel: $tpe" =>
-			ValDeclaredEx(Meta(mods, patsnel, tpe))
+			DeclaredValEx(Meta(mods, patsnel, tpe))
 	}
 
 	trait Contains
 	{
-		def vals: Seq[ValDeclaredEx]
+		def vals: Seq[DeclaredValEx]
 	}
 
 }
