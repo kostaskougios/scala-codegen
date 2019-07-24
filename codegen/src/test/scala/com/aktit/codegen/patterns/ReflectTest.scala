@@ -22,7 +22,6 @@ class ReflectTest extends FunSuite
 		""")
 
 		val reflect = Reflect.forPackage(pckg, "com.aktit.reflect.Field").build
-		println(reflect.syntax)
 		val vals = reflect.classes.head.vals
 		vals should contain(DefinedValEx.parser(q"val idField = com.aktit.reflect.Field(id, _.id)"))
 		vals should contain(DefinedValEx.parser(q"val dateField = com.aktit.reflect.Field(date, _.date)"))
