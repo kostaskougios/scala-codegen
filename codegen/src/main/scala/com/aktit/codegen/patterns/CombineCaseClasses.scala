@@ -3,7 +3,7 @@ package com.aktit.codegen.patterns
 import com.aktit.codegen.model._
 import com.aktit.codegen.patterns.CombineCaseClasses.{Beginning, End, ExtraField}
 
-class CombineCaseClasses private(
+private class CombineCaseClasses private(
 	targetPackage: String,
 	newClassName: String,
 	packages: Seq[PackageEx],

@@ -16,7 +16,7 @@ class DefinedMethodExTest extends AbstractSuite
 	}
 
 	test("noArgReturningUnit") {
-		DefinedMethodEx.withName("aMethod").syntax should be(q"def aMethod: Unit = {}".syntax)
+		DefinedMethodEx.withName("aMethod").syntax should be(q"def aMethod = {}".syntax)
 	}
 
 	test("define using code") {

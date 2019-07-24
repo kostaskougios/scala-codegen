@@ -17,6 +17,8 @@ trait MethodEx[A] extends CodeEx
 
 	def parameters: Seq[Seq[TermParamEx]]
 
+	def withParameter(param: TermParamEx): MethodEx[A] = withParameters(Seq(Seq(param)))
+
 	def withParameters(params: Seq[Seq[TermParamEx]]): MethodEx[A]
 
 	// converts this method to it's abstract (no impl) representation
