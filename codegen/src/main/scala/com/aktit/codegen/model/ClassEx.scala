@@ -70,7 +70,7 @@ case class ClassEx(
 	/**
 	  * @return all vals (including those in the constructor)
 	  */
-	def vals: Seq[ValEx] = constructorVals ++ template.vals
+	override def vals: Seq[ValEx] = constructorVals ++ template.vals
 }
 
 object ClassEx extends PartialParser[ClassEx]

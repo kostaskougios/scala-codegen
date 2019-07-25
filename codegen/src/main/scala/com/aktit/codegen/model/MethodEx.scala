@@ -36,6 +36,8 @@ object MethodEx extends PartialParser[MethodEx[_]]
 {
 	override val parser = DeclaredMethodEx.parser.orElse(DefinedMethodEx.parser)
 
+	def fromSource(s: String): MethodEx[_] = parser(s.parse[Stat].get)
+
 	def isMethod(t: Tree): Boolean = parser.isDefinedAt(t)
 
 	trait Contains[T] extends TemplateEx.Contains[T]

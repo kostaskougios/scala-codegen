@@ -18,4 +18,25 @@ class ObjectExTest extends FunSuite
 	test("named object") {
 		ObjectEx.withName("AnObject").name should be("AnObject")
 	}
+
+	test("vals") {
+		ObjectEx.parser(
+			q"""
+			   object Obj {
+			   	val i=1
+			   	val j=2
+			   }
+			 """).vals should be(Seq(ValEx.fromSource("val i=1"), ValEx.fromSource("val j=2")))
+	}
+
+	test("methods") {
+		ObjectEx.parser(
+			q"""
+			   object Obj {
+			   	def i=1
+			   	def j=2
+			   }
+			 """).methods should be(Seq(MethodEx.fromSource("def i=1"), MethodEx.fromSource("def j=2")))
+	}
+
 }
