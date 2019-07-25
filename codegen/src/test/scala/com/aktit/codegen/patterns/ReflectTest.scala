@@ -12,6 +12,17 @@ import scala.meta._
   */
 class ReflectTest extends FunSuite
 {
+	test("reflect name") {
+		val pckg = PackageEx.parser(
+			q"""
+			package x1 {
+   				import java.sql.Date
+				case class Item(id:Int,date:Date)
+			}
+		""")
+		Reflect.forPackage(pckg, "com.aktit.reflect.Field").build.objects.map(_.name) should be(Seq("ItemReflect"))
+	}
+
 	test("reflect case classes vals") {
 		val pckg = PackageEx.parser(
 			q"""
