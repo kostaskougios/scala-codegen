@@ -1,6 +1,6 @@
 package com.aktit.codegen.patterns
 
-import com.aktit.codegen.model.{ClassEx, DefinedValEx, ObjectEx, PackageEx}
+import com.aktit.codegen.model._
 
 /**
   * @author kostas.kougios
@@ -27,8 +27,16 @@ private class Reflect(
 				DefinedValEx.withName(v.name + "Field")
 					.withExpression(s"$fieldClass(${v.name},_.${v.name})")
 		}
+		val allFields = clz.vals.map(_.name + "Field")
+		val methods = Seq(
+			DefinedMethodEx.withName("allFields")
+				.withReturnType("Seq[Field]")
+				.withImplementation(s"Seq(${allFields.mkString(",")})")
+		)
+
 		ObjectEx.withName(clz.name + "Reflect")
 			.withVals(fields)
+			.withMethods(methods)
 	}
 
 }
