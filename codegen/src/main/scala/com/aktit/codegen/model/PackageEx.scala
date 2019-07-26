@@ -65,6 +65,12 @@ case class PackageEx(
 
 	override def toString = tree.syntax
 
+	def saveUnder(srcFolder: String): Unit = {
+		val targetDir = new File(srcFolder, name.replace('.', '/'))
+		targetDir.mkdirs()
+		val fileName = (classes ++ objects).head.name + ".scala"
+		FileUtils.writeStringToFile(new File(targetDir, fileName), syntax)
+	}
 }
 
 object PackageEx extends PartialParser[PackageEx]

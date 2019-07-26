@@ -1,5 +1,7 @@
 package com.aktit.codegen.model
 
+import java.io.File
+
 import com.aktit.codegen.AbstractSuite
 
 class PackageExTest extends AbstractSuite
@@ -22,5 +24,11 @@ class PackageExTest extends AbstractSuite
 
 	test("withName") {
 		PackageEx.withName("com.aktit").syntax should be("package com.aktit")
+	}
+
+	test("saveUnder") {
+		val srcDir = s"$newRandomTmpDir/src"
+		PackageEx.withName("com.aktit").withClasses(Seq(ClassEx.withName("MyClass"))).saveUnder(srcDir)
+		new File(srcDir + "/com/aktit/MyClass.scala").exists should be(true)
 	}
 }

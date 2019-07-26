@@ -64,7 +64,6 @@ class ReflectTest extends FunSuite
 		""")
 
 		val reflect = Reflect.forPackage(pckg, "com.aktit.reflect.Field").build
-		println(reflect.syntax)
 		reflect.objects.head.methods should contain(DefinedMethodEx.parser(q"def allFields:Seq[Field] = Seq(idField,dateField)"))
 	}
 }
