@@ -32,6 +32,8 @@ object ImportEx extends PartialParser[ImportEx]
 		case q"import ..$importersnel" =>
 			ImportEx(Meta(importersnel))
 	}
+
+	def fromSource(code: String) = parser(code.parse[Stat].get)
 }
 
 trait Imported

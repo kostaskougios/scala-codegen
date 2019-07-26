@@ -1,6 +1,7 @@
 package com.aktit.codegen.patterns
 
 import com.aktit.codegen.model._
+import org.apache.commons.lang3.StringUtils
 
 /**
   * @author kostas.kougios
@@ -12,12 +13,13 @@ private class Reflect(
 	fieldClass: String
 )
 {
+	private val fieldClzName = StringUtils.substringAfterLast(fieldClass, ".")
 	def reflect = {
 		val reflects = pckg.classes
 			.filter(classFilter)
 			.map(generateReflect)
 		PackageEx.withName(pckg.name)
-			.withImports(pckg.imports)
+			.withImports(pckg.imports :+ ImportEx.fromSource(s"import $fieldClass"))
 			.withObjects(reflects)
 	}
 
@@ -25,7 +27,7 @@ private class Reflect(
 		val fields = clz.vals.map {
 			v =>
 				DefinedValEx.withName(v.name + "Field")
-					.withExpression(s"$fieldClass(${v.name},_.${v.name})")
+					.withExpression(s"$fieldClzName(${v.name},_.${v.name})")
 		}
 		val allFields = clz.vals.map(_.name + "Field")
 		val methods = Seq(
