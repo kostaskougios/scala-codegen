@@ -27,12 +27,12 @@ private class Reflect(
 		val fields = clz.vals.map {
 			v =>
 				DefinedValEx.withName(v.name + "Field")
-					.withExpression(s"$fieldClzName(${v.name},_.${v.name})")
+					.withExpression(s"""$fieldClzName[${clz.name}]("${v.name}",_.${v.name})""".stripMargin)
 		}
 		val allFields = clz.vals.map(_.name + "Field")
 		val methods = Seq(
 			DefinedMethodEx.withName("allFields")
-				.withReturnType("Seq[Field]")
+				.withReturnType(s"Seq[Field[${clz.name}]]")
 				.withImplementation(s"Seq(${allFields.mkString(",")})")
 		)
 

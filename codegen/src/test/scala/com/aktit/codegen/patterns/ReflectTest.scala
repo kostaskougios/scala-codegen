@@ -34,8 +34,8 @@ class ReflectTest extends FunSuite
 
 		val reflect = Reflect.forPackage(pckg, "com.aktit.reflect.Field").build
 		val vals = reflect.objects.head.vals
-		vals should contain(DefinedValEx.parser(q"val idField = Field(id, _.id)"))
-		vals should contain(DefinedValEx.parser(q"val dateField = Field(date, _.date)"))
+		vals should contain(DefinedValEx.parser(q"""val idField = Field[Item]("id", _.id)"""))
+		vals should contain(DefinedValEx.parser(q"""val dateField = Field[Item]("date", _.date)"""))
 	}
 
 	test("reflect private vals") {
@@ -51,7 +51,7 @@ class ReflectTest extends FunSuite
 
 		val reflect = Reflect.forPackage(pckg, "com.aktit.reflect.Field").build
 		val vals = reflect.objects.head.vals
-		vals should contain(DefinedValEx.parser(q"val dateField = Field(date, _.date)"))
+		vals should contain(DefinedValEx.parser(q"""val dateField = Field[Item]("date", _.date)"""))
 	}
 
 	test("reflect allFields") {
@@ -64,6 +64,6 @@ class ReflectTest extends FunSuite
 		""")
 
 		val reflect = Reflect.forPackage(pckg, "com.aktit.reflect.Field").build
-		reflect.objects.head.methods should contain(DefinedMethodEx.parser(q"def allFields:Seq[Field] = Seq(idField,dateField)"))
+		reflect.objects.head.methods should contain(DefinedMethodEx.parser(q"def allFields:Seq[Field[Item]] = Seq(idField,dateField)"))
 	}
 }
