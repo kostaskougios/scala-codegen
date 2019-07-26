@@ -1,11 +1,11 @@
-import com.aktit.codegen.Parser
-import com.aktit.codegen.patterns.CombineCaseClasses
-import org.apache.commons.io.FileUtils
+
 
 
 name := "examples"
 
 organization := "com.aktit"
+
+unmanagedSourceDirectories in Compile += baseDirectory.value / "src_generated"
 
 val generate = taskKey[Unit]("Generates classes using codegen")
 
@@ -19,5 +19,5 @@ generate := {
 		.build
 
 	println(userPurchases.syntax)
-	FileUtils.writeStringToFile(new File(combineDir, "UserPurchases.scala"), userPurchases.syntax)
+	userPurchases.saveUnder("src_generated")
 }
