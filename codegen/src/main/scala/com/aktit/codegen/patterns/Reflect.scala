@@ -17,13 +17,13 @@ private class Reflect(
 	def reflect = {
 		val reflects = pckg.classes
 			.filter(classFilter)
-			.map(generateReflect)
+			.map(generateObject)
 		PackageEx.withName(pckg.name)
 			.withImports(pckg.imports :+ ImportEx.fromSource(s"import $fieldClass"))
 			.withObjects(reflects)
 	}
 
-	private def generateReflect(clz: ClassEx) = {
+	private def generateObject(clz: ClassEx) = {
 		val fields = clz.vals.map {
 			v =>
 				DefinedValEx.withName(v.name + "Field")
