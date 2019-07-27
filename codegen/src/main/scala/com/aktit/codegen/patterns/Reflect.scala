@@ -9,11 +9,14 @@ import org.apache.commons.lang3.StringUtils
   */
 private class Reflect(
 	pckg: PackageEx,
-	classFilter: ClassEx => Boolean,
-	fieldClass: String
+	reflectConfig: ReflectConfig
 )
 {
+
+	import reflectConfig._
+
 	private val fieldClzName = StringUtils.substringAfterLast(fieldClass, ".")
+
 	def reflect = {
 		val reflects = pckg.classes
 			.filter(classFilter)
@@ -45,13 +48,20 @@ private class Reflect(
 
 object Reflect
 {
-	def forPackage(pckg: PackageEx, fieldClass: String) = new Builder(pckg, fieldClass, _ => true)
+	def forPackage(pckg: PackageEx) = new Builder(pckg, ReflectConfig.Default)
 
-	class Builder(pckg: PackageEx, fieldClass: String, classFilter: ClassEx => Boolean)
+	class Builder(pckg: PackageEx, reflectConfig: ReflectConfig)
 	{
-		def withClassFilter(cf: ClassEx => Boolean) = new Builder(pckg, fieldClass, cf)
+		def withReflectConfig(rc: ReflectConfig) = new Builder(pckg, rc)
 
-		def build = new Reflect(pckg, classFilter, fieldClass).reflect
+		def build = new Reflect(pckg, reflectConfig).reflect
 	}
 
+}
+
+case class ReflectConfig(fieldClass: String = "com.aktit.reflect.Field", classFilter: ClassEx => Boolean = _ => true)
+
+object ReflectConfig
+{
+	val Default = ReflectConfig()
 }

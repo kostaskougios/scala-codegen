@@ -13,4 +13,6 @@ case class Person(
 )
 {
 	def isBornAfter(p: Person) = dob.isAfter(p.dob)
+
+	def toMap = PersonReflect.allFields.map(f => (f.name, f.getter(this)))
 }

@@ -12,6 +12,22 @@ import scala.meta._
   */
 class ReflectTest extends FunSuite
 {
+	test("reflect filter out classes") {
+		val pckg = PackageEx.parser(
+			q"""
+			package x1 {
+   				import java.sql.Date
+				case class Item(id:Int,date:Date)
+				case class Pack(id:Int)
+			}
+		""")
+		Reflect.forPackage(pckg)
+			.withReflectConfig(ReflectConfig(classFilter = _.name != "Item"))
+			.build
+			.objects
+			.map(_.name) should be(Seq("PackReflect"))
+	}
+
 	test("reflect name") {
 		val pckg = PackageEx.parser(
 			q"""
@@ -20,7 +36,7 @@ class ReflectTest extends FunSuite
 				case class Item(id:Int,date:Date)
 			}
 		""")
-		Reflect.forPackage(pckg, "com.aktit.reflect.Field").build.objects.map(_.name) should be(Seq("ItemReflect"))
+		Reflect.forPackage(pckg).build.objects.map(_.name) should be(Seq("ItemReflect"))
 	}
 
 	test("reflect case classes vals") {
@@ -32,7 +48,7 @@ class ReflectTest extends FunSuite
 			}
 		""")
 
-		val reflect = Reflect.forPackage(pckg, "com.aktit.reflect.Field").build
+		val reflect = Reflect.forPackage(pckg).build
 		val vals = reflect.objects.head.vals
 		vals should contain(DefinedValEx.parser(q"""val idField = Field[Item]("id", _.id)"""))
 		vals should contain(DefinedValEx.parser(q"""val dateField = Field[Item]("date", _.date)"""))
@@ -49,7 +65,7 @@ class ReflectTest extends FunSuite
 			}
 		""")
 
-		val reflect = Reflect.forPackage(pckg, "com.aktit.reflect.Field").build
+		val reflect = Reflect.forPackage(pckg).build
 		val vals = reflect.objects.head.vals
 		vals should contain(DefinedValEx.parser(q"""val dateField = Field[Item]("date", _.date)"""))
 	}
@@ -63,7 +79,7 @@ class ReflectTest extends FunSuite
 			}
 		""")
 
-		val reflect = Reflect.forPackage(pckg, "com.aktit.reflect.Field").build
+		val reflect = Reflect.forPackage(pckg).build
 		reflect.objects.head.methods should contain(DefinedMethodEx.parser(q"def allFields:Seq[Field[Item]] = Seq(idField,dateField)"))
 	}
 }
