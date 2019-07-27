@@ -21,7 +21,7 @@ class Project private(targetSrcDir: String, srcDirs: Seq[String])
 		parser.file(src)
 	}
 
-	def save(pckg: PackageEx): Unit = {
+	def save(pckgs: PackageEx*): Unit = for (pckg <- pckgs) {
 		val targetDir = new File(targetSrcDir, pckg.name.replace('.', '/'))
 		targetDir.mkdirs()
 		val fileName = (pckg.classes ++ pckg.objects).head.name + ".scala"
