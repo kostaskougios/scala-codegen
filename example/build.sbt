@@ -15,7 +15,7 @@ generateCombined := {
 		.fromFirstClassOfEach(
 			cgProject.toPackage("com.aktit.example.combine.User"),
 			cgProject.toPackage("com.aktit.example.combine.Purchase")
-		).build
+		).withRemoveFields((clzEx, valEx) => valEx.name == "userId").build
 
 	println(userPurchases.syntax)
 	cgProject.save(userPurchases)
