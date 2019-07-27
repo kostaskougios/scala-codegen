@@ -1,4 +1,4 @@
-import com.aktit.codegen.patterns.{CombineCaseClasses, Reflect}
+import com.aktit.codegen.patterns._
 
 name := "examples"
 
@@ -24,16 +24,14 @@ generateCombined := {
 val generateReflect = taskKey[Unit]("Generates reflect classes using codegen")
 
 generateReflect := {
-	val fieldClass = "com.aktit.example.lib.Field"
-
+	val config = ReflectConfig(fieldClass = "com.aktit.example.lib.Field")
 	for {
 		pckg <- Seq(
 			cgProject.toPackage("com.aktit.example.reflect.Person")
 		)
 	} {
 		cgProject.save(
-			Reflect.forPackage(pckg, fieldClass).build
+			Reflect.forPackage(pckg).withReflectConfig(config).build
 		)
 	}
-
 }
