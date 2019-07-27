@@ -14,3 +14,4 @@ RUNNING_PID
 .settings
 .project
 out
+src_generated
