@@ -82,4 +82,17 @@ class ReflectTest extends FunSuite
 		val reflect = Reflect.forPackage(pckg).build
 		reflect.objects.head.methods should contain(DefinedMethodEx.parser(q"def allFields:Seq[Field[Item]] = Seq(idField,dateField)"))
 	}
+
+	test("reflect toMap") {
+		val pckg = PackageEx.parser(
+			q"""
+			package x1 {
+   				import java.sql.Date
+				case class Item(id:Int,date:Date)
+			}
+		""")
+
+		val reflect = Reflect.forPackage(pckg).build
+		reflect.objects.head.methods should contain(DefinedMethodEx.parser(q"def toMap(c:Item) = allFields.map(f => (f.name, f.getter(c)))"))
+	}
 }
