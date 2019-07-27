@@ -119,4 +119,27 @@ class CombineCaseClassesTest extends FunSuite
 				 """))
 	}
 
+	test("remove fields") {
+		val itemPackage = PackageEx.parser(
+			q"""
+			package x1 {
+				case class Item(id:Int,name:String)
+			}
+		""")
+
+		val basketPackage = PackageEx.parser(
+			q"""
+			package x2 {
+				case class Basket(itemId:Int,discount:Float,numOfItems:Int)
+			}
+		""")
+
+		val combined = CombineCaseClasses.createClass("tx", "BasketedItem")
+			.fromPackages(itemPackage, basketPackage)
+			.fromClasses(itemPackage.classes ++ basketPackage.classes: _*)
+			.withRemoveFields((clzEx, valEx) => clzEx.name == "Basket" && valEx.name == "itemId")
+			.build
+		combined.classes.head should be(ClassEx.parser(q"case class BasketedItem(id: Int, name: String, discount: Float, numOfItems: Int)"))
+	}
+
 }

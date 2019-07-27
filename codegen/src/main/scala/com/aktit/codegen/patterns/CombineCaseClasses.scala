@@ -8,11 +8,14 @@ private class CombineCaseClasses private(
 	newClassName: String,
 	packages: Seq[PackageEx],
 	classes: Seq[ClassEx],
-	extraFields: Seq[ExtraField]
+	extraFields: Seq[ExtraField],
+	removeFields: (ClassEx, ValEx) => Boolean
 )
 {
 	private val beginning = extraFields.filter(_.pos == Beginning)
 	private val end = extraFields.filter(_.pos == End)
+	private val clzVals = classes.map(c => (c, c.vals.filter(v => !removeFields(c, v))))
+	private val vals = clzVals.flatMap(_._2)
 
 	def combine: PackageEx = {
 		val imports = packages.flatMap(_.imports).distinct
@@ -29,7 +32,6 @@ private class CombineCaseClasses private(
 	}
 
 	private def createCaseClass = {
-		val vals = classes.flatMap(_.vals)
 
 		ClassEx.withName(newClassName)
 			.withConstructorParameters(
@@ -44,19 +46,19 @@ private class CombineCaseClasses private(
 		val applyArgs = beginning.map(_.param) ++ classes.map(c => TermParamEx.fromSource(s"${c.unCapitalizedName}: ${c.name} ")) ++ end.map(_.param)
 		val applyConstructorArgs = (
 			beginning.map(_.param.name) ++
-				classes.flatMap {
-					c =>
-						c.vals.map {
+				clzVals.flatMap {
+					case (c, cVals) =>
+						cVals.map {
 							v =>
 								s"${c.unCapitalizedName}.${v.name}"
 						}
 				} ++
 				end.map(_.param.name)
-			).mkString(", ")
+			)
 		DefinedMethodEx.withName("apply")
 			.withParameters(Seq(applyArgs))
 			.withReturnType(newClassName)
-			.withImplementation(s"$newClassName($applyConstructorArgs)")
+			.withImplementation(s"$newClassName(${applyConstructorArgs.mkString(",")})")
 
 	}
 
@@ -78,13 +80,15 @@ object CombineCaseClasses
 
 		class PackagesBuilder(packages: Seq[PackageEx])
 		{
-			def fromClasses(classes: ClassEx*) = new ClassesBuilder(classes, Nil)
+			def fromClasses(classes: ClassEx*) = new ClassesBuilder(classes, Nil, (_, _) => false)
 
-			class ClassesBuilder(classes: Seq[ClassEx], extraFields: Seq[ExtraField])
+			class ClassesBuilder(classes: Seq[ClassEx], extraFields: Seq[ExtraField], removeFields: (ClassEx, ValEx) => Boolean)
 			{
-				def withExtraFields(extra: ExtraField*) = new ClassesBuilder(classes, extra)
+				def withExtraFields(extra: ExtraField*) = new ClassesBuilder(classes, extra, removeFields)
 
-				def build = new CombineCaseClasses(targetPackage, newClassName, packages, classes, extraFields).combine
+				def withRemoveFields(f: (ClassEx, ValEx) => Boolean) = new ClassesBuilder(classes, extraFields, f)
+
+				def build = new CombineCaseClasses(targetPackage, newClassName, packages, classes, extraFields, removeFields).combine
 			}
 
 		}
