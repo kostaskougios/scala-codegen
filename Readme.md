@@ -28,7 +28,7 @@ pckg.classes.flatMap(_.vals) // all vals of all classes in User.scala
 ... and so on
 ```
 
-Code can also be generated from scratch using one of fromSource(), parser() or withX() 
+Code can also be generated from scratch using one of fromSource(), parser(), withName() or withX() 
 methods:
 
 ```scala
@@ -41,6 +41,14 @@ PackageEx.withName("com.aktit.code")
     ))
     
 
+```
+
+Code can then be converted to a string or straight saved into the disk:
+
+```scala
+PackageEx.withName("com.aktit").syntax // code as string
+
+cgProject.save(PackageEx.withName("com.aktit")) // code saved to src_generated/com/aktit
 ```
 
 [Example project](example/) 
