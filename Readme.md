@@ -51,6 +51,9 @@ PackageEx.withName("com.aktit").syntax // code as string
 cgProject.save(PackageEx.withName("com.aktit")) // code saved to src_generated/com/aktit
 ```
 [Create proxy of an existing class](codegen/src/main/scala/com/aktit/codegen/patterns/Proxy.scala)
+
+[Create decorator of an existing class](codegen/src/main/scala/com/aktit/codegen/patterns/Decorator.scala)
+
 [Example project](example/) 
 
 ## Sbt integration
