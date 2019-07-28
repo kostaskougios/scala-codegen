@@ -75,7 +75,8 @@ val cgProject = com.aktit.codegen.Project(
 
 ``` 
 
-Now we are ready to create code-generation tasks for the configured codegen-project.
+Now we are ready to create code-generation tasks for the configured codegen-project. See
+the [Example project](example/) or use cases below.
 
 ## Use cases
 
