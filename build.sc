@@ -10,7 +10,7 @@ object codegen extends Common with PublishModule
 
 	def pomSettings = PomSettings(
 		description = "generate scala classes",
-		organization = "com.aktit",
+		organization = "io.github.kostaskougios",
 		url = "https://bitbucket.org/ariskk/lang-enhance/src/master/",
 		licenses = Seq(License.MIT),
 		versionControl = VersionControl.github("kostaskougios", "lang-enhance"),
