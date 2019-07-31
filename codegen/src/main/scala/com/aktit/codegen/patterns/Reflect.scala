@@ -62,7 +62,10 @@ object Reflect
 
 }
 
-case class ReflectConfig(fieldClass: String = "com.aktit.reflect.Field", classFilter: ClassEx => Boolean = _ => true)
+case class ReflectConfig(
+	fieldClass: String = "com.aktit.reflect.lib.Field",
+	classFilter: ClassEx => Boolean = _ => true
+)
 
 object ReflectConfig
 {

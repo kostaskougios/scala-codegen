@@ -1,1 +1,2 @@
 mill codegen.publishLocal
+mill reflectlib.publishLocal
