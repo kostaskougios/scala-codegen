@@ -6,7 +6,7 @@ import mill.scalalib.publish.{Developer, License, PomSettings, VersionControl}
 object codegen extends Common with PublishModule
 {
 
-	def publishVersion = "0.1.0"
+	def publishVersion = "0.0.1"
 
 	def pomSettings = PomSettings(
 		description = "generate scala classes",

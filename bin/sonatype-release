@@ -1,0 +1,4 @@
+# Deploy release artifacts into the staging repository https://oss.sonatype.org/service/local/staging/deploy/maven2
+PWD=$1
+echo Password : $PWD
+mill codegen.publish --sonatypeCreds ariskk:$PWD --release true

@@ -1,0 +1,4 @@
+# Deploy snapshot artifacts into repository https://oss.sonatype.org/content/repositories/snapshots
+PWD=$1
+echo Password : $PWD
+mill codegen.publish --sonatypeCreds ariskk:$PWD --release false
