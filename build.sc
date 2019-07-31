@@ -3,13 +3,47 @@ import mill._
 import mill.scalalib._
 import mill.scalalib.publish.{Developer, License, PomSettings, VersionControl}
 
-object codegen extends Common with PublishModule
+object codegen extends CommonPublished
 {
+	def pomSettings = commonPomSettings.copy(description = "generate scala classes")
 
-	def publishVersion = "0.0.1"
+	override def ivyDeps = Agg(
+		Apache.CommonIO,
+		Apache.CommonText,
+		ScalaMeta
+	)
 
-	def pomSettings = PomSettings(
-		description = "generate scala classes",
+	object test extends CommonTest
+	{
+		override def ivyDeps = Agg(ScalaTest)
+	}
+
+}
+
+object reflectlib extends CommonPublished
+{
+	def pomSettings = commonPomSettings.copy(description = "generate scala classes")
+
+	object test extends CommonTest
+	{
+		override def ivyDeps = Agg(ScalaTest)
+	}
+
+}
+
+trait CommonPublished extends Common with PublishModule
+{
+	def publishVersion = "0.1.0-SNAPSHOT"
+}
+
+trait Common extends SbtModule
+{
+	override def scalaVersion = "2.12.8"
+
+	override def scalacOptions = Seq("-deprecation", "-feature", "-unchecked")
+
+	def commonPomSettings = PomSettings(
+		description = "",
 		organization = "io.github.kostaskougios",
 		url = "https://bitbucket.org/ariskk/lang-enhance/src/master/",
 		licenses = Seq(License.MIT),
@@ -19,26 +53,9 @@ object codegen extends Common with PublishModule
 		)
 	)
 
-	override def ivyDeps = Agg(
-		Apache.CommonIO,
-		Apache.CommonText,
-		ScalaMeta
-	)
-
-	object test extends Tests
-	{
-		override def ivyDeps = Agg(ScalaTest)
-
-		def testFrameworks = Seq("org.scalatest.tools.Framework")
+	trait CommonTest extends Tests {
+		override def testFrameworks = Seq("org.scalatest.tools.Framework")
 	}
-
-}
-
-trait Common extends SbtModule
-{
-	override def scalaVersion = "2.12.8"
-
-	override def scalacOptions = Seq("-deprecation", "-feature", "-unchecked")
 }
 
 object Deps
