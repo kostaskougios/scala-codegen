@@ -2,9 +2,13 @@ import com.aktit.codegen.patterns._
 
 name := "examples"
 
-organization := "com.aktit"
+organization := "io.github.kostaskougios"
 
 unmanagedSourceDirectories in Compile += baseDirectory.value / "src_generated"
+
+libraryDependencies ++= Seq(
+	"io.github.kostaskougios" %% "reflectlib" % "0.1.0-SNAPSHOT"
+)
 
 val cgProject = com.aktit.codegen.Project(
 	"src_generated", // the folder where the generated code will be placed
@@ -28,7 +32,7 @@ generateCombined := {
 val generateReflect = taskKey[Unit]("Generates reflect classes using codegen")
 
 generateReflect := {
-	val config = ReflectConfig(fieldClass = "com.aktit.example.lib.Field")
+	val config = ReflectConfig.Default
 	for {
 		pckg <- Seq(
 			cgProject.toPackage("com.aktit.example.reflect.Person")
