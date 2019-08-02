@@ -3,6 +3,11 @@ import mill._
 import mill.scalalib._
 import mill.scalalib.publish.{Developer, License, PomSettings, VersionControl}
 
+trait CommonPublished extends Common with PublishModule
+{
+	def publishVersion = "0.1.0-SNAPSHOT"
+}
+
 object codegen extends CommonPublished
 {
 	def pomSettings = commonPomSettings.copy(description = "generate scala classes")
@@ -29,11 +34,6 @@ object reflectlib extends CommonPublished
 		override def ivyDeps = Agg(ScalaTest)
 	}
 
-}
-
-trait CommonPublished extends Common with PublishModule
-{
-	def publishVersion = "0.1.0-SNAPSHOT"
 }
 
 trait Common extends SbtModule
