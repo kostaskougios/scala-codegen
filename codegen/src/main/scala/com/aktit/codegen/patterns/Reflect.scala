@@ -24,16 +24,16 @@ private class Reflect(
 	}
 
 	private def generateObject(clz: ClassEx) = {
+		val allFields = clz.vals.map(_.name + "Field")
 		val fields = clz.vals.map {
 			v =>
 				DefinedValEx.withName(v.name + "Field")
 					.withExpression(s"""Field[${clz.name}]("${v.name}",_.${v.name})""".stripMargin)
-		}
-		val allFields = clz.vals.map(_.name + "Field")
+		} ++ Seq(
+			DefinedValEx.withName("allFields")
+				.withExpression(s"Seq(${allFields.mkString(",")})")
+		)
 		val methods = Seq(
-			DefinedMethodEx.withName("allFields")
-				.withReturnType(s"Seq[Field[${clz.name}]]")
-				.withImplementation(s"Seq(${allFields.mkString(",")})"),
 			DefinedMethodEx.withName("tuples")
 				.withParameter(s"c:${clz.name}")
 				.withImplementation("allFields.map(f => (f.name, f.getter(c)))"),

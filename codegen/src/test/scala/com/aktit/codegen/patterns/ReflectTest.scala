@@ -90,7 +90,7 @@ class ReflectTest extends FunSuite
 		""")
 
 		val reflect = Reflect.forPackage(pckg).build
-		reflect.objects.head.methods should contain(DefinedMethodEx.parser(q"def allFields:Seq[Field[Item]] = Seq(idField,dateField)"))
+		reflect.objects.head.vals should contain(DefinedValEx.parser(q"val allFields = Seq(idField,dateField)"))
 	}
 
 	test("reflect tuples/toMap") {
