@@ -12,6 +12,7 @@ case class ObjectEx(meta: ObjectEx.Meta) extends CodeEx
 	with MetaEx.ContainsMods[ObjectEx]
 	with CodeEx.Name[ObjectEx]
 	with ValEx.Contains
+	with TemplateEx.Contains[ObjectEx]
 {
 	override def tree = q"..${meta.mods.toList} object ${meta.ename} extends ${meta.template}"
 
