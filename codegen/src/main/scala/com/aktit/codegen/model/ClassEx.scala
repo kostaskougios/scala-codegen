@@ -16,6 +16,7 @@ case class ClassEx(
 	with CodeEx.Name[ClassEx]
 	with TemplateEx.Contains[ClassEx]
 	with ValEx.Contains
+	with Extending[ClassEx]
 {
 	override def name: String = meta.tname.value
 
@@ -34,10 +35,6 @@ case class ClassEx(
 			paramss = paramss.map(_.map(_.meta.param).toList).toList
 		)
 	)
-
-	def withExtending(tpe: TypeEx): ClassEx = withExtending(Seq(tpe))
-
-	def withExtending(types: Seq[TypeEx]): ClassEx = withTemplate(template.withExtending(types))
 
 	override def withMods(mods: ModsEx) = copy(
 		meta = meta.copy(mods = mods.meta.mods)
