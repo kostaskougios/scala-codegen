@@ -93,7 +93,7 @@ class ReflectTest extends FunSuite
 		reflect.objects.head.methods should contain(DefinedMethodEx.parser(q"def allFields:Seq[Field[Item]] = Seq(idField,dateField)"))
 	}
 
-	test("reflect toMap") {
+	test("reflect tuples/toMap") {
 		val pckg = PackageEx.parser(
 			q"""
 			package x1 {
@@ -103,6 +103,8 @@ class ReflectTest extends FunSuite
 		""")
 
 		val reflect = Reflect.forPackage(pckg).build
-		reflect.objects.head.methods should contain(DefinedMethodEx.parser(q"def toMap(c:Item) = allFields.map(f => (f.name, f.getter(c)))"))
+		val methods = reflect.objects.head.methods
+		methods should contain(DefinedMethodEx.parser(q"def tuples(c:Item) = allFields.map(f => (f.name, f.getter(c)))"))
+		methods should contain(DefinedMethodEx.parser(q"def toMap(c:Item) = tuples(c).toMap"))
 	}
 }

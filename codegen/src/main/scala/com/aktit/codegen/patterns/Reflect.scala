@@ -34,9 +34,13 @@ private class Reflect(
 			DefinedMethodEx.withName("allFields")
 				.withReturnType(s"Seq[Field[${clz.name}]]")
 				.withImplementation(s"Seq(${allFields.mkString(",")})"),
+			DefinedMethodEx.withName("tuples")
+				.withParameter(s"c:${clz.name}")
+				.withImplementation("allFields.map(f => (f.name, f.getter(c)))"),
 			DefinedMethodEx.withName("toMap")
 				.withParameter(s"c:${clz.name}")
-				.withImplementation("allFields.map(f => (f.name, f.getter(c)))")
+				.withImplementation("tuples(c).toMap")
+
 		)
 
 		ObjectEx.withName(clz.name + "Reflect")
