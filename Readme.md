@@ -8,6 +8,8 @@ into a generated case class that will contain all fields of the combined case cl
 
 The library is based on scala meta.
 
+Please find the latest version [here](https://search.maven.org/search?q=g:io.github.kostaskougios)
+
 ## API
 
 The library provides a number of classes that help parsing packages (which includes 
