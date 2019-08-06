@@ -60,10 +60,10 @@ cgProject.save(PackageEx.withName("com.aktit")) // code saved to src_generated/c
 
 ## Sbt integration
 
-Add a library dependency in `project/plugins.sbt`:
+Add a library dependency in `project/plugins.sbt` (find the latest [here](https://search.maven.org/search?q=g:io.github.kostaskougios)):
 
 ```
-libraryDependencies += "com.aktit" %% "codegen" % "0.1.0-SNAPSHOT"
+libraryDependencies += "com.aktit" %% "codegen" % "0.0.1"
 ```
 
 Then create the code generation sbt tasks in `build.sbt`:
