@@ -40,6 +40,7 @@ private class Reflect(
 		)
 
 		ObjectEx.withName(clz.name + "Reflect")
+			.withExtending(TypeEx("Reflect"))
 			.withVals(fields)
 			.withMethods(methods)
 	}

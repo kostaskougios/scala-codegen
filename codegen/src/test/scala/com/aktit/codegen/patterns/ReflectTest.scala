@@ -12,6 +12,16 @@ import scala.meta._
   */
 class ReflectTest extends FunSuite
 {
+	test("reflect extends Reflect") {
+		val pckg = PackageEx.parser(
+			q"""
+			package x1 {
+				case class Pack(id:Int)
+			}
+		""")
+		Reflect.forPackage(pckg).build.objects.flatMap(_.extending.map(_.name)) should be(Seq("Reflect"))
+	}
+
 	test("reflect filter out classes") {
 		val pckg = PackageEx.parser(
 			q"""
