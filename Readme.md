@@ -11,7 +11,8 @@ The library is based on scala meta.
 Why code generation and not macros? Because we can see the generated src code, if it doesn't
 compile we can make sense of it, we can create code outside the compilation unit, we get full
 support from ide's, it's as typesafe as macros because the code won't compile if it is incorrect,
-we don't have to add any libary to our project's classpath (only to our build tool's classpath). 
+we don't have to add any libary to our project's classpath (only to our build tool's classpath),
+we can generate code not only from scala declarations but i.e. from a database. 
 On the downside we have to add it as a build step to our build tool.
 
 Please find the latest version [here](https://search.maven.org/search?q=g:io.github.kostaskougios)
