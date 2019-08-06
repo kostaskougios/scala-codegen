@@ -13,4 +13,15 @@ case class Person(
 )
 {
 	def isBornAfter(p: Person) = dob.isAfter(p.dob)
+
+	def tuples = PersonReflect.allFields.map(f => (f.name, f.getter(this)))
+
+	def toMap = PersonReflect.toMap(this)
+}
+
+object TryPerson extends App
+{
+	val p1 = Person(5, "Kostas", LocalDate.of(1500, 1, 2))
+	println(p1.tuples)
+	println(p1.toMap)
 }
