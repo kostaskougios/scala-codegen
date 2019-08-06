@@ -89,7 +89,10 @@ object PackageEx extends PartialParser[PackageEx]
 					tree,
 					ref),
 				topstats.map(
-					ImportEx.parser.orElse(TraitEx.parser).orElse(ClassEx.parser)
+					ImportEx.parser
+						.orElse(TraitEx.parser)
+						.orElse(ClassEx.parser)
+						.orElse(ObjectEx.parser)
 				)
 			)
 	}

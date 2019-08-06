@@ -23,4 +23,15 @@ class PackageExTest extends AbstractSuite
 	test("withName") {
 		PackageEx.withName("com.aktit").syntax should be("package com.aktit")
 	}
+
+	test("classes, when object present") {
+		val p = PackageEx.fromSource(
+			"""
+		package test {
+  			class X
+	 		object XY
+  		}
+		""")
+		p.classes.map(_.name) should be(Seq("X"))
+	}
 }
