@@ -6,7 +6,7 @@ import scala.meta._
   * @author kostas.kougios
   *         Date: 03/11/17
   */
-case class TypeParamEx(meta: TypeParamEx.Meta) extends CodeEx with MetaEx.Contains
+case class TypeParamEx private(meta: TypeParamEx.Meta) extends CodeEx with MetaEx.Contains
 {
 	def toType: TypeEx = {
 		val typeArgs = meta.param.tparams.map(_.name.value)

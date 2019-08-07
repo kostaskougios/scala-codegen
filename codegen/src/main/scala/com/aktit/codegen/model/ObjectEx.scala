@@ -6,7 +6,7 @@ import scala.meta._
   * @author kostas.kougios
   *         08/07/19 - 23:14
   */
-case class ObjectEx(meta: ObjectEx.Meta) extends CodeEx
+case class ObjectEx private(meta: ObjectEx.Meta) extends CodeEx
 	with MethodEx.Contains[ObjectEx]
 	with MetaEx.Contains
 	with MetaEx.ContainsMods[ObjectEx]

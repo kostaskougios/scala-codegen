@@ -7,7 +7,7 @@ import scala.meta._
   *         Date: 10/11/17
   */
 
-case class ModsEx(meta: ModsEx.Meta)
+case class ModsEx private(meta: ModsEx.Meta)
 {
 
 	import ModsEx._

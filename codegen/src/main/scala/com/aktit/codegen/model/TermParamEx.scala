@@ -6,7 +6,7 @@ import scala.meta._
   * @author kostas.kougios
   *         Date: 29/09/17
   */
-case class TermParamEx(meta: TermParamEx.Meta) extends CodeEx
+case class TermParamEx private(meta: TermParamEx.Meta) extends CodeEx
 	with MetaEx.Contains
 	with MetaEx.ContainsMods[TermParamEx]
 	with CodeEx.Name[TermParamEx]

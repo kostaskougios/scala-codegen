@@ -6,7 +6,7 @@ import scala.meta._
   * @author kostas.kougios
   *         Date: 02/11/17
   */
-case class TypeEx(meta: TypeEx.Meta) extends CodeEx with MetaEx.Contains
+case class TypeEx private(meta: TypeEx.Meta) extends CodeEx with MetaEx.Contains
 {
 	def name: String = meta.tpe match {
 		case n: Type.Name => n.value

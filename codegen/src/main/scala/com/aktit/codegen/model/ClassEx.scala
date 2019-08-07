@@ -6,7 +6,7 @@ import scala.meta._
   * @author kostas.kougios
   *         Date: 06/10/17
   */
-case class ClassEx(
+case class ClassEx private(
 	meta: ClassEx.Meta
 ) extends CodeEx
 	with MethodEx.Contains[ClassEx]

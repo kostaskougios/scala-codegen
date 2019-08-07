@@ -8,7 +8,7 @@ import scala.meta._
   * @author kostas.kougios
   *         Date: 31/08/17
   */
-case class DefinedMethodEx(
+case class DefinedMethodEx private(
 	meta: DefinedMethodEx.Meta
 ) extends MethodEx[DefinedMethodEx]
 	with MetaEx.Contains

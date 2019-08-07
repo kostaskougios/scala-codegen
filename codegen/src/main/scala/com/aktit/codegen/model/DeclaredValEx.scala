@@ -6,7 +6,7 @@ import scala.meta._
   * @author kostas.kougios
   *         Date: 10/11/17
   */
-case class DeclaredValEx(meta: DeclaredValEx.Meta)
+case class DeclaredValEx private(meta: DeclaredValEx.Meta)
 	extends ValEx
 		with CodeEx.Name[DeclaredValEx]
 		with TypeEx.Contains[DeclaredValEx]

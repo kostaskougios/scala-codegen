@@ -11,7 +11,7 @@ import scala.meta._
   * @author kostas.kougios
   *         Date: 29/08/17
   */
-case class PackageEx(
+case class PackageEx private(
 	meta: PackageEx.Meta,
 	children: Seq[CodeEx]
 ) extends CodeEx

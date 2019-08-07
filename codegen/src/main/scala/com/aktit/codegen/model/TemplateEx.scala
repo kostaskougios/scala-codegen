@@ -7,7 +7,7 @@ import scala.meta._
   * @author kostas.kougios
   *         Date: 09/10/17
   */
-case class TemplateEx(meta: TemplateEx.Meta) extends CodeEx with ValEx.Contains with MetaEx.Contains
+case class TemplateEx private(meta: TemplateEx.Meta) extends CodeEx with ValEx.Contains with MetaEx.Contains
 {
 	def extending: immutable.Seq[TypeEx] = meta.inits.map(_.tpe).map(TypeEx.apply)
 

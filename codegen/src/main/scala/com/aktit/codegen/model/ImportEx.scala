@@ -6,7 +6,7 @@ import scala.meta._
   * @author kostas.kougios
   *         Date: 02/11/17
   */
-case class ImportEx(meta: ImportEx.Meta) extends CodeEx
+case class ImportEx private(meta: ImportEx.Meta) extends CodeEx
 {
 	def imports: Seq[Imported] = meta.importersnel.flatMap {
 		i =>
