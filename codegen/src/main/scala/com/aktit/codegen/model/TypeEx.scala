@@ -10,6 +10,10 @@ case class TypeEx private(meta: TypeEx.Meta) extends CodeEx with MetaEx.Contains
 {
 	def name: String = meta.tpe match {
 		case n: Type.Name => n.value
+		case a: Type.Apply =>
+			a.tpe match {
+				case n: Type.Name => n.value
+			}
 	}
 
 	override def tree = meta.tpe

@@ -60,8 +60,8 @@ class ReflectTest extends FunSuite
 
 		val reflect = Reflect.forPackage(pckg).build
 		val vals = reflect.objects.head.vals
-		vals should contain(DefinedValEx.parser(q"""val idField = Field[Item]("id", _.id)"""))
-		vals should contain(DefinedValEx.parser(q"""val dateField = Field[Item]("date", _.date)"""))
+		vals should contain(DefinedValEx.parser(q"""val idField = Field[Item,Int]("id", _.id,classOf[Int])"""))
+		vals should contain(DefinedValEx.parser(q"""val dateField = Field[Item,Date]("date", _.date,classOf[Date])"""))
 	}
 
 	test("reflect private vals") {
@@ -77,7 +77,7 @@ class ReflectTest extends FunSuite
 
 		val reflect = Reflect.forPackage(pckg).build
 		val vals = reflect.objects.head.vals
-		vals should contain(DefinedValEx.parser(q"""val dateField = Field[Item]("date", _.date)"""))
+		vals should contain(DefinedValEx.parser(q"""val dateField = Field[Item,Date]("date", _.date,classOf[Date])"""))
 	}
 
 	test("reflect allFields") {
