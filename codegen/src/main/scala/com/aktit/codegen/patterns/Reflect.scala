@@ -28,7 +28,7 @@ private class Reflect(
 		val fields = clz.vals.map {
 			v =>
 				DefinedValEx.withName(v.name + "Field")
-					.withExpression(s"""Field[${clz.name},${v.`type`.syntax}]("${v.name}",_.${v.name})""".stripMargin)
+					.withExpression(s"""Field[${clz.name},${v.`type`.syntax}]("${v.name}",_.${v.name},classOf[${v.`type`.name}])""".stripMargin)
 		} ++ Seq(
 			DefinedValEx.withName("allFields")
 				.withExpression(s"Seq(${allFields.mkString(",")})")
@@ -65,10 +65,15 @@ object Reflect
 }
 
 case class ReflectConfig(
-	classFilter: ClassEx => Boolean = _ => true
+	classFilter: ClassEx => Boolean = _ => true,
+	stdLibReflect: Map[String, String] = ReflectConfig.StdLibReflectClasses
 )
 
 object ReflectConfig
 {
+	val StdLibReflectClasses = Map(
+		"Int" -> "com.aktit.reflect.lib.scala.IntReflect",
+		"String" -> "com.aktit.reflect.lib.java.StringReflect",
+	)
 	val Default = ReflectConfig()
 }
