@@ -28,7 +28,7 @@ private class Reflect(
 		val fields = clz.vals.map {
 			v =>
 				DefinedValEx.withName(v.name + "Field")
-					.withExpression(s"""Field[${clz.name}]("${v.name}",_.${v.name})""".stripMargin)
+					.withExpression(s"""Field[${clz.name},${v.`type`.syntax}]("${v.name}",_.${v.name})""".stripMargin)
 		} ++ Seq(
 			DefinedValEx.withName("allFields")
 				.withExpression(s"Seq(${allFields.mkString(",")})")
@@ -44,7 +44,7 @@ private class Reflect(
 		)
 
 		ObjectEx.withName(clz.name + "Reflect")
-			.withExtending(TypeEx("Reflect"))
+			.withExtending(TypeEx.fromSource(s"Reflect[${clz.name}]"))
 			.withVals(fields)
 			.withMethods(methods)
 	}

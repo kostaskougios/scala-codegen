@@ -24,6 +24,8 @@ object TypeEx
 
 	def apply(tpe: Type): TypeEx = TypeEx(Meta(tpe))
 
+	def fromSource(code: String) = apply(code.parse[Type].get)
+
 	trait Contains[+T]
 	{
 		def `type`: TypeEx
