@@ -23,7 +23,7 @@ case class DefinedValEx private(meta: DefinedValEx.Meta)
 		)
 	)
 
-	override def `type` = TypeEx.apply(meta.tpeopt.get)
+	override def `type` = TypeEx.apply(meta.tpeopt.getOrElse(throw new IllegalArgumentException(s"can't find type for val $name , type is probably not declared for this val")))
 
 	override def withType(t: TypeEx) = copy(
 		meta = meta.copy(
@@ -50,7 +50,7 @@ object DefinedValEx extends PartialParser[DefinedValEx]
 	def withName(name: String): DefinedValEx = parser(q"val x = ???").withName(name)
 
 	override def parser = {
-		case q"..$mods val ..$patsnel: $tpeopt = $expr" =>
+		case q"..$mods val ..$patsnel: $tpeopt = $expr " =>
 			DefinedValEx(Meta(mods, patsnel, tpeopt, expr))
 	}
 
