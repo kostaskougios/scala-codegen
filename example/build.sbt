@@ -32,14 +32,14 @@ generateCombined := {
 val generateReflect = taskKey[Unit]("Generates reflect classes using codegen")
 
 generateReflect := {
-	val config = ReflectConfig.Default
+	val config = CaseClassReflectConfig.Default
 	for {
 		pckg <- Seq(
 			cgProject.toPackage("com.aktit.example.reflect.Person")
 		)
 	} {
 		cgProject.save(
-			Reflect.forPackage(pckg).withReflectConfig(config).build
+			CaseClassReflect.forPackage(pckg).withReflectConfig(config).build
 		)
 	}
 }

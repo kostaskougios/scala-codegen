@@ -178,14 +178,14 @@ The sbt task:
 val generateReflect = taskKey[Unit]("Generates reflect classes using codegen")
 
 generateReflect := {
-	val config = ReflectConfig(fieldClass = "com.aktit.example.lib.Field")
+	val config = CaseClassReflectConfig(fieldClass = "com.aktit.example.lib.Field")
 	for {
 		pckg <- Seq(
 			cgProject.toPackage("com.aktit.example.reflect.Person")
 		)
 	} {
 		cgProject.save(
-			Reflect.forPackage(pckg).withReflectConfig(config).build
+			CaseClassReflect.forPackage(pckg).withReflectConfig(config).build
 		)
 	}
 }
