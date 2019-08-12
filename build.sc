@@ -5,7 +5,7 @@ import mill.scalalib.publish.{Developer, License, PomSettings, VersionControl}
 
 trait CommonPublished extends Common with PublishModule
 {
-	def publishVersion = "0.1.0-SNAPSHOT"
+	def publishVersion = "1.0.0-SNAPSHOT"
 }
 
 object codegen extends CommonPublished
@@ -17,6 +17,18 @@ object codegen extends CommonPublished
 		Apache.CommonText,
 		ScalaMeta
 	)
+
+	object test extends CommonTest
+	{
+		override def ivyDeps = Agg(ScalaTest)
+	}
+}
+
+object `codegen-spark` extends CommonPublished
+{
+	def pomSettings = commonPomSettings.copy(description = "generate scala classes targeting spark projects")
+
+	override def moduleDeps = Seq(codegen)
 
 	object test extends CommonTest
 	{
