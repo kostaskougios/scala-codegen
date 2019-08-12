@@ -15,20 +15,6 @@ val cgProject = com.aktit.codegen.Project(
 	"src/main/scala" // a comma sep list of all project's src folders
 )
 
-val generateCombined = taskKey[Unit]("Generates combined classes using codegen")
-
-generateCombined := {
-	val userPurchases = CombineCaseClasses.createClass("com.aktit.example.combine", "UserPurchases")
-		.fromFirstClassOfEach( // will use the first class of each package below:
-			cgProject.toPackage("com.aktit.example.combine.User"),
-			cgProject.toPackage("com.aktit.example.combine.Purchase")
-		).withRemoveFields((clzEx, valEx) => valEx.name == "userId") // remove userId because it is a duplicate of user.id
-		.build
-
-	println(userPurchases.syntax)
-	cgProject.save(userPurchases) // save to the src_generated folder
-}
-
 val generateReflect = taskKey[Unit]("Generates reflect classes using codegen")
 
 generateReflect := {
