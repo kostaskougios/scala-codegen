@@ -24,8 +24,9 @@ private class Reflect(
 	}
 
 	private def generateObject(clz: ClassEx) = {
-		val allFields = clz.vals.map(_.name + "Field")
-		val fields = clz.vals.map {
+		val vals = clz.constructorVals
+		val allFields = vals.map(_.name + "Field")
+		val fields = vals.map {
 			v =>
 				DefinedValEx.withName(v.name + "Field")
 					.withExpression(s"""Field[${clz.name},${v.`type`.syntax}]("${v.name}",_.${v.name},classOf[${v.`type`.name}])""".stripMargin)

@@ -64,22 +64,6 @@ class ReflectTest extends FunSuite
 		vals should contain(DefinedValEx.parser(q"""val dateField = Field[Item,Date]("date", _.date,classOf[Date])"""))
 	}
 
-	test("reflect private vals") {
-		val pckg = PackageEx.parser(
-			q"""
-			package x1 {
-   				import java.sql.Date
-				class Item(id:Int) {
-					private val date:Date
-	 			}
-			}
-		""")
-
-		val reflect = Reflect.forPackage(pckg).build
-		val vals = reflect.objects.head.vals
-		vals should contain(DefinedValEx.parser(q"""val dateField = Field[Item,Date]("date", _.date,classOf[Date])"""))
-	}
-
 	test("reflect allFields") {
 		val pckg = PackageEx.parser(
 			q"""
