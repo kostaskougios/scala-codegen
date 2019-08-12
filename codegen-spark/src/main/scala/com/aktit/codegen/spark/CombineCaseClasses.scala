@@ -1,7 +1,7 @@
-package com.aktit.codegen.patterns
+package com.aktit.codegen.spark
 
 import com.aktit.codegen.model._
-import com.aktit.codegen.patterns.CombineCaseClasses.{Beginning, End, ExtraField}
+import com.aktit.codegen.spark.CombineCaseClasses.{Beginning, End, ExtraField}
 
 private class CombineCaseClasses private(
 	targetPackage: String,

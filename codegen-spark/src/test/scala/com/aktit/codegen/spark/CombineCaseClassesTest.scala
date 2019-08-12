@@ -1,7 +1,7 @@
-package com.aktit.codegen.patterns
+package com.aktit.codegen.spark
 
 import com.aktit.codegen.model.{ClassEx, ImportEx, ObjectEx, PackageEx}
-import com.aktit.codegen.patterns.CombineCaseClasses.{Beginning, End, extraField}
+import com.aktit.codegen.spark.CombineCaseClasses._
 import org.scalatest.FunSuite
 import org.scalatest.Matchers._
 
