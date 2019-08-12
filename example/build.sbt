@@ -7,7 +7,7 @@ organization := "io.github.kostaskougios"
 unmanagedSourceDirectories in Compile += baseDirectory.value / "src_generated"
 
 libraryDependencies ++= Seq(
-	"io.github.kostaskougios" %% "reflectlib" % "0.1.0-SNAPSHOT"
+	"io.github.kostaskougios" %% "reflectlib" % "1.0.0-SNAPSHOT"
 )
 
 val cgProject = com.aktit.codegen.Project(
