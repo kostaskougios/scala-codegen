@@ -12,7 +12,6 @@ case class Person(
 	dob: LocalDate
 )
 {
-	val idAndName = id + "/" + name
 	def isBornAfter(p: Person) = dob.isAfter(p.dob)
 
 	def tuples = PersonReflect.allFields.map(f => (f.name, f.getter(this)))
