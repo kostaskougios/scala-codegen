@@ -6,9 +6,9 @@ import com.aktit.codegen.model._
   * @author kostas.kougios
   *         24/07/19 - 22:24
   */
-private class Reflect(
+private class CaseClassReflect(
 	pckg: PackageEx,
-	reflectConfig: ReflectConfig
+	reflectConfig: CaseClassReflectConfig
 )
 {
 
@@ -52,29 +52,29 @@ private class Reflect(
 
 }
 
-object Reflect
+object CaseClassReflect
 {
-	def forPackage(pckg: PackageEx) = new Builder(pckg, ReflectConfig.Default)
+	def forPackage(pckg: PackageEx) = new Builder(pckg, CaseClassReflectConfig.Default)
 
-	class Builder(pckg: PackageEx, reflectConfig: ReflectConfig)
+	class Builder(pckg: PackageEx, reflectConfig: CaseClassReflectConfig)
 	{
-		def withReflectConfig(rc: ReflectConfig) = new Builder(pckg, rc)
+		def withReflectConfig(rc: CaseClassReflectConfig) = new Builder(pckg, rc)
 
-		def build = new Reflect(pckg, reflectConfig).reflect
+		def build = new CaseClassReflect(pckg, reflectConfig).reflect
 	}
 
 }
 
-case class ReflectConfig(
+case class CaseClassReflectConfig(
 	classFilter: ClassEx => Boolean = _ => true,
-	stdLibReflect: Map[String, String] = ReflectConfig.StdLibReflectClasses
+	stdLibReflect: Map[String, String] = CaseClassReflectConfig.StdLibReflectClasses
 )
 
-object ReflectConfig
+object CaseClassReflectConfig
 {
 	val StdLibReflectClasses = Map(
 		"Int" -> "com.aktit.reflect.lib.scala.IntReflect",
 		"String" -> "com.aktit.reflect.lib.java.StringReflect",
 	)
-	val Default = ReflectConfig()
+	val Default = CaseClassReflectConfig()
 }

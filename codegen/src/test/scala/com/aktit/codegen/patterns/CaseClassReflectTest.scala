@@ -10,7 +10,7 @@ import scala.meta._
   * @author kostas.kougios
   *         24/07/19 - 22:47
   */
-class ReflectTest extends FunSuite
+class CaseClassReflectTest extends FunSuite
 {
 	test("reflect extends Reflect") {
 		val pckg = PackageEx.parser(
@@ -19,7 +19,7 @@ class ReflectTest extends FunSuite
 				case class Pack(id:Int)
 			}
 		""")
-		Reflect.forPackage(pckg).build.objects.flatMap(_.extending.map(_.name)) should be(Seq("Reflect"))
+		CaseClassReflect.forPackage(pckg).build.objects.flatMap(_.extending.map(_.name)) should be(Seq("Reflect"))
 	}
 
 	test("reflect filter out classes") {
@@ -31,8 +31,8 @@ class ReflectTest extends FunSuite
 				case class Pack(id:Int)
 			}
 		""")
-		Reflect.forPackage(pckg)
-			.withReflectConfig(ReflectConfig(classFilter = _.name != "Item"))
+		CaseClassReflect.forPackage(pckg)
+			.withReflectConfig(CaseClassReflectConfig(classFilter = _.name != "Item"))
 			.build
 			.objects
 			.map(_.name) should be(Seq("PackReflect"))
@@ -46,7 +46,7 @@ class ReflectTest extends FunSuite
 				case class Item(id:Int,date:Date)
 			}
 		""")
-		Reflect.forPackage(pckg).build.objects.map(_.name) should be(Seq("ItemReflect"))
+		CaseClassReflect.forPackage(pckg).build.objects.map(_.name) should be(Seq("ItemReflect"))
 	}
 
 	test("reflect case classes vals") {
@@ -58,7 +58,7 @@ class ReflectTest extends FunSuite
 			}
 		""")
 
-		val reflect = Reflect.forPackage(pckg).build
+		val reflect = CaseClassReflect.forPackage(pckg).build
 		val vals = reflect.objects.head.vals
 		vals should contain(DefinedValEx.parser(q"""val idField = Field[Item,Int]("id", _.id,classOf[Int])"""))
 		vals should contain(DefinedValEx.parser(q"""val dateField = Field[Item,Date]("date", _.date,classOf[Date])"""))
@@ -73,7 +73,7 @@ class ReflectTest extends FunSuite
 			}
 		""")
 
-		val reflect = Reflect.forPackage(pckg).build
+		val reflect = CaseClassReflect.forPackage(pckg).build
 		reflect.objects.head.vals should contain(DefinedValEx.parser(q"val allFields = Seq(idField,dateField)"))
 	}
 
@@ -86,7 +86,7 @@ class ReflectTest extends FunSuite
 			}
 		""")
 
-		val reflect = Reflect.forPackage(pckg).build
+		val reflect = CaseClassReflect.forPackage(pckg).build
 		val methods = reflect.objects.head.methods
 		methods should contain(DefinedMethodEx.parser(q"def tuples(c:Item) = allFields.map(f => (f.name, f.getter(c)))"))
 		methods should contain(DefinedMethodEx.parser(q"def toMap(c:Item) = tuples(c).toMap"))
