@@ -38,6 +38,8 @@ case class PackageEx private(
 		case t: TraitEx => t
 	}
 
+	def withClass(clz: ClassEx) = withClasses(Seq(clz))
+
 	def withClasses(classes: Seq[ClassEx]) = copy(
 		children = children ++ classes
 	)

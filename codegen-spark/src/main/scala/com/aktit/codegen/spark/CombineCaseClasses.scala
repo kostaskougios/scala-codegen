@@ -31,8 +31,7 @@ private class CombineCaseClasses private(
 			.withObjects(Seq(companion))
 	}
 
-	private def createCaseClass = {
-
+	private def createCaseClass =
 		ClassEx.withName(newClassName)
 			.withConstructorParameters(
 				beginning.map(_.param) ++
@@ -40,7 +39,6 @@ private class CombineCaseClasses private(
 					end.map(_.param)
 			)
 			.withCaseClass
-	}
 
 	private def createConstructorFromParts = {
 		val applyArgs = beginning.map(_.param) ++ classes.map(c => TermParamEx.fromSource(s"${c.unCapitalizedName}: ${c.name} ")) ++ end.map(_.param)

@@ -28,6 +28,10 @@ object `codegen-spark` extends CommonPublished
 {
 	def pomSettings = commonPomSettings.copy(description = "generate scala classes targeting spark projects")
 
+	override def ivyDeps = Agg(
+		ScalaCsv
+	)
+
 	override def moduleDeps = Seq(codegen)
 
 	object test extends CommonTest
@@ -75,6 +79,8 @@ object Deps
 	val ScalaMeta = ivy"org.scalameta::scalameta:4.1.9"
 
 	val ScalaTest = ivy"org.scalatest::scalatest:3.0.8"
+
+	val ScalaCsv = ivy"com.github.tototoshi::scala-csv:1.3.6"
 
 	object Apache
 	{
