@@ -142,4 +142,29 @@ class CombineCaseClassesTest extends FunSuite
 		combined.classes.head should be(ClassEx.parser(q"case class BasketedItem(id: Int, name: String, discount: Float, numOfItems: Int)"))
 	}
 
+	test("ignores non-constructor vals") {
+		val itemPackage = PackageEx.parser(
+			q"""
+			package x1 {
+				case class Item(id:Int,name:String) {
+					val x=5
+				}
+			}
+		""")
+
+		val basketPackage = PackageEx.parser(
+			q"""
+			package x2 {
+				case class Basket(discount:Float,numOfItems:Int) {
+					val y="y"
+				}
+			}
+		""")
+
+		val combined = CombineCaseClasses.createClass("tx", "BasketedItem")
+			.fromPackages(itemPackage, basketPackage)
+			.fromClasses(itemPackage.classes ++ basketPackage.classes: _*)
+			.build
+		combined.classes.head should be(ClassEx.parser(q"case class BasketedItem(id: Int, name: String, discount: Float, numOfItems: Int)"))
+	}
 }

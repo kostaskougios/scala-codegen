@@ -14,7 +14,7 @@ private class CombineCaseClasses private(
 {
 	private val beginning = extraFields.filter(_.pos == Beginning)
 	private val end = extraFields.filter(_.pos == End)
-	private val clzVals = classes.map(c => (c, c.vals.filter(v => !removeFields(c, v))))
+	private val clzVals = classes.map(c => (c, c.constructorVals.filter(v => !removeFields(c, v))))
 	private val vals = clzVals.flatMap(_._2)
 
 	def combine: PackageEx = {
