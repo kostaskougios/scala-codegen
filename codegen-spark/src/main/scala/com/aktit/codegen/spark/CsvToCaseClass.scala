@@ -1,10 +1,12 @@
 package com.aktit.codegen.spark
 
-import java.io.File
+import java.io.FileReader
 
 import com.aktit.codegen.model.{ClassEx, PackageEx, TermParamEx}
-import com.github.tototoshi.csv._
+import com.opencsv.CSVReaderHeaderAware
 import org.apache.commons.lang3.StringUtils
+
+import scala.collection.JavaConverters.mapAsScalaMapConverter
 
 /**
   * @author kostas.kougios
@@ -14,14 +16,14 @@ import org.apache.commons.lang3.StringUtils
 private class CsvToCaseClass(targetPackage: String, newClassName: String, csvFile: String, config: CsvToCaseClassConfig)
 {
 	def build = {
-		val reader = CSVReader.open(new File(csvFile))
+		val reader = new FileReader(csvFile)
 		try {
-			val headers = reader.toStreamWithHeaders
-				.headOption
-				.getOrElse(throw new IllegalArgumentException("csv must contain at least 1 row"))
+			val headers = new CSVReaderHeaderAware(reader)
+				.readMap
+				.asScala
 				.keys
-				.map(headerToVariableName)
 				.toList
+				.map(headerToVariableName)
 			val clz = createClass(headers)
 			PackageEx.withName(targetPackage)
 				.withClass(clz)
