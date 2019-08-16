@@ -16,7 +16,6 @@ private class CsvToCaseClass(
 	targetPackage: String,
 	newClassName: String,
 	csvFile: String,
-	config: CsvToCaseClassConfig,
 	headerToVariableName: String => String
 )
 {
@@ -50,9 +49,8 @@ object CsvToCaseClass
 		targetPackage: String,
 		newClassName: String,
 		csvFile: String,
-		config: CsvToCaseClassConfig = CsvToCaseClassConfig.Default,
 		headerToVariableName: String => String = headerToVariableName
-	) = new CsvToCaseClass(targetPackage, newClassName, csvFile, config, headerToVariableName).build
+	) = new CsvToCaseClass(targetPackage, newClassName, csvFile, headerToVariableName).build
 
 	private val replace: Array[String] = Array("\"", "(", ")", "-", "+", "_", "/", "?")
 	private val replaceWith: Array[String] = Array("", "", "", "", "", "", "", "")
@@ -62,13 +60,4 @@ object CsvToCaseClass
 		val a = StringUtils.split(f, ' ')
 		(StringUtils.uncapitalize(a(0)) +: a.tail.map(StringUtils.capitalize)).mkString
 	}
-}
-
-case class CsvToCaseClassConfig(
-	createDatasetReader: Boolean = false
-)
-
-object CsvToCaseClassConfig
-{
-	val Default = CsvToCaseClassConfig()
 }
