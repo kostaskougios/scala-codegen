@@ -12,7 +12,13 @@ import scala.io.Source
   *         13/08/2019 - 08:09
   */
 
-private class CsvToCaseClass(targetPackage: String, newClassName: String, csvFile: String, config: CsvToCaseClassConfig)
+private class CsvToCaseClass(
+	targetPackage: String,
+	newClassName: String,
+	csvFile: String,
+	config: CsvToCaseClassConfig,
+	headerToVariableName: String => String
+)
 {
 	def build = {
 		val source = Source.fromFile(new File(csvFile))
@@ -28,12 +34,6 @@ private class CsvToCaseClass(targetPackage: String, newClassName: String, csvFil
 
 	}
 
-	private def headerToVariableName(h: String) = {
-		val f = StringUtils.replaceEach(h, config.replace, config.replaceWith)
-		val a = StringUtils.split(f, ' ')
-		(StringUtils.uncapitalize(a(0)) +: a.tail.map(StringUtils.capitalize)).mkString
-	}
-
 	private def createClass(headers: Seq[String]) = {
 		val vals = headers.map {
 			h =>
@@ -46,18 +46,26 @@ private class CsvToCaseClass(targetPackage: String, newClassName: String, csvFil
 
 object CsvToCaseClass
 {
-	def createClass(targetPackage: String, newClassName: String, csvFile: String) = new Builder(targetPackage, newClassName, csvFile, CsvToCaseClassConfig.Default)
+	def createClass(
+		targetPackage: String,
+		newClassName: String,
+		csvFile: String,
+		config: CsvToCaseClassConfig = CsvToCaseClassConfig.Default,
+		headerToVariableName: String => String = headerToVariableName
+	) = new CsvToCaseClass(targetPackage, newClassName, csvFile, config, headerToVariableName).build
 
-	class Builder(targetPackage: String, newClassName: String, csvFile: String, config: CsvToCaseClassConfig)
-	{
-		def build = new CsvToCaseClass(targetPackage, newClassName, csvFile, config).build
+	private val replace: Array[String] = Array("\"", "(", ")", "-", "+", "_", "/", "?")
+	private val replaceWith: Array[String] = Array("", "", "", "", "", "", "", "")
+
+	private def headerToVariableName(h: String) = {
+		val f = StringUtils.replaceEach(h, replace, replaceWith)
+		val a = StringUtils.split(f, ' ')
+		(StringUtils.uncapitalize(a(0)) +: a.tail.map(StringUtils.capitalize)).mkString
 	}
-
 }
 
 case class CsvToCaseClassConfig(
-	replace: Array[String] = Array("\"", "(", ")", "-", "+", "_", "/", "?"),
-	replaceWith: Array[String] = Array("", "", "", "", "", "", "", "")
+	createDatasetReader: Boolean = false
 )
 
 object CsvToCaseClassConfig

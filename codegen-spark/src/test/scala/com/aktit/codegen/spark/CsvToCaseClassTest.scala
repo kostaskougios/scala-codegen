@@ -14,7 +14,6 @@ class CsvToCaseClassTest extends FunSuite
 {
 	test("creates case class from doubly quoted csv") {
 		val pcg = CsvToCaseClass.createClass("csv.test", "MyCsv", "codegen-spark/test-files/csv/CsvToCaseClassTest1.csv")
-			.build
 		pcg should be(PackageEx.parser(
 			q"""
 				package csv.test {
@@ -25,7 +24,6 @@ class CsvToCaseClassTest extends FunSuite
 
 	test("creates case class from unquoted csv") {
 		val pcg = CsvToCaseClass.createClass("csv.test", "MyCsv", "codegen-spark/test-files/csv/CsvToCaseClassTest2.csv")
-			.build
 		pcg should be(PackageEx.parser(
 			q"""
 				package csv.test {
