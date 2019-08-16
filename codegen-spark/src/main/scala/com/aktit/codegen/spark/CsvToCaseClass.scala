@@ -1,12 +1,11 @@
 package com.aktit.codegen.spark
 
-import java.io.FileReader
+import java.io.File
 
 import com.aktit.codegen.model.{ClassEx, PackageEx, TermParamEx}
-import com.opencsv.CSVReaderHeaderAware
 import org.apache.commons.lang3.StringUtils
 
-import scala.collection.JavaConverters.mapAsScalaMapConverter
+import scala.io.Source
 
 /**
   * @author kostas.kougios
@@ -16,25 +15,23 @@ import scala.collection.JavaConverters.mapAsScalaMapConverter
 private class CsvToCaseClass(targetPackage: String, newClassName: String, csvFile: String, config: CsvToCaseClassConfig)
 {
 	def build = {
-		val reader = new FileReader(csvFile)
+		val source = Source.fromFile(new File(csvFile))
 		try {
-			val headers = new CSVReaderHeaderAware(reader)
-				.readMap
-				.asScala
-				.keys
-				.toList
+			val headers = source.getLines.next
+				.split(",")
+				.map(_.trim)
 				.map(headerToVariableName)
 			val clz = createClass(headers)
 			PackageEx.withName(targetPackage)
 				.withClass(clz)
-		} finally reader.close()
+		} finally source.close()
 
 	}
 
 	private def headerToVariableName(h: String) = {
-		val a = StringUtils.split(h, ' ')
-		val f = (StringUtils.uncapitalize(a(0)) +: a.tail.map(StringUtils.capitalize)).mkString(" ")
-		StringUtils.replaceEach(f, config.replace, config.replaceWith)
+		val f = StringUtils.replaceEach(h, config.replace, config.replaceWith)
+		val a = StringUtils.split(f, ' ')
+		(StringUtils.uncapitalize(a(0)) +: a.tail.map(StringUtils.capitalize)).mkString
 	}
 
 	private def createClass(headers: Seq[String]) = {
@@ -59,7 +56,7 @@ object CsvToCaseClass
 }
 
 case class CsvToCaseClassConfig(
-	replace: Array[String] = Array(" ", "(", ")", "-", "+", "_", "/", "?"),
+	replace: Array[String] = Array("\"", "(", ")", "-", "+", "_", "/", "?"),
 	replaceWith: Array[String] = Array("", "", "", "", "", "", "", "")
 )
 
