@@ -52,8 +52,8 @@ object CsvToCaseClass
 		headerToVariableName: String => String = headerToVariableName
 	) = new CsvToCaseClass(targetPackage, newClassName, csvFile, headerToVariableName).build
 
-	private val replace: Array[String] = Array("\"", "(", ")", "-", "+", "_", "/", "?")
-	private val replaceWith: Array[String] = Array("", "", "", "", "", "", "", "")
+	private val replace = Array("\"", "(", ")", "-", "+", "_", "/", "?")
+	private val replaceWith = Array("", "", "", "", "", "", "", "")
 
 	private def headerToVariableName(h: String) = {
 		val f = StringUtils.replaceEach(h, replace, replaceWith)

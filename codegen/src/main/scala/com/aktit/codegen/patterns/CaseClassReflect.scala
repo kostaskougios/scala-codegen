@@ -66,15 +66,10 @@ object CaseClassReflect
 }
 
 case class CaseClassReflectConfig(
-	classFilter: ClassEx => Boolean = _ => true,
-	stdLibReflect: Map[String, String] = CaseClassReflectConfig.StdLibReflectClasses
+	classFilter: ClassEx => Boolean = _ => true
 )
 
 object CaseClassReflectConfig
 {
-	val StdLibReflectClasses = Map(
-		"Int" -> "com.aktit.reflect.lib.scala.IntReflect",
-		"String" -> "com.aktit.reflect.lib.java.StringReflect",
-	)
 	val Default = CaseClassReflectConfig()
 }

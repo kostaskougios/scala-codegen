@@ -70,14 +70,12 @@ cgProject.save(PackageEx.withName("com.aktit")) // code saved to src_generated/c
 Add a library dependency in `project/plugins.sbt` (find the latest version [here](https://search.maven.org/search?q=g:io.github.kostaskougios)):
 
 ```
-libraryDependencies += "com.aktit" %% "codegen" % "0.0.1"
+libraryDependencies += "com.aktit" %% "codegen" % VERSION
 ```
 
 Then create the code generation sbt tasks in `build.sbt`:
 
 ```scala
-import com.aktit.codegen.patterns._
-
 unmanagedSourceDirectories in Compile += baseDirectory.value / "src_generated"
 
 val cgProject = com.aktit.codegen.Project(
@@ -92,52 +90,9 @@ the [Example project](example/) or use cases below.
 
 ## Use cases
 
-### Combine the field of case classes (i.e. for combining spark tables)
+### Spark
 
-This code generator can come handy in spark jobs where we join 2 or more tables and we want
-to process/store the data in a type-safe way. Also we may want to exclude columns or even
-include extra columns.
-
-Assuming we have these 2 (or more) case classes:
-
-```scala
-import java.sql.Timestamp
-
-case class User(id: Int, name: String)
-case class Purchase(userId: Int, item: String, price: BigDecimal, time: Timestamp)
-```
-
-We can then auto-generate `UserPurchases` case class which contains all fields of User & Purchase 
-apart from userId which is removed because it is a duplicate of id:
-
-```scala
-import java.sql.Timestamp
-
-case class UserPurchases(id: Int, name: String, item: String, price: BigDecimal, time: Timestamp)
-
-object UserPurchases
-{
-	def apply(user: User, purchase: Purchase): UserPurchases = UserPurchases(user.id, user.name, purchase.item, purchase.price, purchase.time)
-}
-``` 
-
-This sbt task will do the generation:
-
-```scala
-val generateCombined = taskKey[Unit]("Generates combined classes using codegen")
-
-generateCombined := {
-	val userPurchases = CombineCaseClasses.createClass("com.aktit.example.combine", "UserPurchases")
-		.fromFirstClassOfEach( // will use the first class of each package below:
-			cgProject.toPackage("com.aktit.example.combine.User"),
-			cgProject.toPackage("com.aktit.example.combine.Purchase")
-		).withRemoveFields((clzEx, valEx) => valEx.name == "userId") // remove userId because it is a duplicate of user.id
-		.build
-
-	cgProject.save(userPurchases) // save to the src_generated folder
-}
-
-```
+See [codegen-spark](codegen-spark/)
 
 ### Create reflection classes so that we can i.e. get a map of all field/values
 
@@ -175,17 +130,18 @@ have to build a json library).
 The sbt task:
 
 ```scala
+import com.aktit.codegen.patterns._
+
 val generateReflect = taskKey[Unit]("Generates reflect classes using codegen")
 
 generateReflect := {
-	val config = CaseClassReflectConfig(fieldClass = "com.aktit.example.lib.Field")
 	for {
 		pckg <- Seq(
 			cgProject.toPackage("com.aktit.example.reflect.Person")
 		)
 	} {
 		cgProject.save(
-			CaseClassReflect.forPackage(pckg).withReflectConfig(config).build
+			CaseClassReflect.forPackage(pckg).build
 		)
 	}
 }
