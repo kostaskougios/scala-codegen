@@ -5,7 +5,7 @@ import mill.scalalib.publish.{Developer, License, PomSettings, VersionControl}
 
 trait CommonPublished extends Common with PublishModule
 {
-	def publishVersion = "0.1.0"
+	def publishVersion = "1.0.0-SNAPSHOT"
 }
 
 object codegen extends CommonPublished
