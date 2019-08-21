@@ -1,3 +1,7 @@
+## Example project
+
+See [Spark example project using codegen-spark](../example-spark/)
+
 ## Sbt integration
 
 Add a library dependency in `project/plugins.sbt` (find the latest version [here](https://search.maven.org/search?q=g:io.github.kostaskougios)):
