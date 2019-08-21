@@ -27,3 +27,12 @@ generateCombined := {
 	println(userPurchases.syntax)
 	cgProject.save(userPurchases) // save to the src_generated folder
 }
+
+val generateCsv = taskKey[Unit]("Generates csv case classes from sample csv files")
+
+generateCsv := {
+	val pcg = CsvToCaseClass.createClass("com.aktit.example.csv", "MyCsv", "csv-files/my.csv")
+
+	println(pcg.syntax)
+	cgProject.save(pcg) // save to the src_generated folder
+}
