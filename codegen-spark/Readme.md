@@ -25,6 +25,42 @@ val cgProject = com.aktit.codegen.Project(
 ``` 
 ## Use cases
 
+### Csv to case class
+
+Creates a case class from a sample csv file (with headers). Handy when the csv file contains dozens of columns.
+
+For example lets see this csv file:
+
+```
+"Sex","Weight (lbs- Sep)","Weight (lbs- Apr)","BMI (Sep)","BMI (Apr)"
+"M"  ,159                ,130                ,22.02      ,18.14
+"M"  ,214                ,190                ,19.70      ,17.44
+...
+```
+
+The case class that will be generated is:
+
+```scala
+package com.aktit.example.csv
+class MyCsv(sex: String, weightLbsSep: String, weightLbsApr: String, bMISep: String, bMIApr: String)
+```
+
+This sbt task will run the generator:
+
+```scala
+import com.aktit.codegen.spark._
+
+val generateCsv = taskKey[Unit]("Generates csv case classes from sample csv files")
+
+generateCsv := {
+	val pcg = CsvToCaseClass.createClass("com.aktit.example.csv", "MyCsv", "csv-files/my.csv")
+
+	println(pcg.syntax)
+	cgProject.save(pcg) // save to the src_generated folder
+}
+
+```
+
 ### Combine the field of case classes (i.e. for combining spark tables)
 
 This code generator can come handy in spark jobs where we join 2 or more tables and we want
