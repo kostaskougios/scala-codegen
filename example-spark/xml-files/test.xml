@@ -1,0 +1,14 @@
+<root>
+	<user>
+		<name>Kostas</name>
+		<country>UK</country>
+		<projects>
+			<project>
+				<name>codegen-spark</name>
+			</project>
+			<project>
+				<name>mapperdao</name>
+			</project>
+		</projects>
+	</user>
+</root>

@@ -1,12 +1,19 @@
 import com.aktit.codegen.spark._
 
+scalaVersion := "2.11.8"
+
 name := "example-spark"
 
 organization := "io.github.kostaskougios"
 
 unmanagedSourceDirectories in Compile += baseDirectory.value / "src_generated"
 
+val SparkVersion = "2.4.3"
+
 libraryDependencies ++= Seq(
+	"org.apache.spark" %% "spark-core" % SparkVersion,
+	"org.apache.spark" %% "spark-sql" % SparkVersion,
+	"com.databricks" %% "spark-xml" % "0.6.0"
 )
 
 val cgProject = com.aktit.codegen.Project(
