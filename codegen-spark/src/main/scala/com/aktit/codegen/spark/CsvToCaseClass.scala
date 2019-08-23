@@ -3,7 +3,6 @@ package com.aktit.codegen.spark
 import java.io.File
 
 import com.aktit.codegen.model.{ClassEx, PackageEx, TermParamEx}
-import org.apache.commons.lang3.StringUtils
 
 import scala.io.Source
 
@@ -49,15 +48,6 @@ object CsvToCaseClass
 		targetPackage: String,
 		newClassName: String,
 		csvFile: String,
-		headerToVariableName: String => String = headerToVariableName
+		headerToVariableName: String => String = ColumnNameToFieldName.defaultColumnNameToFieldName
 	) = new CsvToCaseClass(targetPackage, newClassName, csvFile, headerToVariableName).build
-
-	private val replace = Array("\"", "(", ")", "-", "+", "_", "/", "?")
-	private val replaceWith = Array("", "", "", "", "", "", "", "")
-
-	private def headerToVariableName(h: String) = {
-		val f = StringUtils.replaceEach(h, replace, replaceWith)
-		val a = StringUtils.split(f, ' ')
-		(StringUtils.uncapitalize(a(0)) +: a.tail.map(StringUtils.capitalize)).mkString
-	}
 }
