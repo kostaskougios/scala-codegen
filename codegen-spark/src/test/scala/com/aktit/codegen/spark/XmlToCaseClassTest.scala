@@ -11,7 +11,7 @@ class XmlToCaseClassTest extends FunSuite
 	test("creates classes") {
 		val pcg = XmlToCaseClass.createClasses("xml.test", "XmlClasses", "codegen-spark/test-files/xml/XmlToCaseClassTest1.xml")
 
-		println(pcg)
+		println(pcg.map(_.name).mkString("\n"))
 	}
 
 }

@@ -11,4 +11,8 @@
 			</project>
 		</projects>
 	</user>
+	<details>
+		<name>codegen-spark</name>
+		<duration>12 months</duration>
+	</details>
 </root>

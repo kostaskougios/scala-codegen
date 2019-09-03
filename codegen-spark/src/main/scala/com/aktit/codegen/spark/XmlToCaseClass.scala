@@ -17,7 +17,10 @@ private class XmlToCaseClass(
 		val xml = XML.loadFile(xmlFileName)
 		xml.child.collect {
 			case e: Elem => deepScan(e)
-		}
+		}.collect {
+			case c: ScannedClass =>
+				c.classes
+		}.flatten
 	}
 
 	private def deepScan(n: Elem): Scanned = {
@@ -36,9 +39,14 @@ trait Scanned
 	def name: String
 }
 
-private case class ScannedClass(name: String, children: Seq[Scanned]) extends Scanned
+case class ScannedClass(name: String, children: Seq[Scanned]) extends Scanned
+{
+	def classes: Seq[ScannedClass] = this +: children.collect {
+		case c: ScannedClass => c.classes
+	}.flatten
+}
 
-private case class ScannedField(name: String) extends Scanned
+case class ScannedField(name: String) extends Scanned
 
 object XmlToCaseClass
 {
