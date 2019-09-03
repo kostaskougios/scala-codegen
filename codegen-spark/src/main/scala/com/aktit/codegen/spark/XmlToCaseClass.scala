@@ -16,24 +16,26 @@ private class XmlToCaseClass(
 {
 	def build = resultingClasses
 
-	def resultingClasses = scannedClasses.groupBy(_.name)
+	private def resultingClasses = scannedClasses.groupBy(_.name)
 		.map {
 			case (n, cl) =>
 				ResultingClass(
 					elementToClassName(n),
-					cl.flatMap(_.children)
-						.groupBy(_.name)
-						.map {
-							case (_, s) =>
-								s.head match {
-									case ScannedField(field) =>
-										ResultingField(elementToVariableName(field), "String")
-									case ScannedClass(clz, _) =>
-										ResultingField(elementToVariableName(clz), elementToClassName(clz))
-								}
-						}.toList
+					resultingFields(cl)
 				)
 		}
+
+	private def resultingFields(cl: Seq[ScannedClass]) = cl.flatMap(_.children)
+		.groupBy(_.name)
+		.map {
+			case (_, s) =>
+				s.head match {
+					case ScannedField(field) =>
+						ResultingField(elementToVariableName(field), "String")
+					case ScannedClass(clz, _) =>
+						ResultingField(elementToVariableName(clz), elementToClassName(clz))
+				}
+		}.toList
 
 	private def scannedClasses = xml.child.collect {
 		case e: Elem => deepScan(e)

@@ -12,7 +12,9 @@
 		</projects>
 	</user>
 	<details>
-		<name>codegen-spark</name>
-		<duration>12 months</duration>
+		<project>
+			<project_name>codegen-spark</project_name>
+			<duration>12 months</duration>
+		</project>
 	</details>
 </root>
