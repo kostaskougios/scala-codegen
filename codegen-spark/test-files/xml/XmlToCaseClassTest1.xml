@@ -4,10 +4,10 @@
 		<country>UK</country>
 		<projects>
 			<project>
-				<name>codegen-spark</name>
+				<project_name>codegen-spark</project_name>
 			</project>
 			<project>
-				<name>mapperdao</name>
+				<project_name>mapperdao</project_name>
 			</project>
 		</projects>
 	</user>

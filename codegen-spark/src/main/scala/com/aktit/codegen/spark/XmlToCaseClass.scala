@@ -28,9 +28,9 @@ private class XmlToCaseClass(
 						.map {
 							case (_, s) => s.head match {
 								case ScannedField(field) =>
-									ResultingField(field, "String")
+									ResultingField(elementToVariableName(field), "String")
 								case ScannedClass(clz, _) =>
-									ResultingField(clz, clz)
+									ResultingField(elementToVariableName(clz), clz)
 							}
 						}.toList
 				)
