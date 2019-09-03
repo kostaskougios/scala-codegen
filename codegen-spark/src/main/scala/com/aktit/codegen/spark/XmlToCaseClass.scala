@@ -9,12 +9,11 @@ import scala.xml.{Elem, XML}
 private class XmlToCaseClass(
 	targetPackage: String,
 	newClassName: String,
-	xmlFileName: String,
+	xml: Elem,
 	elementToVariableName: String => String
 )
 {
 	def build = {
-		val xml = XML.loadFile(xmlFileName)
 		xml.child.collect {
 			case e: Elem => deepScan(e)
 		}.collect {
@@ -55,5 +54,8 @@ object XmlToCaseClass
 		newClassName: String,
 		xmlFile: String,
 		headerToVariableName: String => String = ColumnNameToFieldName.defaultColumnNameToFieldName
-	) = new XmlToCaseClass(targetPackage, newClassName, xmlFile, headerToVariableName).build
+	) = {
+		val xml = XML.loadFile(xmlFile)
+		new XmlToCaseClass(targetPackage, newClassName, xml, headerToVariableName).build
+	}
 }
