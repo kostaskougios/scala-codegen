@@ -14,12 +14,27 @@ private class XmlToCaseClass(
 )
 {
 	def build = {
-		xml.child.collect {
+		val allClasses = xml.child.collect {
 			case e: Elem => deepScan(e)
 		}.collect {
-			case c: ScannedClass =>
-				c.classes
+			case c: ScannedClass => c.classes
 		}.flatten
+		allClasses.groupBy(_.name).map {
+			case (n, cl) =>
+				ResultingClass(
+					n,
+					cl.flatMap(_.children)
+						.groupBy(_.name)
+						.map {
+							case (_, s) => s.head match {
+								case ScannedField(field) =>
+									ResultingField(field, "String")
+								case ScannedClass(clz, _) =>
+									ResultingField(clz, clz)
+							}
+						}.toList
+				)
+		}
 	}
 
 	private def deepScan(n: Elem): Scanned = {
@@ -33,19 +48,23 @@ private class XmlToCaseClass(
 
 }
 
-trait Scanned
+private sealed trait Scanned
 {
 	def name: String
 }
 
-case class ScannedClass(name: String, children: Seq[Scanned]) extends Scanned
+private case class ScannedClass(name: String, children: Seq[Scanned]) extends Scanned
 {
 	def classes: Seq[ScannedClass] = this +: children.collect {
 		case c: ScannedClass => c.classes
 	}.flatten
 }
 
-case class ScannedField(name: String) extends Scanned
+private case class ScannedField(name: String) extends Scanned
+
+case class ResultingClass(name: String, fields: Seq[ResultingField])
+
+case class ResultingField(name: String, tpe: String)
 
 object XmlToCaseClass
 {
