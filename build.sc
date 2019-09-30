@@ -30,6 +30,10 @@ object `codegen-spark` extends CommonPublished
 
 	override def moduleDeps = Seq(codegen)
 
+	override def ivyDeps = Agg(
+		Apache.Spark.Sql
+	)
+
 	object test extends CommonTest
 	{
 		override def ivyDeps = Agg(ScalaTest)
@@ -81,6 +85,11 @@ object Deps
 		val CommonIO = ivy"commons-io:commons-io:2.4"
 
 		val CommonText = ivy"org.apache.commons:commons-text:1.7"
+
+		object Spark {
+			val Version="2.4.4"
+			val Sql = ivy"org.apache.spark::spark-sql:$Version"
+		}
 	}
 
 }
