@@ -17,7 +17,7 @@ trait CodeEx
 	override def toString = syntax
 
 	override def equals(o: Any) = o match {
-		case c: CodeEx => c.syntax == syntax
+		case c: CodeEx => c.syntax.trim == syntax.trim
 		case _ => super.equals(o)
 	}
 
