@@ -33,6 +33,8 @@ class SparkSchemaToPackageTest extends FunSuite
 				nullable = false)
 		)
 		p.classes.map(_.name) should be(Seq("Simple", "IsOk"))
+		p.classes.find(_.name == "Simple").get.constructorParameters.flatten should be(Seq(TermParamEx.fromSource("isOk : IsOk")))
+		p.classes.find(_.name == "IsOk").get.constructorParameters.flatten should be(Seq(TermParamEx.fromSource("isOk : IsOk")))
 	}
 
 	def createPackage(fields: StructField*) = SparkSchemaToPackage.createPackage(
