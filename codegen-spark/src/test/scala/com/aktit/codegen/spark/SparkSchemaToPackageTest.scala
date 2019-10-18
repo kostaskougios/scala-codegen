@@ -9,23 +9,38 @@ import org.scalatest.Matchers._
   * @author kostas.kougios
   *         12/10/2019 - 22:20
   */
-class SparkSchemaToClassesTest extends FunSuite
+class SparkSchemaToPackageTest extends FunSuite
 {
 	test("nullable boolean") {
-		createClassGetFields(
+		createPackageGetFieldsOfFirstClass(
 			StructField("isOk", DataTypes.BooleanType, nullable = true)
 		) should be(Seq(TermParamEx.fromSource("isOk : Option[Boolean]")))
 	}
 
 	test("not nullable boolean") {
-		createClassGetFields(
+		createPackageGetFieldsOfFirstClass(
 			StructField("isOk", DataTypes.BooleanType, nullable = false)
 		) should be(Seq(TermParamEx.fromSource("isOk : Boolean")))
 	}
 
-	def createClassGetFields(fields: StructField*) = SparkSchemaToClasses.createClasses(
+	test("struct field") {
+		val p = createPackage(
+			StructField(
+				"isOk",
+				StructType(Seq(
+					StructField("isOk", DataTypes.BooleanType, nullable = false)
+				)),
+				nullable = false)
+		)
+		p.classes.map(_.name) should be(Seq("Simple", "IsOk"))
+	}
+
+	def createPackage(fields: StructField*) = SparkSchemaToPackage.createPackage(
 		"my.code",
 		"Simple",
 		StructType(fields.toSeq)
-	).classes.head.constructorParameters.head
+	)
+
+	def createPackageGetFieldsOfFirstClass(fields: StructField*) = createPackage(fields: _*).
+		classes.head.constructorParameters.head
 }

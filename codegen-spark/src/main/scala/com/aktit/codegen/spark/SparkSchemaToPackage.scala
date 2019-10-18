@@ -7,7 +7,7 @@ import org.apache.spark.sql.types.{DataTypes, StructField, StructType}
   * @author kostas.kougios
   *         11/10/2019 - 23:08
   */
-class SparkSchemaToClasses private(
+class SparkSchemaToPackage private(
 	targetPackage: String,
 	fieldToFieldName: StructField => String,
 	fieldToClassName: StructField => String
@@ -63,14 +63,14 @@ private case class Class(fieldName: String, classEx: Seq[ClassEx], field: Struct
 	}
 }
 
-object SparkSchemaToClasses
+object SparkSchemaToPackage
 {
-	def createClasses(
+	def createPackage(
 		targetPackage: String,
 		topClassName: String,
 		schema: StructType,
 		fieldToFieldName: StructField => String = Naming.defaultFieldToFieldName,
 		fieldToClassName: StructField => String = Naming.defaultFieldToClassName
-	) = new SparkSchemaToClasses(targetPackage, fieldToFieldName, fieldToClassName)
+	) = new SparkSchemaToPackage(targetPackage, fieldToFieldName, fieldToClassName)
 		.toPackage(topClassName, schema)
 }
