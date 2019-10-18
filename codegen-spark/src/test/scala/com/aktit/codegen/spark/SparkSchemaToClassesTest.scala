@@ -1,6 +1,6 @@
 package com.aktit.codegen.spark
 
-import com.aktit.codegen.model.PackageEx
+import com.aktit.codegen.model.TermParamEx
 import org.apache.spark.sql.types.{DataTypes, StructField, StructType}
 import org.scalatest.FunSuite
 import org.scalatest.Matchers._
@@ -11,21 +11,21 @@ import org.scalatest.Matchers._
   */
 class SparkSchemaToClassesTest extends FunSuite
 {
-	test("simple schema") {
-		SparkSchemaToClasses.createClasses(
-			"my.code",
-			"Simple",
-			StructType(
-				Seq(
-					StructField("isOk", DataTypes.BooleanType)
-				)
-			)
-		) should be(PackageEx.fromSource(
-			"""
-			  |package my.code
-			  |
-			  |case class Simple(isOk:Boolean)
-			  |""".stripMargin))
+	test("nullable boolean") {
+		createClassGetFields(
+			StructField("isOk", DataTypes.BooleanType, nullable = true)
+		) should be(Seq(TermParamEx.fromSource("isOk : Option[Boolean]")))
 	}
 
+	test("not nullable boolean") {
+		createClassGetFields(
+			StructField("isOk", DataTypes.BooleanType, nullable = false)
+		) should be(Seq(TermParamEx.fromSource("isOk : Boolean")))
+	}
+
+	def createClassGetFields(fields: StructField*) = SparkSchemaToClasses.createClasses(
+		"my.code",
+		"Simple",
+		StructType(fields.toSeq)
+	).classes.head.constructorParameters.head
 }

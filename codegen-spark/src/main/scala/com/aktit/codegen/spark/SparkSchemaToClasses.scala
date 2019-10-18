@@ -27,9 +27,12 @@ class SparkSchemaToClasses private(
 			val fieldName = fieldToFieldName(field)
 			val tpe = field.dataType match {
 				case DataTypes.BooleanType =>
-					if (field.nullable) "java.lang.Boolean" else "Boolean"
+					"Boolean"
+				//				case DataTypes.StructType(fields) =>
+
 			}
-			TermParamEx.fromSource(s"$fieldName : $tpe")
+			val t = if (field.nullable) s"Option[$tpe]" else tpe
+			TermParamEx.fromSource(s"$fieldName : $t")
 	}
 }
 
