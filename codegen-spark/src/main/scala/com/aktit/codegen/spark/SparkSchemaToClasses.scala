@@ -15,14 +15,17 @@ class SparkSchemaToClasses private(
 {
 	def toPackage(topClassName: String, schema: StructType) =
 		PackageEx.withName(targetPackage)
-			.withClass(toClass(topClassName, schema))
+			.withClasses(toClass(topClassName, schema))
 
-	def toClass(className: String, schema: StructType): ClassEx = {
+	private def toClass(className: String, schema: StructType): Seq[ClassEx] = {
 		val scanned = toConstructorParams(schema.fields)
-		ClassEx.withName(className)
+		val c = ClassEx.withName(className)
 			.withConstructorParameters(
 				scanned.map(_.toParam)
 			).withCaseClass
+		c +: scanned.collect {
+			case sc: Class => sc.classEx
+		}.flatten
 	}
 
 	private def toConstructorParams(fields: Seq[StructField]): Seq[Scanned] = fields.map {
@@ -51,10 +54,11 @@ private case class Type(fieldName: String, name: String, field: StructField) ext
 	}
 }
 
-private case class Class(fieldName: String, c: ClassEx, field: StructField) extends Scanned
+private case class Class(fieldName: String, classEx: Seq[ClassEx], field: StructField) extends Scanned
 {
+	def primary = classEx.head
 	override def toParam = {
-		val t = if (field.nullable) s"Option[${c.name}]" else c.name
+		val t = if (field.nullable) s"Option[${primary.name}]" else primary.name
 		TermParamEx.fromSource(s"$fieldName : $t")
 	}
 }
