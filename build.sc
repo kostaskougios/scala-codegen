@@ -2,6 +2,7 @@ import Deps._
 import mill._
 import mill.scalalib._
 import mill.scalalib.publish.{Developer, License, PomSettings, VersionControl}
+import mill.scalalib.scalafmt._
 
 trait CommonPublished extends Common with PublishModule
 {
@@ -52,7 +53,7 @@ object reflectlib extends CommonPublished
 
 }
 
-trait Common extends SbtModule
+trait Common extends SbtModule with ScalafmtModule
 {
 	override def scalaVersion = "2.12.8"
 
